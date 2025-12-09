@@ -2,13 +2,17 @@
 base_url = "https://blog.hajmousa.ir"
 
 # Whether to automatically compile all Sass files in the sass directory
-compile_sass = false
+compile_sass = true
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
 
-title = "HajMousa's DevBlog"
-theme = "terminus"
+title = "HajMousa;s DevBlog"
+theme = "terminimal"
+
+taxonomies = [
+    {name = "tags"},
+]
 
 [markdown]
 # Whether to do syntax highlighting
@@ -17,3 +21,15 @@ highlight_code = true
 
 [extra]
 # Put all your custom variables here
+accent-color = "blue"
+background-color = "dark"
+
+menu_items = [
+  {name = "blog", url = "$BASE_URL"},
+  {name = "tags", url = "$BASE_URL/tags"},
+  {name = "website", url = "https://hajmousa.ir"},
+  {name = "github", url = "https://github.com/hajm0usa", newtab = true},
+]
+
+enable_post_view_navigation = true
+post_view_navigation_prompt = "Read more"
