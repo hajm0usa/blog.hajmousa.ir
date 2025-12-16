@@ -1,6 +1,4 @@
-[submodule "themes/terminus"]
-	path = themes/terminus
-	url = https://github.com/ebkalderon/terminus.git
-[submodule "themes/terminimal"]
-	path = themes/terminimal
-	url = https://github.com/pawroman/zola-theme-terminimal.git
+[submodule "themes/linkita"]
+	path = themes/linkita
+	url = https://github.com/hajm0usa/linkita
+	branch = v4

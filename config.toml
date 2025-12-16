@@ -8,7 +8,7 @@ compile_sass = true
 build_search_index = true
 
 title = "HajMousa;s DevBlog"
-theme = "terminimal"
+theme = "linkita"
 
 taxonomies = [
     {name = "tags"},
@@ -21,15 +21,26 @@ highlight_code = true
 
 [extra]
 # Put all your custom variables here
-accent-color = "blue"
-background-color = "dark"
+math = true
 
-menu_items = [
-  {name = "blog", url = "$BASE_URL"},
-  {name = "tags", url = "$BASE_URL/tags"},
-  {name = "website", url = "https://hajmousa.ir"},
-  {name = "github", url = "https://github.com/hajm0usa", newtab = true},
+[extra.style]
+header_blur = true
+
+[extra.menus]
+menu_name = [
+  { url = "$BASE_URL/blog/", name = "Blog" },
+  { url = "$BASE_URL/categories/", name = "Categories" },
+  { url = "$BASE_URL/tags/", name = "Tags" },
+  { url = "$BASE_URL/about/", name = "About" },
+  { url = "https://hajmousa.ir", name = "Website" },
+  { url = "https://github.com/hajm0usa", name = "Github" },
 ]
 
-enable_post_view_navigation = true
-post_view_navigation_prompt = "Read more"
+[extra.profiles.hajmousa]
+avatar_url = "static/Profile.png"
+name = "HajMousa"
+
+[extra.footer]
+since = 2025
+license_url = "https://creativecommons.org/licenses/by-sa/4.0/deed"
+copyright = "&copy; $YEAR HajMousa &vert; [CC BY-SA 4.0]($LICENSE_URL)"
