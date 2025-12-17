@@ -3,20 +3,6 @@ title = "The Complete Guide to Django REST Framework Views"
 date = 2025-12-17
 +++
 
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Function-Based Views](#function-based-views)
-3. [Class-Based Views (APIView)](#class-based-views)
-4. [Generic Views](#generic-views)
-5. [ViewSets and Routers](#viewsets-and-routers)
-6. [Mixins](#mixins)
-7. [Custom Actions](#custom-actions)
-8. [Best Practices for E-commerce APIs](#best-practices)
-9. [Complete E-commerce Example](#complete-example)
-10. [Performance Optimization](#performance-optimization)
-
-
 ## Introduction
 
 Django REST Framework (DRF) provides multiple approaches to building API views, each offering different levels of abstraction and flexibility. Understanding when and how to use each approach is crucial for building maintainable, scalable APIs.
