@@ -1,0 +1,1289 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14 scheme-light dark:scheme-dark" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola v0.21.0" />
+  <title>Advanced C Programming: From Intermediate to Professional | HajMousa;s DevBlog</title>
+  <meta property="og:site_name" content="HajMousa;s DevBlog" />
+  <meta property="og:title" content="Advanced C Programming: From Intermediate to Professional" />
+  <meta property="og:url" content="https://blog.hajmousa.ir/advanced-c-programming-from-intermediate-to-professional/" />
+  <link rel="canonical" href="https://blog.hajmousa.ir/advanced-c-programming-from-intermediate-to-professional/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-12-18T00:00:00+00:00" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/main.min.css?h=80ece4d015818ae93fff" />
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/icons.css?h=7dd5ab449fa840fc01e2" />
+  <style>:root{--bg: #f4f4f5; --header: #e4e4e7;} :root.dark{--bg: #18181b; --header: #27272a;}</style>
+  <link rel="icon" type="image/x-icon" href="https://blog.hajmousa.ir/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="https://blog.hajmousa.ir/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="https://blog.hajmousa.ir/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="https://blog.hajmousa.ir/js/zola-theme.min.js?h=26975b146d48e6ff41af"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out dark:text-white">
+  <!-- Header -->
+<header class="blur-header fixed top-0 z-40 mx-auto min-h-13 w-full">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8 overflow-hidden">
+        <a title="Go to home page [Alt + !]" accesskey="!"
+          href="https://blog.hajmousa.ir/"
+          class="text-2xl font-semibold truncate">HajMousa;s DevBlog</a>
+        <button type="button" title="Switch color scheme [Alt + $]" accesskey="$"
+          onclick="window.zolaTheme.color.toggle();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-btn-dark,url(icons/btn-dark.svg))]
+            dark:[background-image:var(--icons-btn-light,url(icons/btn-light.svg))] dark:invert"
+        ></button>
+        <button type="button" title="Open search [Alt + /]" accesskey="/"
+          onclick="window.zolaTheme.search.toggle();"
+          class="btn-search ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-search,url(icons/search.svg))] dark:invert"
+        ></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg
+    relative mx-auto min-h-[calc(100vh-4rem)] max-w-3xl px-4 pt-28 lg:pt-32 pb-12 wrap-break-word">
+      <!-- Search -->
+<div id="linkita-search-wrapper" class="hidden">
+  <ul id="linkita-search-results"></ul>
+</div>
+<script>window.zolaTheme.search.init({ scripts: ["https://blog.hajmousa.ir/elasticlunr.min.js", "https://blog.hajmousa.ir/search_index.en.js"], arg: { w: "#linkita-search-wrapper", r: "#linkita-search-results" } });</script>
+
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="my-0! pb-2.5">Advanced C Programming: From Intermediate to Professional</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-12-18T00:00:00+00:00">2025-12-18</time><span
+        class="middot"></span><time
+    datetime="PT0H6M0S">6&nbsp;min</time><span
+      class="middot"></span>
+</div>
+
+  </header>
+  <!-- TOC -->
+<nav class="block-bg prose-a:secondary-link mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-3.5" title="[Alt + =]" accesskey="=">
+      <span class="cursor-pointer ml-0.5">Table of Contents</span>
+    </summary>
+    <ul class="ps-8">
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#memory-management-mastery">Memory Management Mastery</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#dynamic-memory-and-memory-leaks">Dynamic Memory and Memory Leaks</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#memory-alignment-and-padding">Memory Alignment and Padding</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#memory-mapped-i-o">Memory-Mapped I&#x2F;O</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#pointer-proficiency">Pointer Proficiency</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#function-pointers-and-callbacks">Function Pointers and Callbacks</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pointer-to-pointer-and-multi-level-indirection">Pointer to Pointer and Multi-level Indirection</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#restrict-keyword">Restrict Keyword</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#concurrency-and-thread-safety">Concurrency and Thread Safety</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#race-conditions-and-data-races">Race Conditions and Data Races</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#atomic-operations">Atomic Operations</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#memory-ordering-and-barriers">Memory Ordering and Barriers</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#preprocessor-techniques">Preprocessor Techniques</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#conditional-compilation">Conditional Compilation</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#macro-pitfalls-and-best-practices">Macro Pitfalls and Best Practices</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-macros">X-Macros</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#advanced-type-system">Advanced Type System</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#opaque-types-and-information-hiding">Opaque Types and Information Hiding</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#type-punning-and-union-tricks">Type Punning and Union Tricks</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#flexible-array-members">Flexible Array Members</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#error-handling-patterns">Error Handling Patterns</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#error-codes-vs-error-objects">Error Codes vs. Error Objects</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#cleanup-patterns-with-goto">Cleanup Patterns with Goto</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#performance-optimization">Performance Optimization</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#cache-friendly-data-structures">Cache-Friendly Data Structures</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#compiler-optimizations-and-hints">Compiler Optimizations and Hints</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#loop-optimization">Loop Optimization</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#build-systems-and-tooling">Build Systems and Tooling</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#understanding-the-compilation-process">Understanding the Compilation Process</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#static-vs-dynamic-linking">Static vs Dynamic Linking</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#debugging-and-profiling">Debugging and Profiling</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#platform-specific-considerations">Platform-Specific Considerations</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#endianness">Endianness</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#system-calls-and-posix-apis">System Calls and POSIX APIs</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#signal-handling">Signal Handling</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#object-oriented-programming-in-c">Object-Oriented Programming in C</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#encapsulation">Encapsulation</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#inheritance-with-composition">Inheritance with Composition</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#polymorphism-with-function-pointers-vtables">Polymorphism with Function Pointers (vtables)</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#advanced-oop-abstract-base-classes">Advanced OOP: Abstract Base Classes</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#interfaces">Interfaces</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#real-world-example-gobject-system">Real-World Example: GObject System</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#design-patterns-in-c">Design Patterns in C</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#best-practices-for-oop-in-c">Best Practices for OOP in C</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#plugin-architecture">Plugin Architecture</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#standards-and-portability">Standards and Portability</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#c-standards-evolution">C Standards Evolution</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#writing-portable-code">Writing Portable Code</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#best-practices-and-conventions">Best Practices and Conventions</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#naming-conventions">Naming Conventions</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#code-organization">Code Organization</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#documentation">Documentation</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+  <!-- Content -->
+  <section><h2 id="memory-management-mastery">Memory Management Mastery</h2>
+<h3 id="dynamic-memory-and-memory-leaks">Dynamic Memory and Memory Leaks</h3>
+<p>Understanding heap allocation goes beyond knowing <code>malloc()</code> and <code>free()</code>. Professional C code requires meticulous memory management to prevent leaks, fragmentation, and undefined behavior.</p>
+<p><strong>Memory leak patterns to avoid:</strong></p>
+<ul>
+<li>Losing pointers before freeing (reassigning without freeing first)</li>
+<li>Early returns in functions that skip cleanup code</li>
+<li>Exception-like scenarios where cleanup doesn't execute</li>
+</ul>
+<p><strong>Best practices:</strong></p>
+<ul>
+<li>Always pair allocation with deallocation in the same logical scope</li>
+<li>Use ownership semantics clearly (who owns this pointer?)</li>
+<li>Consider implementing custom allocators for performance-critical code</li>
+<li>Use tools like Valgrind, AddressSanitizer, and static analyzers regularly</li>
+</ul>
+<h3 id="memory-alignment-and-padding">Memory Alignment and Padding</h3>
+<p>Compilers add padding to structs for alignment requirements. Understanding this is crucial for optimizing memory usage and avoiding performance penalties.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">struct </span><span>BadLayout {
+</span><span>    </span><span style="color:#b48ead;">char</span><span> a;      </span><span style="color:#65737e;">// 1 byte
+</span><span>    </span><span style="color:#65737e;">// 3 bytes padding
+</span><span>    </span><span style="color:#b48ead;">int</span><span> b;       </span><span style="color:#65737e;">// 4 bytes
+</span><span>    </span><span style="color:#b48ead;">char</span><span> c;      </span><span style="color:#65737e;">// 1 byte
+</span><span>    </span><span style="color:#65737e;">// 3 bytes padding
+</span><span>}; </span><span style="color:#65737e;">// Total: 12 bytes
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>GoodLayout {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> b;       </span><span style="color:#65737e;">// 4 bytes
+</span><span>    </span><span style="color:#b48ead;">char</span><span> a;      </span><span style="color:#65737e;">// 1 byte
+</span><span>    </span><span style="color:#b48ead;">char</span><span> c;      </span><span style="color:#65737e;">// 1 byte
+</span><span>    </span><span style="color:#65737e;">// 2 bytes padding
+</span><span>}; </span><span style="color:#65737e;">// Total: 8 bytes
+</span></code></pre>
+<p>Use <code>__attribute__((packed))</code> (GCC) or <code>#pragma pack</code> when you need precise memory layouts, but understand the performance implications of unaligned access.</p>
+<h3 id="memory-mapped-i-o">Memory-Mapped I/O</h3>
+<p>For systems programming, memory-mapped I/O allows treating hardware registers as memory addresses. This is fundamental in embedded systems and kernel development.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">volatile </span><span>uint32_t *gpio_register = (</span><span style="color:#b48ead;">volatile </span><span>uint32_t *)</span><span style="color:#d08770;">0x40020000</span><span>;
+</span><span>*gpio_register |= (</span><span style="color:#d08770;">1 </span><span>&lt;&lt; </span><span style="color:#d08770;">5</span><span>);  </span><span style="color:#65737e;">// Set bit 5
+</span></code></pre>
+<p>The <code>volatile</code> keyword is critical here, preventing compiler optimizations that would break hardware interaction.</p>
+<h2 id="pointer-proficiency">Pointer Proficiency</h2>
+<h3 id="function-pointers-and-callbacks">Function Pointers and Callbacks</h3>
+<p>Function pointers enable runtime polymorphism in C and are essential for implementing callbacks, event handlers, and plugin architectures.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef int </span><span>(*CompareFunc)(</span><span style="color:#b48ead;">const void </span><span>*, </span><span style="color:#b48ead;">const void </span><span>*);
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">sort_array</span><span>(</span><span style="color:#b48ead;">void </span><span>*</span><span style="color:#bf616a;">base</span><span>, size_t </span><span style="color:#bf616a;">n</span><span>, size_t </span><span style="color:#bf616a;">size</span><span>, CompareFunc </span><span style="color:#bf616a;">cmp</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// Generic sorting with custom comparison
+</span><span>}
+</span></code></pre>
+<p>This pattern is used extensively in system APIs like <code>qsort()</code>, signal handlers, and threading libraries.</p>
+<h3 id="pointer-to-pointer-and-multi-level-indirection">Pointer to Pointer and Multi-level Indirection</h3>
+<p>Understanding when and why to use <code>**</code> or <code>***</code> separates intermediate from advanced C programmers.</p>
+<p><strong>Common use cases:</strong></p>
+<ul>
+<li>Modifying pointer values inside functions (passing pointer by reference)</li>
+<li>Dynamic 2D arrays</li>
+<li>Linked list operations where you modify the head pointer</li>
+<li>String arrays (array of char pointers)</li>
+</ul>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">allocate_matrix</span><span>(</span><span style="color:#b48ead;">int </span><span>***</span><span style="color:#bf616a;">matrix</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">rows</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">cols</span><span>) {
+</span><span>    *matrix = </span><span style="color:#96b5b4;">malloc</span><span>(rows * sizeof(</span><span style="color:#b48ead;">int </span><span>*));
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">0</span><span>; i &lt; rows; i++) {
+</span><span>        (*matrix)[i] = </span><span style="color:#96b5b4;">malloc</span><span>(cols * sizeof(</span><span style="color:#b48ead;">int</span><span>));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="restrict-keyword">Restrict Keyword</h3>
+<p>The <code>restrict</code> keyword is a contract with the compiler that no other pointer will access the same memory, enabling aggressive optimizations.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">copy_array</span><span>(</span><span style="color:#b48ead;">int </span><span>*</span><span style="color:#b48ead;">restrict </span><span style="color:#bf616a;">dest</span><span>, </span><span style="color:#b48ead;">const int </span><span>*</span><span style="color:#b48ead;">restrict </span><span style="color:#bf616a;">src</span><span>, size_t </span><span style="color:#bf616a;">n</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(size_t i = </span><span style="color:#d08770;">0</span><span>; i &lt; n; i++) {
+</span><span>        dest[i] = src[i];  </span><span style="color:#65737e;">// Compiler can optimize better
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="concurrency-and-thread-safety">Concurrency and Thread Safety</h2>
+<h3 id="race-conditions-and-data-races">Race Conditions and Data Races</h3>
+<p>Understanding the difference is crucial. A race condition is a flaw in program logic, while a data race is simultaneous access to memory without synchronization, causing undefined behavior.</p>
+<p><strong>Critical sections must be protected:</strong></p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span>pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">thread_safe_increment</span><span>(</span><span style="color:#b48ead;">int </span><span>*</span><span style="color:#bf616a;">counter</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">pthread_mutex_lock</span><span>(&amp;lock);
+</span><span>    (*counter)++;  </span><span style="color:#65737e;">// Critical section
+</span><span>    </span><span style="color:#bf616a;">pthread_mutex_unlock</span><span>(&amp;lock);
+</span><span>}
+</span></code></pre>
+<h3 id="atomic-operations">Atomic Operations</h3>
+<p>Modern C (C11) provides atomic types and operations that are essential for lock-free programming.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">stdatomic.h</span><span>&gt;
+</span><span>
+</span><span>atomic_int counter = </span><span style="color:#d08770;">0</span><span>;
+</span><span style="color:#bf616a;">atomic_fetch_add</span><span>(&amp;counter, </span><span style="color:#d08770;">1</span><span>);  </span><span style="color:#65737e;">// Thread-safe increment
+</span></code></pre>
+<h3 id="memory-ordering-and-barriers">Memory Ordering and Barriers</h3>
+<p>Understanding memory models and ordering (sequential consistency, acquire-release, relaxed) is advanced but necessary for high-performance concurrent code.</p>
+<p><strong>Memory barriers prevent reordering:</strong></p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#bf616a;">atomic_thread_fence</span><span>(memory_order_seq_cst);
+</span></code></pre>
+<h2 id="preprocessor-techniques">Preprocessor Techniques</h2>
+<h3 id="conditional-compilation">Conditional Compilation</h3>
+<p>Professional C code often targets multiple platforms. Conditional compilation enables this portability.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#ifdef</span><span> _WIN32
+</span><span>    </span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">windows.h</span><span>&gt;
+</span><span>    </span><span style="color:#b48ead;">#define </span><span>PATH_SEPARATOR &#39;</span><span style="color:#96b5b4;">\\</span><span>&#39;
+</span><span style="color:#b48ead;">#elif defined</span><span>(__linux__) || </span><span style="color:#b48ead;">defined</span><span>(__unix__)
+</span><span>    </span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">unistd.h</span><span>&gt;
+</span><span>    </span><span style="color:#b48ead;">#define </span><span>PATH_SEPARATOR &#39;</span><span style="color:#a3be8c;">/</span><span>&#39;
+</span><span style="color:#b48ead;">#endif
+</span></code></pre>
+<h3 id="macro-pitfalls-and-best-practices">Macro Pitfalls and Best Practices</h3>
+<p>Macros are powerful but dangerous. Always use parentheses and understand evaluation semantics.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// BAD
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">SQUARE</span><span>(</span><span style="color:#bf616a;">x</span><span>) x * x
+</span><span style="color:#bf616a;">SQUARE</span><span>(a + b)  </span><span style="color:#65737e;">// Expands to: a + b * a + b
+</span><span>
+</span><span style="color:#65737e;">// GOOD
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">SQUARE</span><span>(</span><span style="color:#bf616a;">x</span><span>) ((x) * (x))
+</span><span>
+</span><span style="color:#65737e;">// BETTER (type-safe in C11)
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">SQUARE</span><span>(</span><span style="color:#bf616a;">x</span><span>) </span><span style="color:#bf616a;">_Generic</span><span>((x), \
+</span><span>    </span><span style="color:#b48ead;">int</span><span>: square_int, \
+</span><span>    </span><span style="color:#b48ead;">float</span><span>: square_float, \
+</span><span>    </span><span style="color:#b48ead;">double</span><span>: square_double \
+</span><span>)(x)
+</span></code></pre>
+<h3 id="x-macros">X-Macros</h3>
+<p>A powerful technique for maintaining parallel data structures and reducing code duplication.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#define </span><span>ERROR_CODES \
+</span><span>    </span><span style="color:#bf616a;">X</span><span>(SUCCESS, </span><span style="color:#d08770;">0</span><span>, &quot;</span><span style="color:#a3be8c;">Operation successful</span><span>&quot;) \
+</span><span>    </span><span style="color:#bf616a;">X</span><span>(ERR_NOMEM, </span><span style="color:#d08770;">1</span><span>, &quot;</span><span style="color:#a3be8c;">Out of memory</span><span>&quot;) \
+</span><span>    </span><span style="color:#bf616a;">X</span><span>(ERR_IO, </span><span style="color:#d08770;">2</span><span>, &quot;</span><span style="color:#a3be8c;">I/O error</span><span>&quot;)
+</span><span>
+</span><span style="color:#65737e;">// Generate enum
+</span><span style="color:#b48ead;">typedef enum </span><span>{
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">X</span><span>(</span><span style="color:#bf616a;">name</span><span>, </span><span style="color:#bf616a;">code</span><span>, </span><span style="color:#bf616a;">msg</span><span>) name = code,
+</span><span>    ERROR_CODES
+</span><span style="color:#b48ead;">#undef</span><span> X
+</span><span>} ErrorCode;
+</span><span>
+</span><span style="color:#65737e;">// Generate string array
+</span><span style="color:#b48ead;">const char </span><span>*error_messages[] = {
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">X</span><span>(</span><span style="color:#bf616a;">name</span><span>, </span><span style="color:#bf616a;">code</span><span>, </span><span style="color:#bf616a;">msg</span><span>) [code] = msg,
+</span><span>    ERROR_CODES
+</span><span style="color:#b48ead;">#undef</span><span> X
+</span><span>};
+</span></code></pre>
+<h2 id="advanced-type-system">Advanced Type System</h2>
+<h3 id="opaque-types-and-information-hiding">Opaque Types and Information Hiding</h3>
+<p>Professional libraries use opaque pointers to hide implementation details and maintain ABI stability.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// header.h
+</span><span style="color:#b48ead;">typedef struct</span><span> Context Context;  </span><span style="color:#65737e;">// Opaque type
+</span><span>Context *</span><span style="color:#8fa1b3;">context_create</span><span>(</span><span style="color:#b48ead;">void</span><span>);
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">context_destroy</span><span>(Context *</span><span style="color:#bf616a;">ctx</span><span>);
+</span><span>
+</span><span style="color:#65737e;">// implementation.c
+</span><span style="color:#b48ead;">struct </span><span>Context {
+</span><span>    </span><span style="color:#65737e;">// Implementation details hidden
+</span><span>    </span><span style="color:#b48ead;">int</span><span> internal_state;
+</span><span>    </span><span style="color:#b48ead;">void </span><span>*private_data;
+</span><span>};
+</span></code></pre>
+<h3 id="type-punning-and-union-tricks">Type Punning and Union Tricks</h3>
+<p>Type punning allows reinterpreting memory, but must be done correctly to avoid undefined behavior.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Standards-compliant way
+</span><span style="color:#b48ead;">union </span><span>FloatInt {
+</span><span>    </span><span style="color:#b48ead;">float</span><span> f;
+</span><span>    uint32_t i;
+</span><span>};
+</span><span>
+</span><span>uint32_t </span><span style="color:#8fa1b3;">float_to_bits</span><span>(</span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">f</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">union</span><span> FloatInt u;
+</span><span>    u.</span><span style="color:#bf616a;">f </span><span>= f;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> u.</span><span style="color:#bf616a;">i</span><span>;  </span><span style="color:#65737e;">// Read through union is well-defined
+</span><span>}
+</span></code></pre>
+<h3 id="flexible-array-members">Flexible Array Members</h3>
+<p>C99 introduced flexible array members for dynamically-sized trailing arrays in structs.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">struct </span><span>Buffer {
+</span><span>    size_t length;
+</span><span>    </span><span style="color:#b48ead;">char</span><span> data[];  </span><span style="color:#65737e;">// Flexible array member
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">struct</span><span> Buffer *</span><span style="color:#8fa1b3;">create_buffer</span><span>(size_t </span><span style="color:#bf616a;">n</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> Buffer *buf = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(</span><span style="color:#b48ead;">struct</span><span> Buffer) + n);
+</span><span>    buf-&gt;length = n;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> buf;
+</span><span>}
+</span></code></pre>
+<h2 id="error-handling-patterns">Error Handling Patterns</h2>
+<h3 id="error-codes-vs-error-objects">Error Codes vs. Error Objects</h3>
+<p>Professional C code needs consistent error handling. Common patterns include:</p>
+<p><strong>Error codes with detailed context:</strong></p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> code;
+</span><span>    </span><span style="color:#b48ead;">const char </span><span>*file;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> line;
+</span><span>    </span><span style="color:#b48ead;">char</span><span> message[</span><span style="color:#d08770;">256</span><span>];
+</span><span>} Error;
+</span><span>
+</span><span style="color:#b48ead;">#define </span><span style="color:#8fa1b3;">RETURN_ERROR</span><span>(</span><span style="color:#bf616a;">code</span><span>, ...) </span><span style="color:#b48ead;">do </span><span>{ \
+</span><span>    </span><span style="color:#96b5b4;">snprintf</span><span>(error-&gt;message, sizeof(error-&gt;message), __VA_ARGS__); \
+</span><span>    error-&gt;code = code; \
+</span><span>    error-&gt;file = __FILE__; \
+</span><span>    error-&gt;line = __LINE__; \
+</span><span>    </span><span style="color:#b48ead;">return</span><span> code; \
+</span><span>} </span><span style="color:#b48ead;">while</span><span>(</span><span style="color:#d08770;">0</span><span>)
+</span></code></pre>
+<h3 id="cleanup-patterns-with-goto">Cleanup Patterns with Goto</h3>
+<p>Despite goto's bad reputation, it's the idiomatic way to handle cleanup in C.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">complex_operation</span><span>(</span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">filename</span><span>) {
+</span><span>    FILE *file = </span><span style="color:#d08770;">NULL</span><span>;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*buffer = </span><span style="color:#d08770;">NULL</span><span>;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> result = -</span><span style="color:#d08770;">1</span><span>;
+</span><span>
+</span><span>    file = </span><span style="color:#96b5b4;">fopen</span><span>(filename, &quot;</span><span style="color:#a3be8c;">r</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!file) </span><span style="color:#b48ead;">goto</span><span> cleanup;
+</span><span>
+</span><span>    buffer = </span><span style="color:#96b5b4;">malloc</span><span>(</span><span style="color:#d08770;">1024</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!buffer) </span><span style="color:#b48ead;">goto</span><span> cleanup;
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// ... operations ...
+</span><span>    result = </span><span style="color:#d08770;">0</span><span>;
+</span><span>
+</span><span>cleanup:
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(buffer);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(file) </span><span style="color:#96b5b4;">fclose</span><span>(file);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> result;
+</span><span>}
+</span></code></pre>
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="cache-friendly-data-structures">Cache-Friendly Data Structures</h3>
+<p>Modern CPUs rely heavily on cache. Understanding cache lines (typically 64 bytes) is crucial for performance.</p>
+<p><strong>Structure of Arrays (SoA) vs Array of Structures (AoS):</strong></p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// AoS - worse cache locality for partial access
+</span><span style="color:#b48ead;">struct </span><span>Particle {
+</span><span>    </span><span style="color:#b48ead;">float</span><span> x, y, z;
+</span><span>    </span><span style="color:#b48ead;">float</span><span> vx, vy, vz;
+</span><span>};
+</span><span style="color:#b48ead;">struct</span><span> Particle particles[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>
+</span><span style="color:#65737e;">// SoA - better cache locality when accessing only positions
+</span><span style="color:#b48ead;">struct </span><span>Particles {
+</span><span>    </span><span style="color:#b48ead;">float</span><span> x[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>    </span><span style="color:#b48ead;">float</span><span> y[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>    </span><span style="color:#b48ead;">float</span><span> z[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>    </span><span style="color:#b48ead;">float</span><span> vx[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>    </span><span style="color:#b48ead;">float</span><span> vy[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>    </span><span style="color:#b48ead;">float</span><span> vz[</span><span style="color:#d08770;">1000</span><span>];
+</span><span>};
+</span></code></pre>
+<h3 id="compiler-optimizations-and-hints">Compiler Optimizations and Hints</h3>
+<p>Help the compiler optimize your code with hints about expected behavior.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Branch prediction hints (GCC/Clang)
+</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">__builtin_expect</span><span>(rare_condition, </span><span style="color:#d08770;">0</span><span>)) {
+</span><span>    </span><span style="color:#65737e;">// Unlikely path
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Force inlining
+</span><span style="color:#b48ead;">static inline __attribute__</span><span>((always_inline)) 
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">fast_function</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return</span><span> x * x;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Alignment hints
+</span><span style="color:#b48ead;">void </span><span>*buffer = </span><span style="color:#bf616a;">aligned_alloc</span><span>(</span><span style="color:#d08770;">64</span><span>, size);  </span><span style="color:#65737e;">// Cache-line aligned
+</span></code></pre>
+<h3 id="loop-optimization">Loop Optimization</h3>
+<p>Understanding loop transformations helps you write optimizable code.</p>
+<p><strong>Loop unrolling:</strong></p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Manual unrolling for better instruction-level parallelism
+</span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">0</span><span>; i &lt; n; i += </span><span style="color:#d08770;">4</span><span>) {
+</span><span>    result += array[i];
+</span><span>    result += array[i+</span><span style="color:#d08770;">1</span><span>];
+</span><span>    result += array[i+</span><span style="color:#d08770;">2</span><span>];
+</span><span>    result += array[i+</span><span style="color:#d08770;">3</span><span>];
+</span><span>}
+</span></code></pre>
+<h2 id="build-systems-and-tooling">Build Systems and Tooling</h2>
+<h3 id="understanding-the-compilation-process">Understanding the Compilation Process</h3>
+<p>Professional C developers understand preprocessing, compilation, assembly, and linking stages.</p>
+<p><strong>Examining intermediate stages:</strong></p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">gcc -E</span><span> source.c           </span><span style="color:#65737e;"># Preprocessor output
+</span><span style="color:#bf616a;">gcc -S</span><span> source.c           </span><span style="color:#65737e;"># Assembly output
+</span><span style="color:#bf616a;">gcc -c</span><span> source.c           </span><span style="color:#65737e;"># Object file
+</span><span style="color:#bf616a;">gcc -o</span><span> program object.o   </span><span style="color:#65737e;"># Linking
+</span></code></pre>
+<h3 id="static-vs-dynamic-linking">Static vs Dynamic Linking</h3>
+<p>Understanding when to use each is crucial for deployment and performance.</p>
+<p><strong>Static linking:</strong> Larger binaries, no runtime dependencies, faster function calls
+<strong>Dynamic linking:</strong> Smaller binaries, shared memory, easier updates, slightly slower</p>
+<h3 id="debugging-and-profiling">Debugging and Profiling</h3>
+<p>Professional tools are essential:</p>
+<ul>
+<li><strong>GDB</strong>: Master breakpoints, watchpoints, and scripting</li>
+<li><strong>Valgrind</strong>: Memory error detection and profiling</li>
+<li><strong>perf</strong>: Performance counter analysis on Linux</li>
+<li><strong>AddressSanitizer/UBSan</strong>: Runtime error detection during development</li>
+</ul>
+<h2 id="platform-specific-considerations">Platform-Specific Considerations</h2>
+<h3 id="endianness">Endianness</h3>
+<p>Network protocols and file formats often require endianness handling.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">arpa/inet.h</span><span>&gt;
+</span><span>
+</span><span>uint32_t network_order = </span><span style="color:#bf616a;">htonl</span><span>(host_order);  </span><span style="color:#65737e;">// Host to network (big-endian)
+</span><span>uint32_t host_order = </span><span style="color:#bf616a;">ntohl</span><span>(network_order);  </span><span style="color:#65737e;">// Network to host
+</span></code></pre>
+<h3 id="system-calls-and-posix-apis">System Calls and POSIX APIs</h3>
+<p>Understanding the boundary between user space and kernel space is essential for systems programming.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Direct system calls (Linux)
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">sys/syscall.h</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">unistd.h</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">long</span><span> result = </span><span style="color:#bf616a;">syscall</span><span>(SYS_write, fd, buffer, count);
+</span></code></pre>
+<h3 id="signal-handling">Signal Handling</h3>
+<p>Signals are asynchronous and require careful handling.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">volatile</span><span> sig_atomic_t flag = </span><span style="color:#d08770;">0</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">signal_handler</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">signum</span><span>) {
+</span><span>    flag = </span><span style="color:#d08770;">1</span><span>;  </span><span style="color:#65737e;">// Only async-signal-safe operations allowed
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#96b5b4;">signal</span><span>(SIGINT, signal_handler);
+</span><span>    </span><span style="color:#b48ead;">while </span><span>(!flag) {
+</span><span>        </span><span style="color:#65737e;">// Main loop
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="object-oriented-programming-in-c">Object-Oriented Programming in C</h2>
+<p>While C is a procedural language, you can implement object-oriented concepts effectively. Many production codebases use OOP patterns in C, including the Linux kernel, GTK+, and GObject.</p>
+<h3 id="encapsulation">Encapsulation</h3>
+<p>Encapsulation hides implementation details and provides a clean interface. This is achieved through opaque pointers and accessor functions.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Public header: shape.h
+</span><span style="color:#b48ead;">typedef struct</span><span> Shape Shape;
+</span><span>
+</span><span>Shape* </span><span style="color:#8fa1b3;">shape_create</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>);
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_destroy</span><span>(Shape *</span><span style="color:#bf616a;">shape</span><span>);
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_move</span><span>(Shape *</span><span style="color:#bf616a;">shape</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">dx</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">dy</span><span>);
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">shape_get_x</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">shape</span><span>);
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">shape_get_y</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">shape</span><span>);
+</span><span>
+</span><span style="color:#65737e;">// Implementation: shape.c
+</span><span style="color:#b48ead;">struct </span><span>Shape {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> x;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> y;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*name;
+</span><span>    </span><span style="color:#65737e;">// Private implementation details
+</span><span>};
+</span><span>
+</span><span>Shape* </span><span style="color:#8fa1b3;">shape_create</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>) {
+</span><span>    Shape *s = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Shape));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(s) {
+</span><span>        s-&gt;x = x;
+</span><span>        s-&gt;y = y;
+</span><span>        s-&gt;name = </span><span style="color:#bf616a;">strdup</span><span>(&quot;</span><span style="color:#a3be8c;">Shape</span><span>&quot;);
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> s;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_destroy</span><span>(Shape *</span><span style="color:#bf616a;">shape</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(shape) {
+</span><span>        </span><span style="color:#96b5b4;">free</span><span>(shape-&gt;name);
+</span><span>        </span><span style="color:#96b5b4;">free</span><span>(shape);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Users of your API cannot access the internal structure directly, maintaining encapsulation.</p>
+<h3 id="inheritance-with-composition">Inheritance with Composition</h3>
+<p>C doesn't have native inheritance, but you can simulate it through struct composition. The key is to place the "base class" as the first member.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Base &quot;class&quot;
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> x;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> y;
+</span><span>} Shape;
+</span><span>
+</span><span style="color:#65737e;">// Derived &quot;classes&quot;
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Shape base;  </span><span style="color:#65737e;">// Must be first member
+</span><span>    </span><span style="color:#b48ead;">int</span><span> radius;
+</span><span>} Circle;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Shape base;  </span><span style="color:#65737e;">// Must be first member
+</span><span>    </span><span style="color:#b48ead;">int</span><span> width;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> height;
+</span><span>} Rectangle;
+</span><span>
+</span><span style="color:#65737e;">// Base class methods
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_move</span><span>(Shape *</span><span style="color:#bf616a;">shape</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">dx</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">dy</span><span>) {
+</span><span>    shape-&gt;x += dx;
+</span><span>    shape-&gt;y += dy;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Using inheritance
+</span><span>Circle *circle = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Circle));
+</span><span>circle-&gt;base.</span><span style="color:#bf616a;">x </span><span>= </span><span style="color:#d08770;">10</span><span>;
+</span><span>circle-&gt;base.</span><span style="color:#bf616a;">y </span><span>= </span><span style="color:#d08770;">20</span><span>;
+</span><span>circle-&gt;radius = </span><span style="color:#d08770;">5</span><span>;
+</span><span>
+</span><span style="color:#65737e;">// Can cast to base type safely due to memory layout
+</span><span style="color:#bf616a;">shape_move</span><span>((Shape*)circle, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">5</span><span>);  </span><span style="color:#65737e;">// Polymorphism!
+</span></code></pre>
+<p>Because the base struct is the first member, the pointer to the derived struct has the same address as a pointer to the base struct, making casting safe.</p>
+<h3 id="polymorphism-with-function-pointers-vtables">Polymorphism with Function Pointers (vtables)</h3>
+<p>Polymorphism allows different types to be treated uniformly. This is achieved with virtual function tables (vtables).</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Forward declarations
+</span><span style="color:#b48ead;">typedef struct</span><span> Shape Shape;
+</span><span>
+</span><span style="color:#65737e;">// Virtual function table
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*draw)(</span><span style="color:#b48ead;">const</span><span> Shape *self);
+</span><span>    </span><span style="color:#b48ead;">double </span><span>(*area)(</span><span style="color:#b48ead;">const</span><span> Shape *self);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*destroy)(Shape *self);
+</span><span>} ShapeVTable;
+</span><span>
+</span><span style="color:#65737e;">// Base class
+</span><span style="color:#b48ead;">struct </span><span>Shape {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> ShapeVTable *vtable;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> x;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> y;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Circle class
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Shape base;
+</span><span>    </span><span style="color:#b48ead;">double</span><span> radius;
+</span><span>} Circle;
+</span><span>
+</span><span style="color:#65737e;">// Rectangle class
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Shape base;
+</span><span>    </span><span style="color:#b48ead;">double</span><span> width;
+</span><span>    </span><span style="color:#b48ead;">double</span><span> height;
+</span><span>} Rectangle;
+</span><span>
+</span><span style="color:#65737e;">// Circle implementations
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">circle_draw</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Circle *c = (</span><span style="color:#b48ead;">const</span><span> Circle *)self;
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Drawing circle at (</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">) with radius </span><span style="color:#d08770;">%.2f</span><span style="color:#96b5b4;">\n</span><span>&quot;, 
+</span><span>           self-&gt;x, self-&gt;y, c-&gt;radius);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static double </span><span style="color:#8fa1b3;">circle_area</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Circle *c = (</span><span style="color:#b48ead;">const</span><span> Circle *)self;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">3.14159 </span><span>* c-&gt;radius * c-&gt;radius;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">circle_destroy</span><span>(Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Circle vtable
+</span><span style="color:#b48ead;">static const</span><span> ShapeVTable circle_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">draw </span><span>= circle_draw,
+</span><span>    .</span><span style="color:#bf616a;">area </span><span>= circle_area,
+</span><span>    .</span><span style="color:#bf616a;">destroy </span><span>= circle_destroy
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Rectangle implementations
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">rectangle_draw</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Rectangle *r = (</span><span style="color:#b48ead;">const</span><span> Rectangle *)self;
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Drawing rectangle at (</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">) with size </span><span style="color:#d08770;">%.2f</span><span style="color:#a3be8c;">x</span><span style="color:#d08770;">%.2f</span><span style="color:#96b5b4;">\n</span><span>&quot;,
+</span><span>           self-&gt;x, self-&gt;y, r-&gt;width, r-&gt;height);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static double </span><span style="color:#8fa1b3;">rectangle_area</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Rectangle *r = (</span><span style="color:#b48ead;">const</span><span> Rectangle *)self;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> r-&gt;width * r-&gt;height;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">rectangle_destroy</span><span>(Shape *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Rectangle vtable
+</span><span style="color:#b48ead;">static const</span><span> ShapeVTable rectangle_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">draw </span><span>= rectangle_draw,
+</span><span>    .</span><span style="color:#bf616a;">area </span><span>= rectangle_area,
+</span><span>    .</span><span style="color:#bf616a;">destroy </span><span>= rectangle_destroy
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Constructor functions
+</span><span>Circle* </span><span style="color:#8fa1b3;">circle_create</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>, </span><span style="color:#b48ead;">double </span><span style="color:#bf616a;">radius</span><span>) {
+</span><span>    Circle *c = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Circle));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(c) {
+</span><span>        c-&gt;base.</span><span style="color:#bf616a;">vtable </span><span>= &amp;circle_vtable;
+</span><span>        c-&gt;base.</span><span style="color:#bf616a;">x </span><span>= x;
+</span><span>        c-&gt;base.</span><span style="color:#bf616a;">y </span><span>= y;
+</span><span>        c-&gt;radius = radius;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> c;
+</span><span>}
+</span><span>
+</span><span>Rectangle* </span><span style="color:#8fa1b3;">rectangle_create</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>, </span><span style="color:#b48ead;">double </span><span style="color:#bf616a;">width</span><span>, </span><span style="color:#b48ead;">double </span><span style="color:#bf616a;">height</span><span>) {
+</span><span>    Rectangle *r = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Rectangle));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(r) {
+</span><span>        r-&gt;base.</span><span style="color:#bf616a;">vtable </span><span>= &amp;rectangle_vtable;
+</span><span>        r-&gt;base.</span><span style="color:#bf616a;">x </span><span>= x;
+</span><span>        r-&gt;base.</span><span style="color:#bf616a;">y </span><span>= y;
+</span><span>        r-&gt;width = width;
+</span><span>        r-&gt;height = height;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> r;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Polymorphic interface
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_draw</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">shape</span><span>) {
+</span><span>    shape-&gt;vtable-&gt;</span><span style="color:#bf616a;">draw</span><span>(shape);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">double </span><span style="color:#8fa1b3;">shape_area</span><span>(</span><span style="color:#b48ead;">const</span><span> Shape *</span><span style="color:#bf616a;">shape</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return</span><span> shape-&gt;vtable-&gt;</span><span style="color:#bf616a;">area</span><span>(shape);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">shape_destroy</span><span>(Shape *</span><span style="color:#bf616a;">shape</span><span>) {
+</span><span>    shape-&gt;vtable-&gt;</span><span style="color:#bf616a;">destroy</span><span>(shape);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Usage example
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    Shape *shapes[</span><span style="color:#d08770;">3</span><span>];
+</span><span>    shapes[</span><span style="color:#d08770;">0</span><span>] = (Shape*)</span><span style="color:#bf616a;">circle_create</span><span>(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">5.0</span><span>);
+</span><span>    shapes[</span><span style="color:#d08770;">1</span><span>] = (Shape*)</span><span style="color:#bf616a;">rectangle_create</span><span>(</span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">4.0</span><span>, </span><span style="color:#d08770;">6.0</span><span>);
+</span><span>    shapes[</span><span style="color:#d08770;">2</span><span>] = (Shape*)</span><span style="color:#bf616a;">circle_create</span><span>(</span><span style="color:#d08770;">20</span><span>, </span><span style="color:#d08770;">20</span><span>, </span><span style="color:#d08770;">3.0</span><span>);
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Polymorphic behavior
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">0</span><span>; i &lt; </span><span style="color:#d08770;">3</span><span>; i++) {
+</span><span>        </span><span style="color:#bf616a;">shape_draw</span><span>(shapes[i]);
+</span><span>        </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Area: </span><span style="color:#d08770;">%.2f</span><span style="color:#96b5b4;">\n</span><span>&quot;, </span><span style="color:#bf616a;">shape_area</span><span>(shapes[i]));
+</span><span>        </span><span style="color:#bf616a;">shape_destroy</span><span>(shapes[i]);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<h3 id="advanced-oop-abstract-base-classes">Advanced OOP: Abstract Base Classes</h3>
+<p>You can enforce that certain methods must be implemented by derived classes.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef struct</span><span> Animal Animal;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*speak)(</span><span style="color:#b48ead;">const</span><span> Animal *self);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*move)(Animal *self, </span><span style="color:#b48ead;">int</span><span> distance);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*destroy)(Animal *self);
+</span><span>} AnimalVTable;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Animal {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> AnimalVTable *vtable;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*name;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> position;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Base class constructor (protected - not meant for direct use)
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">animal_init</span><span>(Animal *</span><span style="color:#bf616a;">animal</span><span>, </span><span style="color:#b48ead;">const</span><span> AnimalVTable *</span><span style="color:#bf616a;">vtable</span><span>, </span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">name</span><span>) {
+</span><span>    animal-&gt;vtable = vtable;
+</span><span>    animal-&gt;name = </span><span style="color:#bf616a;">strdup</span><span>(name);
+</span><span>    animal-&gt;position = </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Common base method that uses virtual methods
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">animal_introduce</span><span>(</span><span style="color:#b48ead;">const</span><span> Animal *</span><span style="color:#bf616a;">animal</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Hi, I&#39;m </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">. </span><span>&quot;, animal-&gt;name);
+</span><span>    animal-&gt;vtable-&gt;</span><span style="color:#bf616a;">speak</span><span>(animal);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Dog implementation
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Animal base;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> tail_wagging_speed;
+</span><span>} Dog;
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">dog_speak</span><span>(</span><span style="color:#b48ead;">const</span><span> Animal *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Woof!</span><span style="color:#96b5b4;">\n</span><span>&quot;);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">dog_move</span><span>(Animal *</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">distance</span><span>) {
+</span><span>    Dog *dog = (Dog *)self;
+</span><span>    self-&gt;position += distance;
+</span><span>    dog-&gt;tail_wagging_speed += distance / </span><span style="color:#d08770;">2</span><span>;
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> runs </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> meters (tail wagging at speed </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">)</span><span style="color:#96b5b4;">\n</span><span>&quot;, 
+</span><span>           self-&gt;name, distance, dog-&gt;tail_wagging_speed);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">dog_destroy</span><span>(Animal *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self-&gt;name);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static const</span><span> AnimalVTable dog_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">speak </span><span>= dog_speak,
+</span><span>    .</span><span style="color:#bf616a;">move </span><span>= dog_move,
+</span><span>    .</span><span style="color:#bf616a;">destroy </span><span>= dog_destroy
+</span><span>};
+</span><span>
+</span><span>Dog* </span><span style="color:#8fa1b3;">dog_create</span><span>(</span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">name</span><span>) {
+</span><span>    Dog *dog = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Dog));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(dog) {
+</span><span>        </span><span style="color:#bf616a;">animal_init</span><span>(&amp;dog-&gt;base, &amp;dog_vtable, name);
+</span><span>        dog-&gt;tail_wagging_speed = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> dog;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Cat implementation
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Animal base;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> mood;  </span><span style="color:#65737e;">// 0-10, where 0 is grumpy
+</span><span>} Cat;
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">cat_speak</span><span>(</span><span style="color:#b48ead;">const</span><span> Animal *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Cat *cat = (</span><span style="color:#b48ead;">const</span><span> Cat *)self;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(cat-&gt;mood &gt; </span><span style="color:#d08770;">5</span><span>) {
+</span><span>        </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Purr...</span><span style="color:#96b5b4;">\n</span><span>&quot;);
+</span><span>    } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Hiss!</span><span style="color:#96b5b4;">\n</span><span>&quot;);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">cat_move</span><span>(Animal *</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">distance</span><span>) {
+</span><span>    Cat *cat = (Cat *)self;
+</span><span>    self-&gt;position += distance;
+</span><span>    cat-&gt;mood -= distance;  </span><span style="color:#65737e;">// Cats hate moving
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(cat-&gt;mood &lt; </span><span style="color:#d08770;">0</span><span>) cat-&gt;mood = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> walks </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> meters (mood: </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">)</span><span style="color:#96b5b4;">\n</span><span>&quot;, 
+</span><span>           self-&gt;name, distance, cat-&gt;mood);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">cat_destroy</span><span>(Animal *</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self-&gt;name);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static const</span><span> AnimalVTable cat_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">speak </span><span>= cat_speak,
+</span><span>    .</span><span style="color:#bf616a;">move </span><span>= cat_move,
+</span><span>    .</span><span style="color:#bf616a;">destroy </span><span>= cat_destroy
+</span><span>};
+</span><span>
+</span><span>Cat* </span><span style="color:#8fa1b3;">cat_create</span><span>(</span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">name</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">initial_mood</span><span>) {
+</span><span>    Cat *cat = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Cat));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(cat) {
+</span><span>        </span><span style="color:#bf616a;">animal_init</span><span>(&amp;cat-&gt;base, &amp;cat_vtable, name);
+</span><span>        cat-&gt;mood = initial_mood;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> cat;
+</span><span>}
+</span></code></pre>
+<h3 id="interfaces">Interfaces</h3>
+<p>Interfaces define a contract that multiple unrelated classes can implement.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// Drawable interface
+</span><span style="color:#b48ead;">typedef struct</span><span> Drawable Drawable;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*draw)(</span><span style="color:#b48ead;">const</span><span> Drawable *self);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*set_color)(Drawable *self, </span><span style="color:#b48ead;">int</span><span> color);
+</span><span>} DrawableVTable;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Drawable {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> DrawableVTable *vtable;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">drawable_draw</span><span>(</span><span style="color:#b48ead;">const</span><span> Drawable *</span><span style="color:#bf616a;">drawable</span><span>) {
+</span><span>    drawable-&gt;vtable-&gt;</span><span style="color:#bf616a;">draw</span><span>(drawable);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Serializable interface
+</span><span style="color:#b48ead;">typedef struct</span><span> Serializable Serializable;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">char</span><span>* (*serialize)(</span><span style="color:#b48ead;">const</span><span> Serializable *self);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*deserialize)(Serializable *self, </span><span style="color:#b48ead;">const char </span><span>*data);
+</span><span>} SerializableVTable;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Serializable {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> SerializableVTable *vtable;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Object implementing multiple interfaces
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Drawable drawable;      </span><span style="color:#65737e;">// First interface
+</span><span>    Serializable serializable;  </span><span style="color:#65737e;">// Second interface
+</span><span>    </span><span style="color:#65737e;">// Actual data
+</span><span>    </span><span style="color:#b48ead;">int</span><span> x, y;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> color;
+</span><span>} Widget;
+</span><span>
+</span><span style="color:#65737e;">// Widget drawable implementation
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">widget_draw</span><span>(</span><span style="color:#b48ead;">const</span><span> Drawable *</span><span style="color:#bf616a;">drawable</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Widget *w = (</span><span style="color:#b48ead;">const</span><span> Widget *)drawable;
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Drawing widget at (</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">) with color </span><span style="color:#d08770;">%d</span><span style="color:#96b5b4;">\n</span><span>&quot;, w-&gt;x, w-&gt;y, w-&gt;color);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">widget_set_color</span><span>(Drawable *</span><span style="color:#bf616a;">drawable</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">color</span><span>) {
+</span><span>    Widget *w = (Widget *)drawable;
+</span><span>    w-&gt;color = color;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static const</span><span> DrawableVTable widget_drawable_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">draw </span><span>= widget_draw,
+</span><span>    .</span><span style="color:#bf616a;">set_color </span><span>= widget_set_color
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Widget serializable implementation
+</span><span style="color:#b48ead;">static char</span><span>* </span><span style="color:#8fa1b3;">widget_serialize</span><span>(</span><span style="color:#b48ead;">const</span><span> Serializable *</span><span style="color:#bf616a;">serializable</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const</span><span> Widget *w = (</span><span style="color:#b48ead;">const</span><span> Widget *)
+</span><span>        ((</span><span style="color:#b48ead;">char</span><span>*)serializable - </span><span style="color:#bf616a;">offsetof</span><span>(Widget, serializable));
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*buffer = </span><span style="color:#96b5b4;">malloc</span><span>(</span><span style="color:#d08770;">100</span><span>);
+</span><span>    </span><span style="color:#96b5b4;">snprintf</span><span>(buffer, </span><span style="color:#d08770;">100</span><span>, &quot;</span><span style="color:#a3be8c;">Widget{x:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,y:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,color:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">}</span><span>&quot;, w-&gt;x, w-&gt;y, w-&gt;color);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> buffer;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">widget_deserialize</span><span>(Serializable *</span><span style="color:#bf616a;">serializable</span><span>, </span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">data</span><span>) {
+</span><span>    Widget *w = (Widget *)
+</span><span>        ((</span><span style="color:#b48ead;">char</span><span>*)serializable - </span><span style="color:#bf616a;">offsetof</span><span>(Widget, serializable));
+</span><span>    </span><span style="color:#96b5b4;">sscanf</span><span>(data, &quot;</span><span style="color:#a3be8c;">Widget{x:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,y:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">,color:</span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">}</span><span>&quot;, &amp;w-&gt;x, &amp;w-&gt;y, &amp;w-&gt;color);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static const</span><span> SerializableVTable widget_serializable_vtable = {
+</span><span>    .</span><span style="color:#bf616a;">serialize </span><span>= widget_serialize,
+</span><span>    .</span><span style="color:#bf616a;">deserialize </span><span>= widget_deserialize
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Constructor
+</span><span>Widget* </span><span style="color:#8fa1b3;">widget_create</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>) {
+</span><span>    Widget *w = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Widget));
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(w) {
+</span><span>        w-&gt;drawable.</span><span style="color:#bf616a;">vtable </span><span>= &amp;widget_drawable_vtable;
+</span><span>        w-&gt;serializable.</span><span style="color:#bf616a;">vtable </span><span>= &amp;widget_serializable_vtable;
+</span><span>        w-&gt;x = x;
+</span><span>        w-&gt;y = y;
+</span><span>        w-&gt;color = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> w;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Usage with multiple interfaces
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">process_drawable</span><span>(Drawable *</span><span style="color:#bf616a;">drawable</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">drawable_draw</span><span>(drawable);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">save_to_file</span><span>(Serializable *</span><span style="color:#bf616a;">serializable</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*data = serializable-&gt;vtable-&gt;</span><span style="color:#bf616a;">serialize</span><span>(serializable);
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">Saving: </span><span style="color:#d08770;">%s</span><span style="color:#96b5b4;">\n</span><span>&quot;, data);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(data);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    Widget *w = </span><span style="color:#bf616a;">widget_create</span><span>(</span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">20</span><span>);
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Use as Drawable
+</span><span>    </span><span style="color:#bf616a;">process_drawable</span><span>(&amp;w-&gt;drawable);
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Use as Serializable
+</span><span>    </span><span style="color:#bf616a;">save_to_file</span><span>(&amp;w-&gt;serializable);
+</span><span>    
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(w);
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<h3 id="real-world-example-gobject-system">Real-World Example: GObject System</h3>
+<p>Many professional C projects use GObject-style OOP. Here's a simplified version:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#define </span><span>G_TYPE_OBJECT (</span><span style="color:#bf616a;">g_object_get_type</span><span>())
+</span><span>
+</span><span style="color:#b48ead;">typedef struct</span><span> _GObject GObject;
+</span><span style="color:#b48ead;">typedef struct</span><span> _GObjectClass GObjectClass;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>_GObjectClass {
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*finalize)(GObject *object);
+</span><span>    </span><span style="color:#65737e;">// Other virtual methods
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>_GObject {
+</span><span>    GObjectClass *klass;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> ref_count;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Reference counting for memory management
+</span><span>GObject* </span><span style="color:#8fa1b3;">g_object_ref</span><span>(GObject *</span><span style="color:#bf616a;">object</span><span>) {
+</span><span>    object-&gt;ref_count++;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> object;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">g_object_unref</span><span>(GObject *</span><span style="color:#bf616a;">object</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(--object-&gt;ref_count == </span><span style="color:#d08770;">0</span><span>) {
+</span><span>        object-&gt;klass-&gt;</span><span style="color:#bf616a;">finalize</span><span>(object);
+</span><span>        </span><span style="color:#96b5b4;">free</span><span>(object);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Derived class
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    GObject parent;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*text;
+</span><span>} MyObject;
+</span><span>
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">my_object_finalize</span><span>(GObject *</span><span style="color:#bf616a;">object</span><span>) {
+</span><span>    MyObject *self = (MyObject *)object;
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(self-&gt;text);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">static</span><span> GObjectClass my_object_class = {
+</span><span>    .</span><span style="color:#bf616a;">finalize </span><span>= my_object_finalize
+</span><span>};
+</span><span>
+</span><span>MyObject* </span><span style="color:#8fa1b3;">my_object_new</span><span>(</span><span style="color:#b48ead;">const char </span><span>*</span><span style="color:#bf616a;">text</span><span>) {
+</span><span>    MyObject *obj = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(MyObject));
+</span><span>    obj-&gt;parent.</span><span style="color:#bf616a;">klass </span><span>= &amp;my_object_class;
+</span><span>    obj-&gt;parent.</span><span style="color:#bf616a;">ref_count </span><span>= </span><span style="color:#d08770;">1</span><span>;
+</span><span>    obj-&gt;text = </span><span style="color:#bf616a;">strdup</span><span>(text);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> obj;
+</span><span>}
+</span></code></pre>
+<h3 id="design-patterns-in-c">Design Patterns in C</h3>
+<h4 id="singleton-pattern">Singleton Pattern</h4>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> setting1;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*setting2;
+</span><span>} Config;
+</span><span>
+</span><span>Config* </span><span style="color:#8fa1b3;">config_get_instance</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">static</span><span> Config *instance = </span><span style="color:#d08770;">NULL</span><span>;
+</span><span>    </span><span style="color:#b48ead;">static </span><span>pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(instance == </span><span style="color:#d08770;">NULL</span><span>) {
+</span><span>        </span><span style="color:#bf616a;">pthread_mutex_lock</span><span>(&amp;lock);
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(instance == </span><span style="color:#d08770;">NULL</span><span>) {  </span><span style="color:#65737e;">// Double-checked locking
+</span><span>            instance = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Config));
+</span><span>            instance-&gt;setting1 = </span><span style="color:#d08770;">42</span><span>;
+</span><span>            instance-&gt;setting2 = </span><span style="color:#bf616a;">strdup</span><span>(&quot;</span><span style="color:#a3be8c;">default</span><span>&quot;);
+</span><span>        }
+</span><span>        </span><span style="color:#bf616a;">pthread_mutex_unlock</span><span>(&amp;lock);
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> instance;
+</span><span>}
+</span></code></pre>
+<h4 id="factory-pattern">Factory Pattern</h4>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef enum </span><span>{
+</span><span>    SHAPE_CIRCLE,
+</span><span>    SHAPE_RECTANGLE,
+</span><span>    SHAPE_TRIANGLE
+</span><span>} ShapeType;
+</span><span>
+</span><span>Shape* </span><span style="color:#8fa1b3;">shape_factory_create</span><span>(ShapeType </span><span style="color:#bf616a;">type</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">x</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">y</span><span>, ...) {
+</span><span>    va_list args;
+</span><span>    </span><span style="color:#96b5b4;">va_start</span><span>(args, y);
+</span><span>    
+</span><span>    Shape *shape = </span><span style="color:#d08770;">NULL</span><span>;
+</span><span>    </span><span style="color:#b48ead;">switch</span><span>(type) {
+</span><span>        </span><span style="color:#b48ead;">case</span><span> SHAPE_CIRCLE: {
+</span><span>            </span><span style="color:#b48ead;">double</span><span> radius = </span><span style="color:#96b5b4;">va_arg</span><span>(args, </span><span style="color:#b48ead;">double</span><span>);
+</span><span>            shape = (Shape*)</span><span style="color:#bf616a;">circle_create</span><span>(x, y, radius);
+</span><span>            </span><span style="color:#b48ead;">break</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">case</span><span> SHAPE_RECTANGLE: {
+</span><span>            </span><span style="color:#b48ead;">double</span><span> width = </span><span style="color:#96b5b4;">va_arg</span><span>(args, </span><span style="color:#b48ead;">double</span><span>);
+</span><span>            </span><span style="color:#b48ead;">double</span><span> height = </span><span style="color:#96b5b4;">va_arg</span><span>(args, </span><span style="color:#b48ead;">double</span><span>);
+</span><span>            shape = (Shape*)</span><span style="color:#bf616a;">rectangle_create</span><span>(x, y, width, height);
+</span><span>            </span><span style="color:#b48ead;">break</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#65737e;">// ... other shapes
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#96b5b4;">va_end</span><span>(args);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> shape;
+</span><span>}
+</span></code></pre>
+<h4 id="observer-pattern">Observer Pattern</h4>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef void </span><span>(*ObserverCallback)(</span><span style="color:#b48ead;">void </span><span>*observer, </span><span style="color:#b48ead;">const void </span><span>*data);
+</span><span>
+</span><span style="color:#b48ead;">typedef struct</span><span> Observer {
+</span><span>    </span><span style="color:#b48ead;">void </span><span>*object;
+</span><span>    ObserverCallback callback;
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> Observer *next;
+</span><span>} Observer;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Observer *observers;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> value;
+</span><span>} Subject;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">subject_attach</span><span>(Subject *</span><span style="color:#bf616a;">subject</span><span>, </span><span style="color:#b48ead;">void </span><span>*</span><span style="color:#bf616a;">observer</span><span>, ObserverCallback </span><span style="color:#bf616a;">callback</span><span>) {
+</span><span>    Observer *obs = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Observer));
+</span><span>    obs-&gt;object = observer;
+</span><span>    obs-&gt;callback = callback;
+</span><span>    obs-&gt;next = subject-&gt;observers;
+</span><span>    subject-&gt;observers = obs;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">subject_notify</span><span>(Subject *</span><span style="color:#bf616a;">subject</span><span>) {
+</span><span>    Observer *obs = subject-&gt;observers;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>(obs) {
+</span><span>        obs-&gt;</span><span style="color:#bf616a;">callback</span><span>(obs-&gt;object, &amp;subject-&gt;value);
+</span><span>        obs = obs-&gt;next;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">subject_set_value</span><span>(Subject *</span><span style="color:#bf616a;">subject</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">value</span><span>) {
+</span><span>    subject-&gt;value = value;
+</span><span>    </span><span style="color:#bf616a;">subject_notify</span><span>(subject);
+</span><span>}
+</span></code></pre>
+<h3 id="best-practices-for-oop-in-c">Best Practices for OOP in C</h3>
+<ol>
+<li><strong>Consistent naming conventions</strong>: Use prefixes for namespacing (e.g., <code>shape_</code>, <code>widget_</code>)</li>
+<li><strong>Always initialize vtables</strong>: Uninitialized function pointers cause crashes</li>
+<li><strong>Use const for virtual methods that don't modify state</strong>: Helps prevent bugs</li>
+<li><strong>Document ownership</strong>: Make clear who owns allocated memory</li>
+<li><strong>Consider using macros</strong>: To reduce boilerplate for class definitions</li>
+<li><strong>Memory management</strong>: Implement consistent constructor/destructor patterns</li>
+<li><strong>Avoid deep inheritance hierarchies</strong>: Composition is often clearer in C</li>
+</ol>
+<h3 id="plugin-architecture">Plugin Architecture</h3>
+<p>Function pointers enable runtime plugin loading.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    </span><span style="color:#b48ead;">const char </span><span>*name;
+</span><span>    </span><span style="color:#b48ead;">int </span><span>(*init)(</span><span style="color:#b48ead;">void</span><span>);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*execute)(</span><span style="color:#b48ead;">void</span><span>);
+</span><span>    </span><span style="color:#b48ead;">void </span><span>(*cleanup)(</span><span style="color:#b48ead;">void</span><span>);
+</span><span>} Plugin;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span>*handle = </span><span style="color:#bf616a;">dlopen</span><span>(&quot;</span><span style="color:#a3be8c;">plugin.so</span><span>&quot;, RTLD_LAZY);
+</span><span>Plugin *plugin = (Plugin *)</span><span style="color:#bf616a;">dlsym</span><span>(handle, &quot;</span><span style="color:#a3be8c;">plugin_interface</span><span>&quot;);
+</span><span>plugin-&gt;</span><span style="color:#bf616a;">init</span><span>();
+</span></code></pre>
+<h2 id="standards-and-portability">Standards and Portability</h2>
+<h3 id="c-standards-evolution">C Standards Evolution</h3>
+<p>Understanding different C standards (C89, C99, C11, C17, C23) and their features is important for portability.</p>
+<p><strong>Key features by standard:</strong></p>
+<ul>
+<li><strong>C99</strong>: Variable-length arrays, inline functions, restrict, complex numbers</li>
+<li><strong>C11</strong>: Threads, atomics, anonymous structs/unions, static assertions</li>
+<li><strong>C23</strong>: Enhanced attributes, improved constexpr, binary literals</li>
+</ul>
+<h3 id="writing-portable-code">Writing Portable Code</h3>
+<p>Professional C code often needs to run on multiple platforms.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#if defined</span><span>(__STDC_VERSION__) &amp;&amp; __STDC_VERSION__ &gt;= 201112L
+</span><span>    </span><span style="color:#b48ead;">#define </span><span>HAS_C11_FEATURES </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">stdatomic.h</span><span>&gt;
+</span><span style="color:#b48ead;">#else
+</span><span>    </span><span style="color:#b48ead;">#define </span><span>HAS_C11_FEATURES </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#65737e;">// Fallback implementation
+</span><span style="color:#b48ead;">#endif
+</span></code></pre>
+<h2 id="best-practices-and-conventions">Best Practices and Conventions</h2>
+<h3 id="naming-conventions">Naming Conventions</h3>
+<p>Consistency matters in professional code:</p>
+<ul>
+<li>Prefix library functions to avoid name collisions (e.g., <code>mylib_function</code>)</li>
+<li>Use <code>UPPER_CASE</code> for macros and constants</li>
+<li>Use <code>lower_case_with_underscores</code> for functions and variables</li>
+<li>Use meaningful names that convey intent</li>
+</ul>
+<h3 id="code-organization">Code Organization</h3>
+<p>Structure your projects logically:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>project/
+</span><span>├── include/         # Public headers
+</span><span>│   └── mylib.h
+</span><span>├── src/            # Implementation
+</span><span>│   ├── internal.h  # Private headers
+</span><span>│   └── mylib.c
+</span><span>├── tests/          # Test suite
+</span><span>├── docs/           # Documentation
+</span><span>└── build/          # Build artifacts
+</span></code></pre>
+<h3 id="documentation">Documentation</h3>
+<p>Use standardized documentation formats like Doxygen for professional codebases.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * @brief Calculates the sum of an array
+</span><span style="color:#65737e;"> * @param array Pointer to array of integers
+</span><span style="color:#65737e;"> * @param size Number of elements in array
+</span><span style="color:#65737e;"> * @return Sum of all elements
+</span><span style="color:#65737e;"> * @note Array must not be NULL
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">sum_array</span><span>(</span><span style="color:#b48ead;">const int </span><span>*</span><span style="color:#bf616a;">array</span><span>, size_t </span><span style="color:#bf616a;">size</span><span>);
+</span></code></pre>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2025">2025</time> HajMousa | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/katex/katex.min.css?h=e189fd0238811989c364" />
+  <script defer src="https://blog.hajmousa.ir/katex/katex.min.js?h=6b909443e6c8f6e5d24c"></script>
+  <script defer src="https://blog.hajmousa.ir/katex/contrib/auto-render.min.js?h=bb53eb953394531aae36"></script>
+  <script>document.addEventListener("DOMContentLoaded", window.zolaTheme.katex.init);</script>
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

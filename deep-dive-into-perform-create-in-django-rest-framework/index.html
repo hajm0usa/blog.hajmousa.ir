@@ -1,0 +1,1106 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14 scheme-light dark:scheme-dark" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola v0.21.0" />
+  <title>Deep Dive into `perform_create()` in Django REST Framework | HajMousa;s DevBlog</title>
+  <meta property="og:site_name" content="HajMousa;s DevBlog" />
+  <meta property="og:title" content="Deep Dive into `perform_create()` in Django REST Framework" />
+  <meta property="og:url" content="https://blog.hajmousa.ir/deep-dive-into-perform-create-in-django-rest-framework/" />
+  <link rel="canonical" href="https://blog.hajmousa.ir/deep-dive-into-perform-create-in-django-rest-framework/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-12-17T00:00:00+00:00" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/main.min.css?h=80ece4d015818ae93fff" />
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/icons.css?h=7dd5ab449fa840fc01e2" />
+  <style>:root{--bg: #f4f4f5; --header: #e4e4e7;} :root.dark{--bg: #18181b; --header: #27272a;}</style>
+  <link rel="icon" type="image/x-icon" href="https://blog.hajmousa.ir/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="https://blog.hajmousa.ir/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="https://blog.hajmousa.ir/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="https://blog.hajmousa.ir/js/zola-theme.min.js?h=26975b146d48e6ff41af"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out dark:text-white">
+  <!-- Header -->
+<header class="blur-header fixed top-0 z-40 mx-auto min-h-13 w-full">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8 overflow-hidden">
+        <a title="Go to home page [Alt + !]" accesskey="!"
+          href="https://blog.hajmousa.ir/"
+          class="text-2xl font-semibold truncate">HajMousa;s DevBlog</a>
+        <button type="button" title="Switch color scheme [Alt + $]" accesskey="$"
+          onclick="window.zolaTheme.color.toggle();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-btn-dark,url(icons/btn-dark.svg))]
+            dark:[background-image:var(--icons-btn-light,url(icons/btn-light.svg))] dark:invert"
+        ></button>
+        <button type="button" title="Open search [Alt + /]" accesskey="/"
+          onclick="window.zolaTheme.search.toggle();"
+          class="btn-search ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-search,url(icons/search.svg))] dark:invert"
+        ></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg
+    relative mx-auto min-h-[calc(100vh-4rem)] max-w-3xl px-4 pt-28 lg:pt-32 pb-12 wrap-break-word">
+      <!-- Search -->
+<div id="linkita-search-wrapper" class="hidden">
+  <ul id="linkita-search-results"></ul>
+</div>
+<script>window.zolaTheme.search.init({ scripts: ["https://blog.hajmousa.ir/elasticlunr.min.js", "https://blog.hajmousa.ir/search_index.en.js"], arg: { w: "#linkita-search-wrapper", r: "#linkita-search-results" } });</script>
+
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="my-0! pb-2.5">Deep Dive into `perform_create()` in Django REST Framework</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-12-17T00:00:00+00:00">2025-12-17</time><span
+        class="middot"></span><time
+    datetime="PT0H4M0S">4&nbsp;min</time><span
+      class="middot"></span>
+</div>
+
+  </header>
+  <!-- TOC -->
+<nav class="block-bg prose-a:secondary-link mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-3.5" title="[Alt + =]" accesskey="=">
+      <span class="cursor-pointer ml-0.5">Table of Contents</span>
+    </summary>
+    <ul class="ps-8">
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#what-is-perform-create">What is perform_create()?</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#understanding-the-create-flow">Understanding the Create Flow</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#complete-request-flow">Complete Request Flow:</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#why-override-perform-create-instead-of-create">Why Override perform_create() Instead of create()?</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#comparison">Comparison:</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#common-use-cases-for-perform-create">Common Use Cases for perform_create()</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#1-auto-setting-user-from-request">1. Auto-Setting User from Request</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#2-setting-request-related-data">2. Setting Request-Related Data</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#3-auto-generating-values">3. Auto-Generating Values</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#4-setting-computed-values">4. Setting Computed Values</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#5-setting-relationships">5. Setting Relationships</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#6-conditional-logic-based-on-request">6. Conditional Logic Based on Request</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#7-setting-workflow-state">7. Setting Workflow State</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#8-multi-tenancy">8. Multi-Tenancy</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#advanced-patterns">Advanced Patterns</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-1-validation-before-save">Pattern 1: Validation Before Save</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-2-transaction-wrapper">Pattern 2: Transaction Wrapper</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-3-trigger-side-effects">Pattern 3: Trigger Side Effects</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-4-logging-and-auditing">Pattern 4: Logging and Auditing</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-5-cache-invalidation">Pattern 5: Cache Invalidation</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#pattern-6-different-behavior-for-different-actions">Pattern 6: Different Behavior for Different Actions</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#accessing-request-data">Accessing Request Data</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#available-in-perform-create">Available in perform_create():</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#working-with-serializer-save">Working with serializer.save()</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#understanding-serializer-save">Understanding serializer.save()</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#error-handling">Error Handling</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#raising-exceptions">Raising Exceptions</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#try-except-pattern">Try-Except Pattern</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#testing-perform-create">Testing perform_create()</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#unit-test-example">Unit Test Example</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#integration-test">Integration Test</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#common-mistakes">Common Mistakes</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-mistake-1-modifying-validated-data-directly">❌ Mistake 1: Modifying Validated Data Directly</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-mistake-2-not-using-transactions">❌ Mistake 2: Not Using Transactions</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-mistake-3-heavy-processing-in-perform-create">❌ Mistake 3: Heavy Processing in perform_create</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-mistake-4-forgetting-to-return-or-not-caring-about-return">❌ Mistake 4: Forgetting to Return or Not Caring About Return</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-mistake-5-not-handling-exceptions">❌ Mistake 5: Not Handling Exceptions</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#best-practices-summary">Best Practices Summary</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#white-check-mark-do">✅ DO:</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#x-don-t">❌ DON&#x27;T:</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#when-to-move-beyond-perform-create">When to Move Beyond perform_create()</a>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+  <!-- Content -->
+  <section><h2 id="what-is-perform-create">What is <code>perform_create()</code>?</h2>
+<p><strong>Definition:</strong>
+<code>perform_create()</code> is a hook method in DRF's <code>CreateModelMixin</code> that handles the actual saving of a new model instance after validation passes.</p>
+<p><strong>The Default Implementation:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span></code></pre>
+<p>That's it! Super simple. But this simplicity is its power.</p>
+<h2 id="understanding-the-create-flow">Understanding the Create Flow</h2>
+<h3 id="complete-request-flow">Complete Request Flow:</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>1. POST request arrives
+</span><span>   ↓
+</span><span>2. ViewSet.create() called (from CreateModelMixin)
+</span><span>   ↓
+</span><span>3. Serializer initialized with request.data
+</span><span>   ↓
+</span><span>4. serializer.is_valid() called
+</span><span>   ↓
+</span><span>5. Validation passes
+</span><span>   ↓
+</span><span>6. perform_create(serializer) called ← YOU OVERRIDE THIS
+</span><span>   ↓
+</span><span>7. serializer.save() called (inside perform_create)
+</span><span>   ↓
+</span><span>8. Model instance created and saved
+</span><span>   ↓
+</span><span>9. Response created with serializer.data
+</span><span>   ↓
+</span><span>10. 201 Created returned
+</span></code></pre>
+<p><strong>Where perform_create() Fits:</strong></p>
+<ul>
+<li>After validation succeeds</li>
+<li>Before response is generated</li>
+<li>Perfect timing to modify the save operation</li>
+</ul>
+<h2 id="why-override-perform-create-instead-of-create">Why Override <code>perform_create()</code> Instead of <code>create()</code>?</h2>
+<h3 id="comparison">Comparison:</h3>
+<p><strong>Override <code>perform_create()</code>:</strong></p>
+<ul>
+<li>✅ Simple, focused on save logic only</li>
+<li>✅ DRF handles response automatically</li>
+<li>✅ Less code to write</li>
+<li>✅ Follows DRF conventions</li>
+<li>✅ Easier to maintain</li>
+<li>✅ Can still access request via self.request</li>
+<li>❌ Can't customize response format</li>
+<li>❌ Can't change status code easily</li>
+</ul>
+<p><strong>Override <code>create()</code>:</strong></p>
+<ul>
+<li>✅ Full control over everything</li>
+<li>✅ Custom response format</li>
+<li>✅ Custom status codes</li>
+<li>✅ Complex multi-step logic</li>
+<li>❌ More code to write</li>
+<li>❌ Must handle response yourself</li>
+<li>❌ Can break if not careful</li>
+</ul>
+<p><strong>Rule of Thumb:</strong></p>
+<ul>
+<li>Need to modify what's saved? → <code>perform_create()</code></li>
+<li>Need to modify what's returned? → <code>create()</code></li>
+</ul>
+<h2 id="common-use-cases-for-perform-create">Common Use Cases for <code>perform_create()</code></h2>
+<h3 id="1-auto-setting-user-from-request">1. Auto-Setting User from Request</h3>
+<p><strong>Most Common Pattern:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    serializer_class = OrderSerializer
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span></code></pre>
+<p><strong>Why This Works:</strong></p>
+<ul>
+<li>User not in POST data</li>
+<li>User comes from authentication</li>
+<li>Serializer doesn't need user in fields</li>
+<li>Auto-assigned securely</li>
+</ul>
+<p><strong>Serializer Setup:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderSerializer</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">serializers.ModelSerializer</span><span style="color:#eff1f5;">):
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Meta</span><span style="color:#eff1f5;">:
+</span><span>        model = Order
+</span><span>        fields = [&#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">payment_method</span><span>&#39;]
+</span><span>        </span><span style="color:#65737e;"># User not included - added automatically!
+</span></code></pre>
+<p><strong>Alternative (Don't Do This):</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Bad: Trusting user_id from request
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderSerializer</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">serializers.ModelSerializer</span><span style="color:#eff1f5;">):
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Meta</span><span style="color:#eff1f5;">:
+</span><span>        fields = [&#39;</span><span style="color:#a3be8c;">user</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;]  </span><span style="color:#65737e;"># Security risk!
+</span><span>
+</span><span style="color:#65737e;"># User could send: {&quot;user&quot;: 999, &quot;shipping_address&quot;: &quot;...&quot;}
+</span><span style="color:#65737e;"># Now they&#39;re creating orders for other users!
+</span></code></pre>
+<h3 id="2-setting-request-related-data">2. Setting Request-Related Data</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">ip_address</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">REMOTE_ADDR</span><span>&#39;),
+</span><span>        </span><span style="color:#bf616a;">user_agent</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">HTTP_USER_AGENT</span><span>&#39;),
+</span><span>        </span><span style="color:#bf616a;">created_from</span><span>=&#39;</span><span style="color:#a3be8c;">api</span><span>&#39;
+</span><span>    )
+</span></code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Fraud detection (IP, user agent)</li>
+<li>Analytics (where order came from)</li>
+<li>Audit trails</li>
+<li>Multi-tenancy (tenant from request)</li>
+</ul>
+<h3 id="3-auto-generating-values">3. Auto-Generating Values</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    order_number = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">generate_order_number</span><span>()
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">order_number</span><span>=order_number,
+</span><span>        </span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;
+</span><span>    )
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">generate_order_number</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>    </span><span style="color:#b48ead;">from </span><span>django.utils </span><span style="color:#b48ead;">import </span><span>timezone
+</span><span>    year = timezone.</span><span style="color:#bf616a;">now</span><span>().year
+</span><span>    count = Order.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">created_at__year</span><span>=year).</span><span style="color:#bf616a;">count</span><span>() + </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">return f</span><span>&quot;</span><span style="color:#a3be8c;">ORD-</span><span>{year}</span><span style="color:#a3be8c;">-</span><span>{count</span><span style="color:#d08770;">:06d</span><span>}&quot;
+</span></code></pre>
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>Sequential numbering</li>
+<li>Custom ID generation</li>
+<li>Computed initial values</li>
+<li>Business logic defaults</li>
+</ul>
+<p><strong>Alternative: Model save()</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># If logic should apply everywhere (API, admin, shell)
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Order</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">models.Model</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">save</span><span>(</span><span style="color:#bf616a;">self</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not </span><span style="color:#bf616a;">self</span><span>.order_number:
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.order_number = </span><span style="color:#bf616a;">generate_order_number</span><span>()
+</span><span>        </span><span style="color:#96b5b4;">super</span><span>().</span><span style="color:#bf616a;">save</span><span>(*args, **kwargs)
+</span></code></pre>
+<p><strong>Choose perform_create() when:</strong></p>
+<ul>
+<li>Logic is API-specific</li>
+<li>Depends on request data</li>
+<li>Different for different endpoints</li>
+</ul>
+<p><strong>Choose Model save() when:</strong></p>
+<ul>
+<li>Logic is universal</li>
+<li>Should apply everywhere</li>
+<li>Core business rule</li>
+</ul>
+<h3 id="4-setting-computed-values">4. Setting Computed Values</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Calculate totals before saving
+</span><span>    items_data = </span><span style="color:#bf616a;">self</span><span>.request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">items</span><span>&#39;, [])
+</span><span>    subtotal = </span><span style="color:#96b5b4;">sum</span><span>(item[&#39;</span><span style="color:#a3be8c;">price</span><span>&#39;] * item[&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;] </span><span style="color:#b48ead;">for </span><span>item </span><span style="color:#b48ead;">in </span><span>items_data)
+</span><span>    tax = subtotal * </span><span style="color:#bf616a;">Decimal</span><span>(&#39;</span><span style="color:#a3be8c;">0.10</span><span>&#39;)
+</span><span>    total = subtotal + tax
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">subtotal</span><span>=subtotal,
+</span><span>        </span><span style="color:#bf616a;">tax</span><span>=tax,
+</span><span>        </span><span style="color:#bf616a;">total</span><span>=total
+</span><span>    )
+</span></code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Price calculations</li>
+<li>Aggregations</li>
+<li>Derived values</li>
+<li>Business logic computations</li>
+</ul>
+<h3 id="5-setting-relationships">5. Setting Relationships</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Get related object
+</span><span>    cart = </span><span style="color:#bf616a;">self</span><span>.request.user.cart
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">cart</span><span>=cart,
+</span><span>        </span><span style="color:#bf616a;">item_count</span><span>=cart.items.</span><span style="color:#bf616a;">count</span><span>()
+</span><span>    )
+</span></code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Related object from request</li>
+<li>Parent-child relationships</li>
+<li>Association with user's data</li>
+</ul>
+<h3 id="6-conditional-logic-based-on-request">6. Conditional Logic Based on Request</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Different behavior based on user type
+</span><span>    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.request.user.is_premium:
+</span><span>        discount = </span><span style="color:#bf616a;">Decimal</span><span>(&#39;</span><span style="color:#a3be8c;">0.15</span><span>&#39;)  </span><span style="color:#65737e;"># 15% for premium
+</span><span>    </span><span style="color:#b48ead;">else</span><span>:
+</span><span>        discount = </span><span style="color:#bf616a;">Decimal</span><span>(&#39;</span><span style="color:#a3be8c;">0.05</span><span>&#39;)  </span><span style="color:#65737e;"># 5% for regular
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">discount_applied</span><span>=discount
+</span><span>    )
+</span></code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>User tier logic</li>
+<li>Feature flags</li>
+<li>A/B testing</li>
+<li>Permission-based defaults</li>
+</ul>
+<h3 id="7-setting-workflow-state">7. Setting Workflow State</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Orders start as draft for enterprise customers
+</span><span>    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.request.user.is_enterprise:
+</span><span>        initial_status = &#39;</span><span style="color:#a3be8c;">draft</span><span>&#39;
+</span><span>    </span><span style="color:#b48ead;">else</span><span>:
+</span><span>        initial_status = &#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">status</span><span>=initial_status,
+</span><span>        </span><span style="color:#bf616a;">requires_approval</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user.is_enterprise
+</span><span>    )
+</span></code></pre>
+<h3 id="8-multi-tenancy">8. Multi-Tenancy</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Get tenant from request (subdomain, header, etc.)
+</span><span>    tenant = </span><span style="color:#bf616a;">self</span><span>.request.tenant  </span><span style="color:#65737e;"># From custom middleware
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">tenant</span><span>=tenant,
+</span><span>        </span><span style="color:#bf616a;">created_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    )
+</span></code></pre>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>SaaS applications</li>
+<li>Organization isolation</li>
+<li>Data segregation</li>
+</ul>
+<h2 id="advanced-patterns">Advanced Patterns</h2>
+<h3 id="pattern-1-validation-before-save">Pattern 1: Validation Before Save</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Additional validation not in serializer
+</span><span>    user = </span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check user limits
+</span><span>    </span><span style="color:#b48ead;">if </span><span>user.orders.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;).</span><span style="color:#bf616a;">count</span><span>() &gt;= </span><span style="color:#d08770;">5</span><span>:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Maximum 5 pending orders allowed</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check cart
+</span><span>    cart = user.cart
+</span><span>    </span><span style="color:#b48ead;">if </span><span>cart.is_empty:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Cart is empty</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Validate stock
+</span><span>    </span><span style="color:#b48ead;">for </span><span>item </span><span style="color:#b48ead;">in </span><span>cart.items.</span><span style="color:#bf616a;">all</span><span>():
+</span><span>        </span><span style="color:#b48ead;">if </span><span>item.quantity &gt; item.book.stock:
+</span><span>            </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Insufficient stock for </span><span>{item.book.title}&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># All good, proceed
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=user)
+</span></code></pre>
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>Business rules beyond data validation</li>
+<li>Cross-model validation</li>
+<li>Runtime checks (stock, limits)</li>
+<li>State-dependent validation</li>
+</ul>
+<p><strong>Alternative: Serializer validate()</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Use serializer.validate() for data-centric validation
+</span><span style="color:#65737e;"># Use perform_create() for request-dependent validation
+</span></code></pre>
+<h3 id="pattern-2-transaction-wrapper">Pattern 2: Transaction Wrapper</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>django.db </span><span style="color:#b48ead;">import </span><span>transaction
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>        </span><span style="color:#65737e;"># Create main object
+</span><span>        order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Related operations
+</span><span>        cart = </span><span style="color:#bf616a;">self</span><span>.request.user.cart
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Clone cart items
+</span><span>        </span><span style="color:#b48ead;">for </span><span>cart_item </span><span style="color:#b48ead;">in </span><span>cart.items.</span><span style="color:#bf616a;">all</span><span>():
+</span><span>            OrderItem.objects.</span><span style="color:#bf616a;">create</span><span>(
+</span><span>                </span><span style="color:#bf616a;">order</span><span>=order,
+</span><span>                </span><span style="color:#bf616a;">book</span><span>=cart_item.book,
+</span><span>                </span><span style="color:#bf616a;">quantity</span><span>=cart_item.quantity,
+</span><span>                </span><span style="color:#bf616a;">price</span><span>=cart_item.book.price
+</span><span>            )
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Update stock
+</span><span>        </span><span style="color:#b48ead;">for </span><span>cart_item </span><span style="color:#b48ead;">in </span><span>cart.items.</span><span style="color:#bf616a;">all</span><span>():
+</span><span>            book = cart_item.book
+</span><span>            book.stock -= cart_item.quantity
+</span><span>            book.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Clear cart
+</span><span>        cart.</span><span style="color:#bf616a;">clear</span><span>()
+</span></code></pre>
+<p><strong>Critical for:</strong></p>
+<ul>
+<li>Multi-model operations</li>
+<li>Stock management</li>
+<li>Financial transactions</li>
+<li>Data consistency</li>
+</ul>
+<p><strong>Important:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># serializer.save() returns the instance!
+</span><span>instance = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span style="color:#65737e;"># You can use it for further operations
+</span></code></pre>
+<h3 id="pattern-3-trigger-side-effects">Pattern 3: Trigger Side Effects</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># Save instance
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Trigger async tasks (Celery)
+</span><span>    </span><span style="color:#b48ead;">from .</span><span>tasks </span><span style="color:#b48ead;">import </span><span>(
+</span><span>        send_order_confirmation,
+</span><span>        notify_warehouse,
+</span><span>        update_analytics
+</span><span>    )
+</span><span>    
+</span><span>    send_order_confirmation.</span><span style="color:#bf616a;">delay</span><span>(order.id)
+</span><span>    notify_warehouse.</span><span style="color:#bf616a;">delay</span><span>(order.id)
+</span><span>    update_analytics.</span><span style="color:#bf616a;">delay</span><span>(order.id)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Note: Instance already saved, tasks just use the ID
+</span></code></pre>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li>Save first, trigger tasks after</li>
+<li>Use instance ID in tasks (not whole object)</li>
+<li>Tasks should be idempotent</li>
+<li>Handle task failures gracefully</li>
+</ul>
+<h3 id="pattern-4-logging-and-auditing">Pattern 4: Logging and Auditing</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">import </span><span>logging
+</span><span>
+</span><span>logger = logging.</span><span style="color:#bf616a;">getLogger</span><span>(__name__)
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    user = </span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Log before creation
+</span><span>    logger.</span><span style="color:#bf616a;">info</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">User </span><span>{user.id}</span><span style="color:#a3be8c;"> creating order</span><span>&quot;, </span><span style="color:#bf616a;">extra</span><span>={
+</span><span>        &#39;</span><span style="color:#a3be8c;">user_id</span><span>&#39;: user.id,
+</span><span>        &#39;</span><span style="color:#a3be8c;">ip</span><span>&#39;: </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">REMOTE_ADDR</span><span>&#39;),
+</span><span>        &#39;</span><span style="color:#a3be8c;">data</span><span>&#39;: serializer.validated_data
+</span><span>    })
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Create
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Log after creation
+</span><span>    logger.</span><span style="color:#bf616a;">info</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Order </span><span>{order.order_number}</span><span style="color:#a3be8c;"> created successfully</span><span>&quot;, </span><span style="color:#bf616a;">extra</span><span>={
+</span><span>        &#39;</span><span style="color:#a3be8c;">order_id</span><span>&#39;: order.id,
+</span><span>        &#39;</span><span style="color:#a3be8c;">user_id</span><span>&#39;: user.id,
+</span><span>        &#39;</span><span style="color:#a3be8c;">total</span><span>&#39;: </span><span style="color:#bf616a;">str</span><span>(order.total)
+</span><span>    })
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Create audit record
+</span><span>    AuditLog.objects.</span><span style="color:#bf616a;">create</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=user,
+</span><span>        </span><span style="color:#bf616a;">action</span><span>=&#39;</span><span style="color:#a3be8c;">order_created</span><span>&#39;,
+</span><span>        </span><span style="color:#bf616a;">object_type</span><span>=&#39;</span><span style="color:#a3be8c;">Order</span><span>&#39;,
+</span><span>        </span><span style="color:#bf616a;">object_id</span><span>=order.id,
+</span><span>        </span><span style="color:#bf616a;">ip_address</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">REMOTE_ADDR</span><span>&#39;)
+</span><span>    )
+</span></code></pre>
+<h3 id="pattern-5-cache-invalidation">Pattern 5: Cache Invalidation</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>django.core.cache </span><span style="color:#b48ead;">import </span><span>cache
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    user = </span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Create instance
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Invalidate related caches
+</span><span>    cache.</span><span style="color:#bf616a;">delete</span><span>(</span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">user_orders:</span><span>{user.id}&#39;)
+</span><span>    cache.</span><span style="color:#bf616a;">delete</span><span>(</span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">cart:</span><span>{user.id}&#39;)
+</span><span>    cache.</span><span style="color:#bf616a;">delete</span><span>(</span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">order_count:</span><span>{user.id}&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Clear user&#39;s cart cache
+</span><span>    </span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">hasattr</span><span>(user, &#39;</span><span style="color:#a3be8c;">cart</span><span>&#39;):
+</span><span>        user.cart.</span><span style="color:#bf616a;">clear_cache</span><span>()
+</span></code></pre>
+<h3 id="pattern-6-different-behavior-for-different-actions">Pattern 6: Different Behavior for Different Actions</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Handle regular creation&quot;&quot;&quot;
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;
+</span><span>    )
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">False</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;])
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">create_draft</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Custom action for draft orders&quot;&quot;&quot;
+</span><span>    serializer = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_serializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>    serializer.</span><span style="color:#bf616a;">is_valid</span><span>(</span><span style="color:#bf616a;">raise_exception</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>    </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">perform_create_draft</span><span>(serializer)
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data, </span><span style="color:#bf616a;">status</span><span>=</span><span style="color:#d08770;">201</span><span>)
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create_draft</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Different logic for drafts&quot;&quot;&quot;
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">draft</span><span>&#39;,
+</span><span>        </span><span style="color:#bf616a;">is_draft</span><span>=</span><span style="color:#d08770;">True
+</span><span>    )
+</span></code></pre>
+<h2 id="accessing-request-data">Accessing Request Data</h2>
+<h3 id="available-in-perform-create">Available in perform_create():</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># User
+</span><span>    user = </span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Request method
+</span><span>    method = </span><span style="color:#bf616a;">self</span><span>.request.method  </span><span style="color:#65737e;"># Always &#39;POST&#39; for create
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Headers
+</span><span>    auth_header = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">HTTP_AUTHORIZATION</span><span>&#39;)
+</span><span>    content_type = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">CONTENT_TYPE</span><span>&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># IP address
+</span><span>    ip = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">REMOTE_ADDR</span><span>&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># User agent
+</span><span>    user_agent = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">HTTP_USER_AGENT</span><span>&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Query params
+</span><span>    source = </span><span style="color:#bf616a;">self</span><span>.request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">source</span><span>&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Custom request attributes (from middleware)
+</span><span>    tenant = </span><span style="color:#96b5b4;">getattr</span><span>(</span><span style="color:#bf616a;">self</span><span>.request, &#39;</span><span style="color:#a3be8c;">tenant</span><span>&#39;, </span><span style="color:#d08770;">None</span><span>)
+</span><span>    
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=user,
+</span><span>        </span><span style="color:#bf616a;">ip_address</span><span>=ip,
+</span><span>        </span><span style="color:#bf616a;">source</span><span>=source
+</span><span>    )
+</span></code></pre>
+<h2 id="working-with-serializer-save">Working with serializer.save()</h2>
+<h3 id="understanding-serializer-save">Understanding serializer.save()</h3>
+<p><strong>What it does:</strong></p>
+<ol>
+<li>Calls <code>serializer.create(validated_data)</code> or <code>serializer.update(instance, validated_data)</code></li>
+<li>Returns the created/updated instance</li>
+<li>Passes any kwargs to create/update method</li>
+</ol>
+<p><strong>Passing Extra Data:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#65737e;"># These become part of validated_data in serializer.create()
+</span><span>    instance = serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">created_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>        </span><span style="color:#bf616a;">tenant_id</span><span>=</span><span style="color:#d08770;">5
+</span><span>    )
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># instance is the created Order object
+</span><span>    </span><span style="color:#96b5b4;">print</span><span>(instance.id)  </span><span style="color:#65737e;"># Available immediately
+</span></code></pre>
+<p><strong>In Serializer:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderSerializer</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">serializers.ModelSerializer</span><span style="color:#eff1f5;">):
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Meta</span><span style="color:#eff1f5;">:
+</span><span>        model = Order
+</span><span>        fields = [&#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">payment_method</span><span>&#39;]
+</span><span>        </span><span style="color:#65737e;"># user, created_by, tenant_id not in fields!
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">validated_data</span><span>):
+</span><span>        </span><span style="color:#65737e;"># validated_data now includes:
+</span><span>        </span><span style="color:#65737e;"># - shipping_address (from request)
+</span><span>        </span><span style="color:#65737e;"># - payment_method (from request)
+</span><span>        </span><span style="color:#65737e;"># - user (from perform_create)
+</span><span>        </span><span style="color:#65737e;"># - created_by (from perform_create)
+</span><span>        </span><span style="color:#65737e;"># - tenant_id (from perform_create)
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span>Order.objects.</span><span style="color:#bf616a;">create</span><span>(**validated_data)
+</span></code></pre>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="raising-exceptions">Raising Exceptions</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.exceptions </span><span style="color:#b48ead;">import </span><span>ValidationError, PermissionDenied
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    user = </span><span style="color:#bf616a;">self</span><span>.request.user
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check permissions
+</span><span>    </span><span style="color:#b48ead;">if </span><span>not user.can_create_orders:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">PermissionDenied</span><span>(&quot;</span><span style="color:#a3be8c;">You don&#39;t have permission to create orders</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check limits
+</span><span>    </span><span style="color:#b48ead;">if </span><span>user.orders.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;).</span><span style="color:#bf616a;">count</span><span>() &gt;= </span><span style="color:#d08770;">10</span><span>:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Maximum pending orders reached</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check cart
+</span><span>    cart = user.cart
+</span><span>    </span><span style="color:#b48ead;">if </span><span>not cart or cart.is_empty:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({
+</span><span>            &#39;</span><span style="color:#a3be8c;">cart</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Cart is empty or not found</span><span>&#39;
+</span><span>        })
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Check stock
+</span><span>    out_of_stock = []
+</span><span>    </span><span style="color:#b48ead;">for </span><span>item </span><span style="color:#b48ead;">in </span><span>cart.items.</span><span style="color:#bf616a;">all</span><span>():
+</span><span>        </span><span style="color:#b48ead;">if </span><span>item.quantity &gt; item.book.stock:
+</span><span>            out_of_stock.</span><span style="color:#bf616a;">append</span><span>(item.book.title)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">if </span><span>out_of_stock:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({
+</span><span>            &#39;</span><span style="color:#a3be8c;">stock</span><span>&#39;: </span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Out of stock: </span><span>{&#39;</span><span style="color:#a3be8c;">, </span><span>&#39;.</span><span style="color:#bf616a;">join</span><span>(out_of_stock)}&quot;
+</span><span>        })
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># All good
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=user)
+</span></code></pre>
+<p><strong>Exception Types:</strong></p>
+<ul>
+<li><code>ValidationError</code> → 400 Bad Request</li>
+<li><code>PermissionDenied</code> → 403 Forbidden</li>
+<li><code>NotFound</code> → 404 Not Found</li>
+<li><code>AuthenticationFailed</code> → 401 Unauthorized</li>
+</ul>
+<h3 id="try-except-pattern">Try-Except Pattern</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#b48ead;">try</span><span>:
+</span><span>        </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>            order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>            
+</span><span>            </span><span style="color:#65737e;"># Complex operations
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">clone_cart_to_order</span><span>(order)
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">reserve_stock</span><span>(order)
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">send_notifications</span><span>(order)
+</span><span>            
+</span><span>    </span><span style="color:#b48ead;">except </span><span>InsufficientStockError </span><span style="color:#b48ead;">as </span><span>e:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Stock error: </span><span>{</span><span style="color:#bf616a;">str</span><span>(e)}&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">except </span><span>PaymentError </span><span style="color:#b48ead;">as </span><span>e:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Payment error: </span><span>{</span><span style="color:#bf616a;">str</span><span>(e)}&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">except </span><span>Exception </span><span style="color:#b48ead;">as </span><span>e:
+</span><span>        logger.</span><span style="color:#bf616a;">error</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Order creation failed: </span><span>{</span><span style="color:#bf616a;">str</span><span>(e)}&quot;)
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Order creation failed. Please try again.</span><span>&quot;)
+</span></code></pre>
+<h2 id="testing-perform-create">Testing perform_create()</h2>
+<h3 id="unit-test-example">Unit Test Example</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>django.test </span><span style="color:#b48ead;">import </span><span>TestCase
+</span><span style="color:#b48ead;">from </span><span>rest_framework.test </span><span style="color:#b48ead;">import </span><span>APIRequestFactory
+</span><span style="color:#b48ead;">from </span><span>rest_framework.request </span><span style="color:#b48ead;">import </span><span>Request
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderViewSetTest</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">TestCase</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">setUp</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.factory = </span><span style="color:#bf616a;">APIRequestFactory</span><span>()
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.user = User.objects.</span><span style="color:#bf616a;">create_user</span><span>(&#39;</span><span style="color:#a3be8c;">test</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">test@test.com</span><span>&#39;)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.viewset = </span><span style="color:#bf616a;">OrderViewSet</span><span>()
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">test_perform_create_sets_user</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;Test that perform_create auto-sets user&quot;&quot;&quot;
+</span><span>        </span><span style="color:#65737e;"># Create request
+</span><span>        request = </span><span style="color:#bf616a;">self</span><span>.factory.</span><span style="color:#bf616a;">post</span><span>(&#39;</span><span style="color:#a3be8c;">/orders/</span><span>&#39;)
+</span><span>        request.user = </span><span style="color:#bf616a;">self</span><span>.user
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Setup viewset
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.viewset.request = </span><span style="color:#bf616a;">Request</span><span>(request)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Create serializer
+</span><span>        data = {&#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">123 Main St</span><span>&#39;}
+</span><span>        serializer = </span><span style="color:#bf616a;">OrderSerializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=data)
+</span><span>        serializer.</span><span style="color:#bf616a;">is_valid</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Call perform_create
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.viewset.</span><span style="color:#bf616a;">perform_create</span><span>(serializer)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Check result
+</span><span>        order = Order.objects.</span><span style="color:#bf616a;">get</span><span>()
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">assertEqual</span><span>(order.user, </span><span style="color:#bf616a;">self</span><span>.user)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">assertEqual</span><span>(order.shipping_address, &#39;</span><span style="color:#a3be8c;">123 Main St</span><span>&#39;)
+</span></code></pre>
+<h3 id="integration-test">Integration Test</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.test </span><span style="color:#b48ead;">import </span><span>APITestCase
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderCreationTest</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">APITestCase</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">setUp</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.user = User.objects.</span><span style="color:#bf616a;">create_user</span><span>(&#39;</span><span style="color:#a3be8c;">test</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">test@test.com</span><span>&#39;)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.client.</span><span style="color:#bf616a;">force_authenticate</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.user)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">test_create_order_with_user</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;Test order creation via API&quot;&quot;&quot;
+</span><span>        data = {
+</span><span>            &#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">123 Main St</span><span>&#39;,
+</span><span>            &#39;</span><span style="color:#a3be8c;">payment_method</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">credit_card</span><span>&#39;
+</span><span>        }
+</span><span>        
+</span><span>        response = </span><span style="color:#bf616a;">self</span><span>.client.</span><span style="color:#bf616a;">post</span><span>(&#39;</span><span style="color:#a3be8c;">/api/orders/</span><span>&#39;, data)
+</span><span>        
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">assertEqual</span><span>(response.status_code, </span><span style="color:#d08770;">201</span><span>)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">assertEqual</span><span>(response.data[&#39;</span><span style="color:#a3be8c;">user</span><span>&#39;], </span><span style="color:#bf616a;">self</span><span>.user.id)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Verify database
+</span><span>        order = Order.objects.</span><span style="color:#bf616a;">get</span><span>()
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">assertEqual</span><span>(order.user, </span><span style="color:#bf616a;">self</span><span>.user)
+</span></code></pre>
+<h2 id="common-mistakes">Common Mistakes</h2>
+<h3 id="x-mistake-1-modifying-validated-data-directly">❌ Mistake 1: Modifying Validated Data Directly</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Wrong!
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    serializer.validated_data[&#39;</span><span style="color:#a3be8c;">user</span><span>&#39;] = </span><span style="color:#bf616a;">self</span><span>.request.user  </span><span style="color:#65737e;"># Don&#39;t do this!
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span></code></pre>
+<p><strong>Why wrong:</strong></p>
+<ul>
+<li><code>validated_data</code> might be immutable</li>
+<li>Can cause unexpected behavior</li>
+<li>Not the DRF way</li>
+</ul>
+<p><strong>Correct:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)  </span><span style="color:#65737e;"># Pass as kwarg
+</span></code></pre>
+<h3 id="x-mistake-2-not-using-transactions">❌ Mistake 2: Not Using Transactions</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Wrong! No transaction
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># If this fails, order is already created!
+</span><span>    </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">clone_cart_items</span><span>(order)
+</span></code></pre>
+<p><strong>Correct:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>        order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">clone_cart_items</span><span>(order)
+</span></code></pre>
+<h3 id="x-mistake-3-heavy-processing-in-perform-create">❌ Mistake 3: Heavy Processing in perform_create</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Wrong! Blocks request
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Generate PDF (takes 5 seconds)
+</span><span>    </span><span style="color:#bf616a;">generate_invoice_pdf</span><span>(order)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Send 100 emails (takes 30 seconds)
+</span><span>    </span><span style="color:#bf616a;">notify_all_admins</span><span>(order)
+</span></code></pre>
+<p><strong>Correct:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Queue async tasks
+</span><span>    generate_invoice_pdf.</span><span style="color:#bf616a;">delay</span><span>(order.id)
+</span><span>    notify_all_admins.</span><span style="color:#bf616a;">delay</span><span>(order.id)
+</span></code></pre>
+<h3 id="x-mistake-4-forgetting-to-return-or-not-caring-about-return">❌ Mistake 4: Forgetting to Return or Not Caring About Return</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># perform_create doesn&#39;t return anything!
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    instance = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    </span><span style="color:#b48ead;">return </span><span>instance  </span><span style="color:#65737e;"># This does nothing!
+</span></code></pre>
+<p><strong>Why:</strong></p>
+<ul>
+<li><code>perform_create()</code> return value is ignored by DRF</li>
+<li>Response is built from <code>serializer.data</code></li>
+<li>If you need custom response, override <code>create()</code> instead</li>
+</ul>
+<h3 id="x-mistake-5-not-handling-exceptions">❌ Mistake 5: Not Handling Exceptions</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Wrong! Unhandled exceptions
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    cart = </span><span style="color:#bf616a;">self</span><span>.request.user.cart  </span><span style="color:#65737e;"># What if cart doesn&#39;t exist?
+</span><span>    order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">clone_cart</span><span>(cart, order)  </span><span style="color:#65737e;"># What if this fails?
+</span></code></pre>
+<p><strong>Correct:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#b48ead;">try</span><span>:
+</span><span>        cart = </span><span style="color:#bf616a;">self</span><span>.request.user.cart
+</span><span>    </span><span style="color:#b48ead;">except </span><span>Cart.DoesNotExist:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Cart not found</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">if </span><span>cart.is_empty:
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Cart is empty</span><span>&quot;)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">try</span><span>:
+</span><span>        </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>            order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">clone_cart</span><span>(cart, order)
+</span><span>    </span><span style="color:#b48ead;">except </span><span>Exception </span><span style="color:#b48ead;">as </span><span>e:
+</span><span>        logger.</span><span style="color:#bf616a;">error</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Failed: </span><span>{e}&quot;)
+</span><span>        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>(&quot;</span><span style="color:#a3be8c;">Order creation failed</span><span>&quot;)
+</span></code></pre>
+<h2 id="best-practices-summary">Best Practices Summary</h2>
+<h3 id="white-check-mark-do">✅ DO:</h3>
+<ol>
+<li>
+<p><strong>Use for simple modifications</strong></p>
+<ul>
+<li>Setting user from request</li>
+<li>Adding computed values</li>
+<li>Setting initial state</li>
+</ul>
+</li>
+<li>
+<p><strong>Keep it focused</strong></p>
+<ul>
+<li>Should be about the save operation</li>
+<li>Delegate complex logic to services</li>
+</ul>
+</li>
+<li>
+<p><strong>Use transactions for multi-step operations</strong></p>
+<ul>
+<li>Wrap in <code>transaction.atomic()</code></li>
+<li>Ensure data consistency</li>
+</ul>
+</li>
+<li>
+<p><strong>Pass extra data via serializer.save() kwargs</strong></p>
+<ul>
+<li>Clean and explicit</li>
+<li>Type-safe</li>
+</ul>
+</li>
+<li>
+<p><strong>Handle exceptions appropriately</strong></p>
+<ul>
+<li>Validate before saving</li>
+<li>Provide clear error messages</li>
+</ul>
+</li>
+<li>
+<p><strong>Use async tasks for heavy operations</strong></p>
+<ul>
+<li>Don't block the request</li>
+<li>Queue with Celery</li>
+</ul>
+</li>
+<li>
+<p><strong>Log important actions</strong></p>
+<ul>
+<li>Audit trail</li>
+<li>Debugging</li>
+</ul>
+</li>
+</ol>
+<h3 id="x-don-t">❌ DON'T:</h3>
+<ol>
+<li>
+<p><strong>Don't modify validated_data directly</strong></p>
+<ul>
+<li>Use serializer.save() kwargs</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't put complex business logic here</strong></p>
+<ul>
+<li>Move to service layer</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't forget transactions</strong></p>
+<ul>
+<li>Multi-step operations need atomicity</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't block with heavy operations</strong></p>
+<ul>
+<li>Use background tasks</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't try to customize response here</strong></p>
+<ul>
+<li>Override <code>create()</code> instead</li>
+</ul>
+</li>
+<li>
+<p><strong>Don't ignore errors</strong></p>
+<ul>
+<li>Handle and report properly</li>
+</ul>
+</li>
+</ol>
+<h2 id="when-to-move-beyond-perform-create">When to Move Beyond perform_create()</h2>
+<p><strong>Move to <code>create()</code> override when:</strong></p>
+<ul>
+<li>Need custom response format</li>
+<li>Multiple serializers involved</li>
+<li>Complex validation before creation</li>
+<li>Custom status codes</li>
+<li>Need to return different data</li>
+</ul>
+<p><strong>Move to Service Layer when:</strong></p>
+<ul>
+<li>Logic is complex (&gt; 20 lines)</li>
+<li>Logic is reusable (used in multiple places)</li>
+<li>Multiple models involved</li>
+<li>Complex business rules</li>
+<li>Need thorough testing</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># Simple: Use perform_create()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>
+</span><span style="color:#65737e;"># Medium: Still perform_create() with helper
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>    </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>        order = serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">process_order</span><span>(order)
+</span><span>
+</span><span style="color:#65737e;"># Complex: Move to service + override create()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>    serializer = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_serializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>    serializer.</span><span style="color:#bf616a;">is_valid</span><span>(</span><span style="color:#bf616a;">raise_exception</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>    
+</span><span>    order = OrderService.</span><span style="color:#bf616a;">create_from_cart</span><span>(
+</span><span>        </span><span style="color:#bf616a;">user</span><span>=request.user,
+</span><span>        </span><span style="color:#bf616a;">data</span><span>=serializer.validated_data
+</span><span>    )
+</span><span>    
+</span><span>    response_serializer = </span><span style="color:#bf616a;">OrderDetailSerializer</span><span>(order)
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(response_serializer.data, </span><span style="color:#bf616a;">status</span><span>=</span><span style="color:#d08770;">201</span><span>)
+</span></code></pre>
+<p><code>perform_create()</code> is simple but powerful. Master it for 90% of your creation needs, and know when to move beyond it for the other 10%!</p>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2025">2025</time> HajMousa | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/katex/katex.min.css?h=e189fd0238811989c364" />
+  <script defer src="https://blog.hajmousa.ir/katex/katex.min.js?h=6b909443e6c8f6e5d24c"></script>
+  <script defer src="https://blog.hajmousa.ir/katex/contrib/auto-render.min.js?h=bb53eb953394531aae36"></script>
+  <script>document.addEventListener("DOMContentLoaded", window.zolaTheme.katex.init);</script>
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

@@ -1,0 +1,1170 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14 scheme-light dark:scheme-dark" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola v0.21.0" />
+  <title>The Complete Guide to Django REST Framework Views | HajMousa;s DevBlog</title>
+  <meta property="og:site_name" content="HajMousa;s DevBlog" />
+  <meta property="og:title" content="The Complete Guide to Django REST Framework Views" />
+  <meta property="og:url" content="https://blog.hajmousa.ir/rest-framework-views/" />
+  <link rel="canonical" href="https://blog.hajmousa.ir/rest-framework-views/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-12-17T00:00:00+00:00" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/main.min.css?h=80ece4d015818ae93fff" />
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/icons.css?h=7dd5ab449fa840fc01e2" />
+  <style>:root{--bg: #f4f4f5; --header: #e4e4e7;} :root.dark{--bg: #18181b; --header: #27272a;}</style>
+  <link rel="icon" type="image/x-icon" href="https://blog.hajmousa.ir/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="https://blog.hajmousa.ir/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="https://blog.hajmousa.ir/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="https://blog.hajmousa.ir/js/zola-theme.min.js?h=26975b146d48e6ff41af"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out dark:text-white">
+  <!-- Header -->
+<header class="blur-header fixed top-0 z-40 mx-auto min-h-13 w-full">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8 overflow-hidden">
+        <a title="Go to home page [Alt + !]" accesskey="!"
+          href="https://blog.hajmousa.ir/"
+          class="text-2xl font-semibold truncate">HajMousa;s DevBlog</a>
+        <button type="button" title="Switch color scheme [Alt + $]" accesskey="$"
+          onclick="window.zolaTheme.color.toggle();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-btn-dark,url(icons/btn-dark.svg))]
+            dark:[background-image:var(--icons-btn-light,url(icons/btn-light.svg))] dark:invert"
+        ></button>
+        <button type="button" title="Open search [Alt + /]" accesskey="/"
+          onclick="window.zolaTheme.search.toggle();"
+          class="btn-search ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-search,url(icons/search.svg))] dark:invert"
+        ></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg
+    relative mx-auto min-h-[calc(100vh-4rem)] max-w-3xl px-4 pt-28 lg:pt-32 pb-12 wrap-break-word">
+      <!-- Search -->
+<div id="linkita-search-wrapper" class="hidden">
+  <ul id="linkita-search-results"></ul>
+</div>
+<script>window.zolaTheme.search.init({ scripts: ["https://blog.hajmousa.ir/elasticlunr.min.js", "https://blog.hajmousa.ir/search_index.en.js"], arg: { w: "#linkita-search-wrapper", r: "#linkita-search-results" } });</script>
+
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="my-0! pb-2.5">The Complete Guide to Django REST Framework Views</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-12-17T00:00:00+00:00">2025-12-17</time><span
+        class="middot"></span><time
+    datetime="PT0H3M0S">3&nbsp;min</time><span
+      class="middot"></span>
+</div>
+
+  </header>
+  <!-- TOC -->
+<nav class="block-bg prose-a:secondary-link mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-3.5" title="[Alt + =]" accesskey="=">
+      <span class="cursor-pointer ml-0.5">Table of Contents</span>
+    </summary>
+    <ul class="ps-8">
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#introduction">Introduction</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#the-view-hierarchy">The View Hierarchy</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#function-based-views">Function-Based Views</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#basic-example">Basic Example</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#advanced-fbv-with-query-parameters">Advanced FBV with Query Parameters</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#when-to-use-fbvs">When to Use FBVs</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#class-based-views-apiview">Class-Based Views (APIView)</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#basic-apiview-example">Basic APIView Example</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#advanced-apiview-with-custom-logic">Advanced APIView with Custom Logic</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#when-to-use-apiview">When to Use APIView</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#generic-views">Generic Views</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#available-generic-views">Available Generic Views</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#basic-generic-view-example">Basic Generic View Example</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#advanced-generic-view-with-custom-queryset">Advanced Generic View with Custom Queryset</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#multiple-serializers-in-generic-views">Multiple Serializers in Generic Views</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#when-to-use-generic-views">When to Use Generic Views</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#viewsets-and-routers">ViewSets and Routers</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#modelviewset">ModelViewSet</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#readonlymodelviewset">ReadOnlyModelViewSet</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#custom-viewset">Custom ViewSet</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#router-configuration">Router Configuration</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#when-to-use-viewsets">When to Use ViewSets</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#mixins">Mixins</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#available-mixins">Available Mixins</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#creating-custom-views-with-mixins">Creating Custom Views with Mixins</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#custom-mixin">Custom Mixin</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#custom-actions">Custom Actions</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#action-decorators">Action Decorators</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#best-practices-for-e-commerce-apis">Best Practices for E-commerce APIs</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#1-proper-permission-classes">1. Proper Permission Classes</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#2-pagination">2. Pagination</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#3-filtering-and-search">3. Filtering and Search</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+  <!-- Content -->
+  <section><h2 id="introduction">Introduction</h2>
+<p>Django REST Framework (DRF) provides multiple approaches to building API views, each offering different levels of abstraction and flexibility. Understanding when and how to use each approach is crucial for building maintainable, scalable APIs.</p>
+<h3 id="the-view-hierarchy">The View Hierarchy</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Function-Based Views (@api_view)
+</span><span>    ↓
+</span><span>APIView (Base class)
+</span><span>    ↓
+</span><span>GenericAPIView (Adds queryset/serializer support)
+</span><span>    ↓
+</span><span>Mixins + GenericAPIView
+</span><span>    ↓
+</span><span>Concrete Generic Views (ListAPIView, etc.)
+</span><span>    ↓
+</span><span>ViewSets (ModelViewSet, etc.)
+</span></code></pre>
+<h2 id="function-based-views">Function-Based Views</h2>
+<p>Function-Based Views (FBVs) are the simplest way to create API endpoints. They use the <code>@api_view</code> decorator to transform regular Django views into DRF views.</p>
+<h3 id="basic-example">Basic Example</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.decorators </span><span style="color:#b48ead;">import </span><span>api_view, permission_classes
+</span><span style="color:#b48ead;">from </span><span>rest_framework.permissions </span><span style="color:#b48ead;">import </span><span>IsAuthenticated
+</span><span style="color:#b48ead;">from </span><span>rest_framework.response </span><span style="color:#b48ead;">import </span><span>Response
+</span><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>status
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">api_view</span><span>([&#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">POST</span><span>&#39;])
+</span><span>@</span><span style="color:#bf616a;">permission_classes</span><span>([IsAuthenticated])
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">product_list</span><span>(</span><span style="color:#bf616a;">request</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    List all products or create a new product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>request.method == &#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;:
+</span><span>        products = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(products, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">elif </span><span>request.method == &#39;</span><span style="color:#a3be8c;">POST</span><span>&#39;:
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>serializer.</span><span style="color:#bf616a;">is_valid</span><span>():
+</span><span>            serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_201_CREATED</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.errors, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST</span><span>)
+</span><span>
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">api_view</span><span>([&#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">PUT</span><span>&#39;, &#39;</span><span style="color:#b48ead;">DELETE</span><span>&#39;])
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">product_detail</span><span>(</span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Retrieve, update or delete a product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">try</span><span>:
+</span><span>        product = Product.objects.</span><span style="color:#bf616a;">get</span><span>(</span><span style="color:#bf616a;">pk</span><span>=pk)
+</span><span>    </span><span style="color:#b48ead;">except </span><span>Product.DoesNotExist:
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>            {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product not found</span><span>&#39;}, 
+</span><span>            </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_404_NOT_FOUND
+</span><span>        )
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">if </span><span>request.method == &#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;:
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(product)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">elif </span><span>request.method == &#39;</span><span style="color:#a3be8c;">PUT</span><span>&#39;:
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(product, </span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>serializer.</span><span style="color:#bf616a;">is_valid</span><span>():
+</span><span>            serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.errors, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST</span><span>)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">elif </span><span>request.method == &#39;</span><span style="color:#b48ead;">DELETE</span><span>&#39;:
+</span><span>        product.</span><span style="color:#bf616a;">delete</span><span>()
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(</span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_204_NO_CONTENT</span><span>)
+</span></code></pre>
+<h3 id="advanced-fbv-with-query-parameters">Advanced FBV with Query Parameters</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@</span><span style="color:#bf616a;">api_view</span><span>([&#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;])
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">search_products</span><span>(</span><span style="color:#bf616a;">request</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Search products with filters.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Filter by category
+</span><span>    category = request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">category</span><span>&#39;, </span><span style="color:#d08770;">None</span><span>)
+</span><span>    </span><span style="color:#b48ead;">if </span><span>category:
+</span><span>        queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">category__slug</span><span>=category)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Filter by price range
+</span><span>    min_price = request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">min_price</span><span>&#39;, </span><span style="color:#d08770;">None</span><span>)
+</span><span>    max_price = request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">max_price</span><span>&#39;, </span><span style="color:#d08770;">None</span><span>)
+</span><span>    </span><span style="color:#b48ead;">if </span><span>min_price:
+</span><span>        queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">price__gte</span><span>=min_price)
+</span><span>    </span><span style="color:#b48ead;">if </span><span>max_price:
+</span><span>        queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">price__lte</span><span>=max_price)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Search by name
+</span><span>    search = request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">search</span><span>&#39;, </span><span style="color:#d08770;">None</span><span>)
+</span><span>    </span><span style="color:#b48ead;">if </span><span>search:
+</span><span>        queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">name__icontains</span><span>=search)
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Pagination
+</span><span>    </span><span style="color:#b48ead;">from </span><span>rest_framework.pagination </span><span style="color:#b48ead;">import </span><span>PageNumberPagination
+</span><span>    paginator = </span><span style="color:#bf616a;">PageNumberPagination</span><span>()
+</span><span>    paginator.page_size = </span><span style="color:#d08770;">20
+</span><span>    result_page = paginator.</span><span style="color:#bf616a;">paginate_queryset</span><span>(queryset, request)
+</span><span>    
+</span><span>    serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(result_page, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>    </span><span style="color:#b48ead;">return </span><span>paginator.</span><span style="color:#bf616a;">get_paginated_response</span><span>(serializer.data)
+</span></code></pre>
+<h3 id="when-to-use-fbvs">When to Use FBVs</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Simple and explicit</li>
+<li>Easy to understand for beginners</li>
+<li>Great for one-off endpoints</li>
+<li>Full control over logic</li>
+<li>Easy to test</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>More boilerplate code</li>
+<li>Repetitive for standard CRUD operations</li>
+<li>Harder to share code between views</li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Custom business logic endpoints</li>
+<li>Webhooks</li>
+<li>Complex data processing</li>
+<li>One-off integrations</li>
+</ul>
+<hr />
+<h2 id="class-based-views-apiview">Class-Based Views (APIView)</h2>
+<p>APIView is the base class for all DRF views. It provides request parsing, authentication, permissions, and throttling.</p>
+<h3 id="basic-apiview-example">Basic APIView Example</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.views </span><span style="color:#b48ead;">import </span><span>APIView
+</span><span style="color:#b48ead;">from </span><span>rest_framework.response </span><span style="color:#b48ead;">import </span><span>Response
+</span><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>status
+</span><span style="color:#b48ead;">from </span><span>rest_framework.permissions </span><span style="color:#b48ead;">import </span><span>IsAuthenticated
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductList</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">APIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    List all products or create a new product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    permission_classes = [IsAuthenticated]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">format</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        products = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(products, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">post</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">format</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>serializer.</span><span style="color:#bf616a;">is_valid</span><span>():
+</span><span>            serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_201_CREATED</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.errors, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST</span><span>)
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductDetail</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">APIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Retrieve, update or delete a product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_object</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">pk</span><span>):
+</span><span>        </span><span style="color:#b48ead;">try</span><span>:
+</span><span>            </span><span style="color:#b48ead;">return </span><span>Product.objects.</span><span style="color:#bf616a;">get</span><span>(</span><span style="color:#bf616a;">pk</span><span>=pk)
+</span><span>        </span><span style="color:#b48ead;">except </span><span>Product.DoesNotExist:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">None
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>, </span><span style="color:#bf616a;">format</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>(pk)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not product:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product not found</span><span>&#39;}, 
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_404_NOT_FOUND
+</span><span>            )
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(product)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">put</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>, </span><span style="color:#bf616a;">format</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>(pk)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not product:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product not found</span><span>&#39;}, 
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_404_NOT_FOUND
+</span><span>            )
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(product, </span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>serializer.</span><span style="color:#bf616a;">is_valid</span><span>():
+</span><span>            serializer.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.errors, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST</span><span>)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">delete</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>, </span><span style="color:#bf616a;">format</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>(pk)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not product:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product not found</span><span>&#39;}, 
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_404_NOT_FOUND
+</span><span>            )
+</span><span>        product.</span><span style="color:#bf616a;">delete</span><span>()
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(</span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_204_NO_CONTENT</span><span>)
+</span></code></pre>
+<h3 id="advanced-apiview-with-custom-logic">Advanced APIView with Custom Logic</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>django.db </span><span style="color:#b48ead;">import </span><span>transaction
+</span><span style="color:#b48ead;">from </span><span>rest_framework.exceptions </span><span style="color:#b48ead;">import </span><span>ValidationError
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CheckoutView</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">APIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Handle complex checkout process.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    permission_classes = [IsAuthenticated]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">post</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        user = request.user
+</span><span>        cart_items = request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">cart_items</span><span>&#39;, [])
+</span><span>        shipping_address = request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;)
+</span><span>        payment_method = request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">payment_method</span><span>&#39;)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Validate cart
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not cart_items:
+</span><span>            </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({&#39;</span><span style="color:#a3be8c;">cart_items</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Cart is empty</span><span>&#39;})
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Validate address
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not shipping_address:
+</span><span>            </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({&#39;</span><span style="color:#a3be8c;">shipping_address</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Shipping address is required</span><span>&#39;})
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">try</span><span>:
+</span><span>            </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>                </span><span style="color:#65737e;"># Create order
+</span><span>                order = Order.objects.</span><span style="color:#bf616a;">create</span><span>(
+</span><span>                    </span><span style="color:#bf616a;">user</span><span>=user,
+</span><span>                    </span><span style="color:#bf616a;">shipping_address</span><span>=shipping_address,
+</span><span>                    </span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;
+</span><span>                )
+</span><span>                
+</span><span>                </span><span style="color:#65737e;"># Create order items and calculate total
+</span><span>                total = </span><span style="color:#d08770;">0
+</span><span>                </span><span style="color:#b48ead;">for </span><span>item </span><span style="color:#b48ead;">in </span><span>cart_items:
+</span><span>                    product = Product.objects.</span><span style="color:#bf616a;">select_for_update</span><span>().</span><span style="color:#bf616a;">get</span><span>(
+</span><span>                        </span><span style="color:#bf616a;">id</span><span>=item[&#39;</span><span style="color:#a3be8c;">product_id</span><span>&#39;]
+</span><span>                    )
+</span><span>                    
+</span><span>                    </span><span style="color:#65737e;"># Check stock
+</span><span>                    </span><span style="color:#b48ead;">if </span><span>product.stock &lt; item[&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;]:
+</span><span>                        </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({
+</span><span>                            &#39;</span><span style="color:#a3be8c;">stock</span><span>&#39;: </span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">Insufficient stock for </span><span>{product.name}&#39;
+</span><span>                        })
+</span><span>                    
+</span><span>                    </span><span style="color:#65737e;"># Update stock
+</span><span>                    product.stock -= item[&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;]
+</span><span>                    product.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>                    
+</span><span>                    </span><span style="color:#65737e;"># Create order item
+</span><span>                    order_item = OrderItem.objects.</span><span style="color:#bf616a;">create</span><span>(
+</span><span>                        </span><span style="color:#bf616a;">order</span><span>=order,
+</span><span>                        </span><span style="color:#bf616a;">product</span><span>=product,
+</span><span>                        </span><span style="color:#bf616a;">quantity</span><span>=item[&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;],
+</span><span>                        </span><span style="color:#bf616a;">price</span><span>=product.price
+</span><span>                    )
+</span><span>                    
+</span><span>                    total += product.price * item[&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;]
+</span><span>                
+</span><span>                order.total = total
+</span><span>                order.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>                
+</span><span>                </span><span style="color:#65737e;"># Process payment (simplified)
+</span><span>                payment = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">process_payment</span><span>(order, payment_method)
+</span><span>                
+</span><span>                </span><span style="color:#b48ead;">if </span><span>payment[&#39;</span><span style="color:#a3be8c;">success</span><span>&#39;]:
+</span><span>                    order.status = &#39;</span><span style="color:#a3be8c;">confirmed</span><span>&#39;
+</span><span>                    order.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>                    
+</span><span>                    </span><span style="color:#65737e;"># Clear user&#39;s cart
+</span><span>                    Cart.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">user</span><span>=user).</span><span style="color:#bf616a;">delete</span><span>()
+</span><span>                    
+</span><span>                    </span><span style="color:#65737e;"># Send confirmation email (async recommended)
+</span><span>                    </span><span style="color:#65737e;"># send_order_confirmation_email.delay(order.id)
+</span><span>                    
+</span><span>                    serializer = </span><span style="color:#bf616a;">OrderSerializer</span><span>(order)
+</span><span>                    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({
+</span><span>                        &#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Order created successfully</span><span>&#39;,
+</span><span>                        &#39;</span><span style="color:#a3be8c;">order</span><span>&#39;: serializer.data
+</span><span>                    }, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_201_CREATED</span><span>)
+</span><span>                </span><span style="color:#b48ead;">else</span><span>:
+</span><span>                    </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValidationError</span><span>({&#39;</span><span style="color:#a3be8c;">payment</span><span>&#39;: payment[&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;]})
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">except </span><span>Product.DoesNotExist:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product not found</span><span>&#39;},
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_404_NOT_FOUND
+</span><span>            )
+</span><span>        </span><span style="color:#b48ead;">except </span><span>Exception </span><span style="color:#b48ead;">as </span><span>e:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: </span><span style="color:#bf616a;">str</span><span>(e)},
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST
+</span><span>            )
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">process_payment</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">order</span><span>, </span><span style="color:#bf616a;">payment_method</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Process payment through payment gateway.
+</span><span style="color:#65737e;">        This is a simplified example.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        </span><span style="color:#65737e;"># Integration with Stripe, PayPal, etc.
+</span><span>        </span><span style="color:#b48ead;">return </span><span>{&#39;</span><span style="color:#a3be8c;">success</span><span>&#39;: </span><span style="color:#d08770;">True</span><span>}
+</span></code></pre>
+<h3 id="when-to-use-apiview">When to Use APIView</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>More organized than FBVs</li>
+<li>Better code reusability with class methods</li>
+<li>Easier to add authentication/permissions at class level</li>
+<li>Good for complex logic</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Still requires writing standard CRUD logic</li>
+<li>More verbose than generic views</li>
+<li>Need to handle common patterns manually</li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Complex business logic (checkout, payments)</li>
+<li>Multi-step processes</li>
+<li>Custom validation logic</li>
+<li>Endpoints that don't follow REST patterns</li>
+</ul>
+<h2 id="generic-views">Generic Views</h2>
+<p>Generic views provide pre-built functionality for common patterns. They combine GenericAPIView with mixins.</p>
+<h3 id="available-generic-views">Available Generic Views</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>generics
+</span><span>
+</span><span style="color:#65737e;"># List views
+</span><span>generics.ListAPIView              </span><span style="color:#65737e;"># GET (list)
+</span><span>generics.CreateAPIView            </span><span style="color:#65737e;"># POST
+</span><span>generics.ListCreateAPIView        </span><span style="color:#65737e;"># GET (list) + POST
+</span><span>
+</span><span style="color:#65737e;"># Detail views
+</span><span>generics.RetrieveAPIView          </span><span style="color:#65737e;"># GET (detail)
+</span><span>generics.UpdateAPIView            </span><span style="color:#65737e;"># PUT/PATCH
+</span><span>generics.DestroyAPIView           </span><span style="color:#65737e;"># DELETE
+</span><span>generics.RetrieveUpdateAPIView    </span><span style="color:#65737e;"># GET + PUT/PATCH
+</span><span>generics.RetrieveDestroyAPIView   </span><span style="color:#65737e;"># GET + DELETE
+</span><span>generics.RetrieveUpdateDestroyAPIView  </span><span style="color:#65737e;"># GET + PUT/PATCH + DELETE
+</span></code></pre>
+<h3 id="basic-generic-view-example">Basic Generic View Example</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>generics
+</span><span style="color:#b48ead;">from </span><span>rest_framework.permissions </span><span style="color:#b48ead;">import </span><span>IsAuthenticatedOrReadOnly
+</span><span style="color:#b48ead;">from </span><span>django_filters.rest_framework </span><span style="color:#b48ead;">import </span><span>DjangoFilterBackend
+</span><span style="color:#b48ead;">from </span><span>rest_framework.filters </span><span style="color:#b48ead;">import </span><span>SearchFilter, OrderingFilter
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductList</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">generics.ListCreateAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    List all products or create a new product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">is_active</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>    serializer_class = ProductSerializer
+</span><span>    permission_classes = [IsAuthenticatedOrReadOnly]
+</span><span>    
+</span><span>    </span><span style="color:#65737e;"># Filtering
+</span><span>    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+</span><span>    filterset_fields = [&#39;</span><span style="color:#a3be8c;">category</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">brand</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">is_featured</span><span>&#39;]
+</span><span>    search_fields = [&#39;</span><span style="color:#a3be8c;">name</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">description</span><span>&#39;]
+</span><span>    ordering_fields = [&#39;</span><span style="color:#a3be8c;">price</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">created_at</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">name</span><span>&#39;]
+</span><span>    ordering = [&#39;</span><span style="color:#a3be8c;">-created_at</span><span>&#39;]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Custom logic when creating a product.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">created_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductDetail</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">generics.RetrieveUpdateDestroyAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Retrieve, update or delete a product.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    permission_classes = [IsAuthenticatedOrReadOnly]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_update</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Custom logic when updating a product.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">updated_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span></code></pre>
+<h3 id="advanced-generic-view-with-custom-queryset">Advanced Generic View with Custom Queryset</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">UserOrderList</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">generics.ListAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    List orders for the authenticated user.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    serializer_class = OrderSerializer
+</span><span>    permission_classes = [IsAuthenticated]
+</span><span>    filter_backends = [DjangoFilterBackend, OrderingFilter]
+</span><span>    filterset_fields = [&#39;</span><span style="color:#a3be8c;">status</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">created_at</span><span>&#39;]
+</span><span>    ordering_fields = [&#39;</span><span style="color:#a3be8c;">created_at</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">total</span><span>&#39;]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_queryset</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Filter orders by current user.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        </span><span style="color:#b48ead;">return </span><span>Order.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user).</span><span style="color:#bf616a;">select_related</span><span>(
+</span><span>            &#39;</span><span style="color:#a3be8c;">user</span><span>&#39;
+</span><span>        ).</span><span style="color:#bf616a;">prefetch_related</span><span>(
+</span><span>            &#39;</span><span style="color:#a3be8c;">items__product</span><span>&#39;
+</span><span>        )
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">FeaturedProductList</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">generics.ListAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    List featured products only.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    serializer_class = ProductSerializer
+</span><span>    permission_classes = [AllowAny]
+</span><span>    pagination_class = </span><span style="color:#d08770;">None  </span><span style="color:#65737e;"># Disable pagination for featured products
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_queryset</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span>Product.objects.</span><span style="color:#bf616a;">filter</span><span>(
+</span><span>            </span><span style="color:#bf616a;">is_featured</span><span>=</span><span style="color:#d08770;">True</span><span>,
+</span><span>            </span><span style="color:#bf616a;">is_active</span><span>=</span><span style="color:#d08770;">True</span><span>,
+</span><span>            </span><span style="color:#bf616a;">stock__gt</span><span>=</span><span style="color:#d08770;">0
+</span><span>        ).</span><span style="color:#bf616a;">order_by</span><span>(&#39;</span><span style="color:#a3be8c;">-created_at</span><span>&#39;)[:</span><span style="color:#d08770;">10</span><span>]
+</span></code></pre>
+<h3 id="multiple-serializers-in-generic-views">Multiple Serializers in Generic Views</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductDetail</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">generics.RetrieveUpdateDestroyAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Use different serializers for different actions.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_serializer_class</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.request.method == &#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;:
+</span><span>            </span><span style="color:#b48ead;">return </span><span>ProductDetailSerializer  </span><span style="color:#65737e;"># More detailed
+</span><span>        </span><span style="color:#b48ead;">return </span><span>ProductSerializer  </span><span style="color:#65737e;"># Less detailed for updates
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_permissions</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.request.method == &#39;</span><span style="color:#a3be8c;">GET</span><span>&#39;:
+</span><span>            </span><span style="color:#b48ead;">return </span><span>[</span><span style="color:#bf616a;">AllowAny</span><span>()]
+</span><span>        </span><span style="color:#b48ead;">return </span><span>[</span><span style="color:#bf616a;">IsAuthenticated</span><span>(), </span><span style="color:#bf616a;">IsAdminUser</span><span>()]
+</span></code></pre>
+<h3 id="when-to-use-generic-views">When to Use Generic Views</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Much less code than APIView</li>
+<li>Built-in pagination, filtering, searching</li>
+<li>Easy to customize with hooks</li>
+<li>Standard REST patterns</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Less flexible than APIView</li>
+<li>Can be confusing for complex customizations</li>
+<li>Need to understand the mixin system</li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Standard CRUD operations</li>
+<li>List/detail views</li>
+<li>Resource-based APIs</li>
+<li>When you need filtering/searching/pagination</li>
+</ul>
+<h2 id="viewsets-and-routers">ViewSets and Routers</h2>
+<p>ViewSets combine the logic for multiple related views into a single class. They work with Routers for automatic URL configuration.</p>
+<h3 id="modelviewset">ModelViewSet</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>viewsets
+</span><span style="color:#b48ead;">from </span><span>rest_framework.decorators </span><span style="color:#b48ead;">import </span><span>action
+</span><span style="color:#b48ead;">from </span><span>rest_framework.response </span><span style="color:#b48ead;">import </span><span>Response
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    A viewset for viewing and editing product instances.
+</span><span style="color:#65737e;">    Provides: list, create, retrieve, update, partial_update, destroy
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    permission_classes = [IsAuthenticatedOrReadOnly]
+</span><span>    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+</span><span>    filterset_fields = [&#39;</span><span style="color:#a3be8c;">category</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">brand</span><span>&#39;]
+</span><span>    search_fields = [&#39;</span><span style="color:#a3be8c;">name</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">description</span><span>&#39;]
+</span><span>    ordering_fields = [&#39;</span><span style="color:#a3be8c;">price</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">created_at</span><span>&#39;]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_queryset</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Optionally filter by query parameters.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        queryset = Product.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">is_active</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Filter by price range
+</span><span>        min_price = </span><span style="color:#bf616a;">self</span><span>.request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">min_price</span><span>&#39;)
+</span><span>        max_price = </span><span style="color:#bf616a;">self</span><span>.request.query_params.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">max_price</span><span>&#39;)
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">if </span><span>min_price:
+</span><span>            queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">price__gte</span><span>=min_price)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>max_price:
+</span><span>            queryset = queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">price__lte</span><span>=max_price)
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span>queryset.</span><span style="color:#bf616a;">select_related</span><span>(&#39;</span><span style="color:#a3be8c;">category</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">brand</span><span>&#39;)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">created_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">add_to_cart</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Custom action to add product to cart.
+</span><span style="color:#65737e;">        URL: /products/{id}/add_to_cart/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        quantity = request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;, </span><span style="color:#d08770;">1</span><span>)
+</span><span>        
+</span><span>        cart_item, created = CartItem.objects.</span><span style="color:#bf616a;">get_or_create</span><span>(
+</span><span>            </span><span style="color:#bf616a;">user</span><span>=request.user,
+</span><span>            </span><span style="color:#bf616a;">product</span><span>=product,
+</span><span>            </span><span style="color:#bf616a;">defaults</span><span>={&#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;: quantity}
+</span><span>        )
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not created:
+</span><span>            cart_item.quantity += quantity
+</span><span>            cart_item.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({
+</span><span>            &#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Product added to cart</span><span>&#39;,
+</span><span>            &#39;</span><span style="color:#a3be8c;">quantity</span><span>&#39;: cart_item.quantity
+</span><span>        })
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">add_review</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Add a review for a product.
+</span><span style="color:#65737e;">        URL: /products/{id}/add_review/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Check if user has purchased this product
+</span><span>        has_purchased = OrderItem.objects.</span><span style="color:#bf616a;">filter</span><span>(
+</span><span>            </span><span style="color:#bf616a;">order__user</span><span>=request.user,
+</span><span>            </span><span style="color:#bf616a;">product</span><span>=product,
+</span><span>            </span><span style="color:#bf616a;">order__status</span><span>=&#39;</span><span style="color:#a3be8c;">delivered</span><span>&#39;
+</span><span>        ).</span><span style="color:#bf616a;">exists</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not has_purchased:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">You must purchase this product to review it</span><span>&#39;},
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_403_FORBIDDEN
+</span><span>            )
+</span><span>        
+</span><span>        serializer = </span><span style="color:#bf616a;">ReviewSerializer</span><span>(</span><span style="color:#bf616a;">data</span><span>=request.data)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>serializer.</span><span style="color:#bf616a;">is_valid</span><span>():
+</span><span>            serializer.</span><span style="color:#bf616a;">save</span><span>(</span><span style="color:#bf616a;">user</span><span>=request.user, </span><span style="color:#bf616a;">product</span><span>=product)
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_201_CREATED</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.errors, </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST</span><span>)
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">False</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">get</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">featured</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        List featured products.
+</span><span style="color:#65737e;">        URL: /products/featured/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        featured = </span><span style="color:#bf616a;">self</span><span>.queryset.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">is_featured</span><span>=</span><span style="color:#d08770;">True</span><span>)[:</span><span style="color:#d08770;">10</span><span>]
+</span><span>        serializer = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_serializer</span><span>(featured, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span></code></pre>
+<h3 id="readonlymodelviewset">ReadOnlyModelViewSet</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CategoryViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ReadOnlyModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    A viewset that provides only &#39;list&#39; and &#39;retrieve&#39; actions.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Category.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">is_active</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>    serializer_class = CategorySerializer
+</span><span>    permission_classes = [AllowAny]
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">get</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">products</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Get all products in this category.
+</span><span style="color:#65737e;">        URL: /categories/{id}/products/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        category = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        products = Product.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">category</span><span>=category, </span><span style="color:#bf616a;">is_active</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        
+</span><span>        </span><span style="color:#65737e;"># Apply pagination
+</span><span>        page = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">paginate_queryset</span><span>(products)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>page is not </span><span style="color:#d08770;">None</span><span>:
+</span><span>            serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(page, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_paginated_response</span><span>(serializer.data)
+</span><span>        
+</span><span>        serializer = </span><span style="color:#bf616a;">ProductSerializer</span><span>(products, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span></code></pre>
+<h3 id="custom-viewset">Custom ViewSet</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">OrderViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    ViewSet for managing orders.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    serializer_class = OrderSerializer
+</span><span>    permission_classes = [IsAuthenticated]
+</span><span>    filter_backends = [DjangoFilterBackend, OrderingFilter]
+</span><span>    filterset_fields = [&#39;</span><span style="color:#a3be8c;">status</span><span>&#39;]
+</span><span>    ordering = [&#39;</span><span style="color:#a3be8c;">-created_at</span><span>&#39;]
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_queryset</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Users can only see their own orders.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.request.user.is_staff:
+</span><span>            </span><span style="color:#b48ead;">return </span><span>Order.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>        </span><span style="color:#b48ead;">return </span><span>Order.objects.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">user</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Override create to handle order creation logic.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        </span><span style="color:#65737e;"># Use the checkout logic from earlier
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({&#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Use /checkout/ endpoint</span><span>&#39;})
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">update</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Prevent updating completed orders.
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        order = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        </span><span style="color:#b48ead;">if </span><span>order.status in [&#39;</span><span style="color:#a3be8c;">completed</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">cancelled</span><span>&#39;]:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Cannot update completed or cancelled orders</span><span>&#39;},
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST
+</span><span>            )
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">super</span><span>().</span><span style="color:#bf616a;">update</span><span>(request, pk)
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">cancel</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Cancel an order.
+</span><span style="color:#65737e;">        URL: /orders/{id}/cancel/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        order = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">if </span><span>order.status not in [&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">confirmed</span><span>&#39;]:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(
+</span><span>                {&#39;</span><span style="color:#a3be8c;">error</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Can only cancel pending or confirmed orders</span><span>&#39;},
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=status.</span><span style="color:#bf616a;">HTTP_400_BAD_REQUEST
+</span><span>            )
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">with </span><span>transaction.</span><span style="color:#bf616a;">atomic</span><span>():
+</span><span>            </span><span style="color:#65737e;"># Restore stock
+</span><span>            </span><span style="color:#b48ead;">for </span><span>item </span><span style="color:#b48ead;">in </span><span>order.items.</span><span style="color:#bf616a;">all</span><span>():
+</span><span>                product = item.product
+</span><span>                product.stock += item.quantity
+</span><span>                product.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>            
+</span><span>            </span><span style="color:#65737e;"># Update order status
+</span><span>            order.status = &#39;</span><span style="color:#a3be8c;">cancelled</span><span>&#39;
+</span><span>            order.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({&#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Order cancelled successfully</span><span>&#39;})
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">False</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">get</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">statistics</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Get order statistics for the user.
+</span><span style="color:#65737e;">        URL: /orders/statistics/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        orders = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_queryset</span><span>()
+</span><span>        
+</span><span>        stats = {
+</span><span>            &#39;</span><span style="color:#a3be8c;">total_orders</span><span>&#39;: orders.</span><span style="color:#bf616a;">count</span><span>(),
+</span><span>            &#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;: orders.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">pending</span><span>&#39;).</span><span style="color:#bf616a;">count</span><span>(),
+</span><span>            &#39;</span><span style="color:#a3be8c;">completed</span><span>&#39;: orders.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">completed</span><span>&#39;).</span><span style="color:#bf616a;">count</span><span>(),
+</span><span>            &#39;</span><span style="color:#a3be8c;">cancelled</span><span>&#39;: orders.</span><span style="color:#bf616a;">filter</span><span>(</span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">cancelled</span><span>&#39;).</span><span style="color:#bf616a;">count</span><span>(),
+</span><span>            &#39;</span><span style="color:#a3be8c;">total_spent</span><span>&#39;: orders.</span><span style="color:#bf616a;">filter</span><span>(
+</span><span>                </span><span style="color:#bf616a;">status</span><span>=&#39;</span><span style="color:#a3be8c;">completed</span><span>&#39;
+</span><span>            ).</span><span style="color:#bf616a;">aggregate</span><span>(</span><span style="color:#bf616a;">total</span><span>=</span><span style="color:#bf616a;">Sum</span><span>(&#39;</span><span style="color:#a3be8c;">total</span><span>&#39;))[&#39;</span><span style="color:#a3be8c;">total</span><span>&#39;] or </span><span style="color:#d08770;">0
+</span><span>        }
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(stats)
+</span></code></pre>
+<h3 id="router-configuration">Router Configuration</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># urls.py
+</span><span style="color:#b48ead;">from </span><span>rest_framework.routers </span><span style="color:#b48ead;">import </span><span>DefaultRouter
+</span><span style="color:#b48ead;">from </span><span>django.urls </span><span style="color:#b48ead;">import </span><span>path, include
+</span><span>
+</span><span>router = </span><span style="color:#bf616a;">DefaultRouter</span><span>()
+</span><span>router.</span><span style="color:#bf616a;">register</span><span>(</span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#a3be8c;">products</span><span>&#39;, ProductViewSet, </span><span style="color:#bf616a;">basename</span><span>=&#39;</span><span style="color:#a3be8c;">product</span><span>&#39;)
+</span><span>router.</span><span style="color:#bf616a;">register</span><span>(</span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#a3be8c;">categories</span><span>&#39;, CategoryViewSet, </span><span style="color:#bf616a;">basename</span><span>=&#39;</span><span style="color:#a3be8c;">category</span><span>&#39;)
+</span><span>router.</span><span style="color:#bf616a;">register</span><span>(</span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#a3be8c;">orders</span><span>&#39;, OrderViewSet, </span><span style="color:#bf616a;">basename</span><span>=&#39;</span><span style="color:#a3be8c;">order</span><span>&#39;)
+</span><span>
+</span><span>urlpatterns = [
+</span><span>    </span><span style="color:#bf616a;">path</span><span>(&#39;</span><span style="color:#a3be8c;">api/</span><span>&#39;, </span><span style="color:#bf616a;">include</span><span>(router.urls)),
+</span><span>]
+</span><span>
+</span><span style="color:#65737e;"># This automatically creates:
+</span><span style="color:#65737e;"># GET    /api/products/              - list
+</span><span style="color:#65737e;"># POST   /api/products/              - create
+</span><span style="color:#65737e;"># GET    /api/products/{id}/         - retrieve
+</span><span style="color:#65737e;"># PUT    /api/products/{id}/         - update
+</span><span style="color:#65737e;"># PATCH  /api/products/{id}/         - partial_update
+</span><span style="color:#65737e;"># DELETE /api/products/{id}/         - destroy
+</span><span style="color:#65737e;"># GET    /api/products/featured/     - custom action
+</span><span style="color:#65737e;"># POST   /api/products/{id}/add_to_cart/ - custom action
+</span></code></pre>
+<h3 id="when-to-use-viewsets">When to Use ViewSets</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Most concise code</li>
+<li>Automatic URL routing</li>
+<li>Easy to add custom actions</li>
+<li>Perfect for REST APIs</li>
+<li>Great for standard resources</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Can be harder to understand for beginners</li>
+<li>Less obvious what URLs are created</li>
+<li>Over-engineering for simple cases</li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Standard REST resources</li>
+<li>CRUD operations</li>
+<li>APIs with many similar resources</li>
+<li>When you want automatic URL routing</li>
+</ul>
+<h2 id="mixins">Mixins</h2>
+<p>Mixins provide reusable functionality that can be combined with GenericAPIView.</p>
+<h3 id="available-mixins">Available Mixins</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework </span><span style="color:#b48ead;">import </span><span>mixins, generics
+</span><span>
+</span><span style="color:#65737e;"># Individual mixins
+</span><span>mixins.ListModelMixin        </span><span style="color:#65737e;"># list()
+</span><span>mixins.CreateModelMixin      </span><span style="color:#65737e;"># create()
+</span><span>mixins.RetrieveModelMixin    </span><span style="color:#65737e;"># retrieve()
+</span><span>mixins.UpdateModelMixin      </span><span style="color:#65737e;"># update(), partial_update()
+</span><span>mixins.DestroyModelMixin     </span><span style="color:#65737e;"># destroy()
+</span></code></pre>
+<h3 id="creating-custom-views-with-mixins">Creating Custom Views with Mixins</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductList</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">mixins.ListModelMixin</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">                  </span><span style="color:#a3be8c;">mixins.CreateModelMixin</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">                  </span><span style="color:#a3be8c;">generics.GenericAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Manually combine mixins for custom behavior.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">list</span><span>(request, *args, **kwargs)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">post</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">create</span><span>(request, *args, **kwargs)
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductDetail</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">mixins.RetrieveModelMixin</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">                    </span><span style="color:#a3be8c;">mixins.UpdateModelMixin</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">                    </span><span style="color:#a3be8c;">generics.GenericAPIView</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Retrieve and update only (no delete).
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">retrieve</span><span>(request, *args, **kwargs)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">put</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">update</span><span>(request, *args, **kwargs)
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">patch</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, *</span><span style="color:#bf616a;">args</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">partial_update</span><span>(request, *args, **kwargs)
+</span></code></pre>
+<h3 id="custom-mixin">Custom Mixin</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">AuditMixin</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Custom mixin to add audit fields.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_create</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>            </span><span style="color:#bf616a;">created_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>            </span><span style="color:#bf616a;">created_ip</span><span>=</span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_client_ip</span><span>()
+</span><span>        )
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">perform_update</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">serializer</span><span>):
+</span><span>        serializer.</span><span style="color:#bf616a;">save</span><span>(
+</span><span>            </span><span style="color:#bf616a;">updated_by</span><span>=</span><span style="color:#bf616a;">self</span><span>.request.user,
+</span><span>            </span><span style="color:#bf616a;">updated_ip</span><span>=</span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_client_ip</span><span>()
+</span><span>        )
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_client_ip</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        x_forwarded_for = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">HTTP_X_FORWARDED_FOR</span><span>&#39;)
+</span><span>        </span><span style="color:#b48ead;">if </span><span>x_forwarded_for:
+</span><span>            ip = x_forwarded_for.</span><span style="color:#bf616a;">split</span><span>(&#39;</span><span style="color:#a3be8c;">,</span><span>&#39;)[</span><span style="color:#d08770;">0</span><span>]
+</span><span>        </span><span style="color:#b48ead;">else</span><span>:
+</span><span>            ip = </span><span style="color:#bf616a;">self</span><span>.request.META.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">REMOTE_ADDR</span><span>&#39;)
+</span><span>        </span><span style="color:#b48ead;">return </span><span>ip
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">AuditMixin</span><span style="color:#eff1f5;">, </span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Product viewset with audit trail.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span></code></pre>
+<h2 id="custom-actions">Custom Actions</h2>
+<p>Custom actions allow you to add non-CRUD endpoints to ViewSets.</p>
+<h3 id="action-decorators">Action Decorators</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.decorators </span><span style="color:#b48ead;">import </span><span>action
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">like</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Detail action: requires a specific product ID.
+</span><span style="color:#65737e;">        URL: /products/{id}/like/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        product.likes += </span><span style="color:#d08770;">1
+</span><span>        product.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({&#39;</span><span style="color:#a3be8c;">likes</span><span>&#39;: product.likes})
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">False</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">get</span><span>&#39;])
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">trending</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        List action: works on the entire collection.
+</span><span style="color:#65737e;">        URL: /products/trending/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        trending = </span><span style="color:#bf616a;">self</span><span>.queryset.</span><span style="color:#bf616a;">order_by</span><span>(&#39;</span><span style="color:#a3be8c;">-views</span><span>&#39;)[:</span><span style="color:#d08770;">10</span><span>]
+</span><span>        serializer = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_serializer</span><span>(trending, </span><span style="color:#bf616a;">many</span><span>=</span><span style="color:#d08770;">True</span><span>)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>(serializer.data)
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(
+</span><span>        </span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">True</span><span>,
+</span><span>        </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;],
+</span><span>        </span><span style="color:#bf616a;">permission_classes</span><span>=[IsAuthenticated],
+</span><span>        </span><span style="color:#bf616a;">url_path</span><span>=&#39;</span><span style="color:#a3be8c;">add-to-wishlist</span><span>&#39;  </span><span style="color:#65737e;"># Custom URL path
+</span><span>    )
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">add_to_wishlist</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">pk</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        URL: /products/{id}/add-to-wishlist/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        product = </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">get_object</span><span>()
+</span><span>        wishlist, created = Wishlist.objects.</span><span style="color:#bf616a;">get_or_create</span><span>(
+</span><span>            </span><span style="color:#bf616a;">user</span><span>=request.user,
+</span><span>            </span><span style="color:#bf616a;">product</span><span>=product
+</span><span>        )
+</span><span>        </span><span style="color:#b48ead;">if </span><span>created:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({&#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Added to wishlist</span><span>&#39;})
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({&#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">Already in wishlist</span><span>&#39;})
+</span><span>    
+</span><span>    @</span><span style="color:#bf616a;">action</span><span>(</span><span style="color:#bf616a;">detail</span><span>=</span><span style="color:#d08770;">False</span><span>, </span><span style="color:#bf616a;">methods</span><span>=[&#39;</span><span style="color:#a3be8c;">post</span><span>&#39;], </span><span style="color:#bf616a;">url_path</span><span>=&#39;</span><span style="color:#a3be8c;">bulk-update</span><span>&#39;)
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">bulk_update</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>):
+</span><span>        </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">        Update multiple products at once.
+</span><span style="color:#65737e;">        URL: /products/bulk-update/
+</span><span style="color:#65737e;">        &quot;&quot;&quot;
+</span><span>        product_updates = request.data.</span><span style="color:#bf616a;">get</span><span>(&#39;</span><span style="color:#a3be8c;">products</span><span>&#39;, [])
+</span><span>        
+</span><span>        updated_count = </span><span style="color:#d08770;">0
+</span><span>        </span><span style="color:#b48ead;">for </span><span>update </span><span style="color:#b48ead;">in </span><span>product_updates:
+</span><span>            </span><span style="color:#b48ead;">try</span><span>:
+</span><span>                product = Product.objects.</span><span style="color:#bf616a;">get</span><span>(</span><span style="color:#bf616a;">id</span><span>=update[&#39;</span><span style="color:#a3be8c;">id</span><span>&#39;])
+</span><span>                </span><span style="color:#b48ead;">for </span><span>key, value </span><span style="color:#b48ead;">in </span><span>update.</span><span style="color:#bf616a;">items</span><span>():
+</span><span>                    </span><span style="color:#b48ead;">if </span><span>key != &#39;</span><span style="color:#a3be8c;">id</span><span>&#39;:
+</span><span>                        </span><span style="color:#96b5b4;">setattr</span><span>(product, key, value)
+</span><span>                product.</span><span style="color:#bf616a;">save</span><span>()
+</span><span>                updated_count += </span><span style="color:#d08770;">1
+</span><span>            </span><span style="color:#b48ead;">except </span><span>Product.DoesNotExist:
+</span><span>                </span><span style="color:#b48ead;">continue
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Response</span><span>({
+</span><span>            &#39;</span><span style="color:#a3be8c;">message</span><span>&#39;: </span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">Updated </span><span>{updated_count}</span><span style="color:#a3be8c;"> products</span><span>&#39;
+</span><span>        })
+</span></code></pre>
+<h2 id="best-practices-for-e-commerce-apis">Best Practices for E-commerce APIs</h2>
+<h3 id="1-proper-permission-classes">1. Proper Permission Classes</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.permissions </span><span style="color:#b48ead;">import </span><span>BasePermission
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">IsOwnerOrReadOnly</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">BasePermission</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Custom permission to only allow owners to edit.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">has_object_permission</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">view</span><span>, </span><span style="color:#bf616a;">obj</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span>request.method in </span><span style="color:#bf616a;">SAFE_METHODS</span><span>:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">True
+</span><span>        </span><span style="color:#b48ead;">return </span><span>obj.user == request.user
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">IsAdminOrReadOnly</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">BasePermission</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;
+</span><span style="color:#65737e;">    Admin can edit, everyone can read.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">has_permission</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">request</span><span>, </span><span style="color:#bf616a;">view</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span>request.method in </span><span style="color:#bf616a;">SAFE_METHODS</span><span>:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">True
+</span><span>        </span><span style="color:#b48ead;">return </span><span>request.user and request.user.is_staff
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">get_permissions</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.action in [&#39;</span><span style="color:#a3be8c;">create</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">update</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">partial_update</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">destroy</span><span>&#39;]:
+</span><span>            </span><span style="color:#b48ead;">return </span><span>[</span><span style="color:#bf616a;">IsAdminOrReadOnly</span><span>()]
+</span><span>        </span><span style="color:#b48ead;">return </span><span>[</span><span style="color:#bf616a;">AllowAny</span><span>()]
+</span></code></pre>
+<h3 id="2-pagination">2. Pagination</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>rest_framework.pagination </span><span style="color:#b48ead;">import </span><span>PageNumberPagination
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">StandardResultsSetPagination</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">PageNumberPagination</span><span style="color:#eff1f5;">):
+</span><span>    page_size = </span><span style="color:#d08770;">20
+</span><span>    page_size_query_param = &#39;</span><span style="color:#a3be8c;">page_size</span><span>&#39;
+</span><span>    max_page_size = </span><span style="color:#d08770;">100
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductViewSet</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">viewsets.ModelViewSet</span><span style="color:#eff1f5;">):
+</span><span>    queryset = Product.objects.</span><span style="color:#bf616a;">all</span><span>()
+</span><span>    serializer_class = ProductSerializer
+</span><span>    pagination_class = StandardResultsSetPagination
+</span></code></pre>
+<h3 id="3-filtering-and-search">3. Filtering and Search</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>django_filters </span><span style="color:#b48ead;">import </span><span>rest_framework </span><span style="color:#b48ead;">as </span><span>filters
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">ProductFilter</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">filters.FilterSet</span><span style="color:#eff1f5;">):
+</span><span>    min_price = filters.</span><span style="color:#bf616a;">NumberFilter</span><span>(</span><span style="color:#bf616a;">field_name</span><span>=&#39;</span><span style="color:#a3be8c;">price</span><span>&#39;, </span><span style="color:#bf616a;">lookup_expr</span><span>=&#39;</span><span style="color:#a3be8c;">gte</span><span>&#39;)
+</span><span>    max_price = filters.</span><span style="color:#bf616a;">NumberFilter</span><span>(</span><span style="color:#bf616a;">field_name</span><span>=&#39;</span><span style="background-color:#bf616a;color:#2b303b;">
+</span></code></pre>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2025">2025</time> HajMousa | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/katex/katex.min.css?h=e189fd0238811989c364" />
+  <script defer src="https://blog.hajmousa.ir/katex/katex.min.js?h=6b909443e6c8f6e5d24c"></script>
+  <script defer src="https://blog.hajmousa.ir/katex/contrib/auto-render.min.js?h=bb53eb953394531aae36"></script>
+  <script>document.addEventListener("DOMContentLoaded", window.zolaTheme.katex.init);</script>
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

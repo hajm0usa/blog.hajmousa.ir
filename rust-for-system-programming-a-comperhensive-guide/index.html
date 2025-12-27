@@ -1,0 +1,1886 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14 scheme-light dark:scheme-dark" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola v0.21.0" />
+  <title>Rust for Systems Programming: A Comprehensive Guide | HajMousa;s DevBlog</title>
+  <meta property="og:site_name" content="HajMousa;s DevBlog" />
+  <meta property="og:title" content="Rust for Systems Programming: A Comprehensive Guide" />
+  <meta property="og:url" content="https://blog.hajmousa.ir/rust-for-system-programming-a-comperhensive-guide/" />
+  <link rel="canonical" href="https://blog.hajmousa.ir/rust-for-system-programming-a-comperhensive-guide/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-12-18T00:00:00+00:00" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/main.min.css?h=80ece4d015818ae93fff" />
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/icons.css?h=7dd5ab449fa840fc01e2" />
+  <style>:root{--bg: #f4f4f5; --header: #e4e4e7;} :root.dark{--bg: #18181b; --header: #27272a;}</style>
+  <link rel="icon" type="image/x-icon" href="https://blog.hajmousa.ir/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="https://blog.hajmousa.ir/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="https://blog.hajmousa.ir/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="https://blog.hajmousa.ir/js/zola-theme.min.js?h=26975b146d48e6ff41af"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out dark:text-white">
+  <!-- Header -->
+<header class="blur-header fixed top-0 z-40 mx-auto min-h-13 w-full">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8 overflow-hidden">
+        <a title="Go to home page [Alt + !]" accesskey="!"
+          href="https://blog.hajmousa.ir/"
+          class="text-2xl font-semibold truncate">HajMousa;s DevBlog</a>
+        <button type="button" title="Switch color scheme [Alt + $]" accesskey="$"
+          onclick="window.zolaTheme.color.toggle();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-btn-dark,url(icons/btn-dark.svg))]
+            dark:[background-image:var(--icons-btn-light,url(icons/btn-light.svg))] dark:invert"
+        ></button>
+        <button type="button" title="Open search [Alt + /]" accesskey="/"
+          onclick="window.zolaTheme.search.toggle();"
+          class="btn-search ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-search,url(icons/search.svg))] dark:invert"
+        ></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg
+    relative mx-auto min-h-[calc(100vh-4rem)] max-w-3xl px-4 pt-28 lg:pt-32 pb-12 wrap-break-word">
+      <!-- Search -->
+<div id="linkita-search-wrapper" class="hidden">
+  <ul id="linkita-search-results"></ul>
+</div>
+<script>window.zolaTheme.search.init({ scripts: ["https://blog.hajmousa.ir/elasticlunr.min.js", "https://blog.hajmousa.ir/search_index.en.js"], arg: { w: "#linkita-search-wrapper", r: "#linkita-search-results" } });</script>
+
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="my-0! pb-2.5">Rust for Systems Programming: A Comprehensive Guide</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-12-18T00:00:00+00:00">2025-12-18</time><span
+        class="middot"></span><time
+    datetime="PT0H8M0S">8&nbsp;min</time><span
+      class="middot"></span>
+</div>
+
+  </header>
+  <!-- TOC -->
+<nav class="block-bg prose-a:secondary-link mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-3.5" title="[Alt + =]" accesskey="=">
+      <span class="cursor-pointer ml-0.5">Table of Contents</span>
+    </summary>
+    <ul class="ps-8">
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#introduction">Introduction</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#why-rust-for-systems-programming">Why Rust for Systems Programming?</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#ownership-and-borrowing-the-core-innovation">Ownership and Borrowing: The Core Innovation</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#ownership-rules-deep-dive">Ownership Rules: Deep Dive</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#borrowing-references-without-ownership-transfer">Borrowing: References Without Ownership Transfer</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#lifetimes-explicit-relationship-between-references">Lifetimes: Explicit Relationship Between References</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#memory-management-without-garbage-collection">Memory Management Without Garbage Collection</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#stack-vs-heap-in-rust">Stack vs Heap in Rust</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#smart-pointers-safe-memory-management">Smart Pointers: Safe Memory Management</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#zero-cost-abstractions">Zero-Cost Abstractions</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#generics-compile-time-polymorphism">Generics: Compile-Time Polymorphism</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#traits-compile-time-interfaces">Traits: Compile-Time Interfaces</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#enums-and-pattern-matching">Enums and Pattern Matching</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#option-and-result-no-null-no-exceptions">Option and Result: No Null, No Exceptions</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#unsafe-rust-when-you-need-low-level-control">Unsafe Rust: When You Need Low-Level Control</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#ffi-calling-c-from-rust">FFI: Calling C from Rust</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#raw-pointers-for-low-level-operations">Raw Pointers for Low-Level Operations</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#implementing-low-level-data-structures">Implementing Low-Level Data Structures</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#concurrency-without-data-races">Concurrency Without Data Races</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#threads">Threads</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#message-passing-with-channels">Message Passing with Channels</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#shared-state-with-mutex">Shared State with Mutex</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#atomic-operations">Atomic Operations</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#systems-programming-patterns">Systems Programming Patterns</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#error-handling-in-systems-code">Error Handling in Systems Code</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#builder-pattern">Builder Pattern</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#type-state-pattern">Type State Pattern</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#no-std-and-embedded-systems">No-Std and Embedded Systems</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#direct-hardware-access">Direct Hardware Access</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#performance-optimization">Performance Optimization</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#inline-assembly">Inline Assembly</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#simd-operations">SIMD Operations</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#zero-copy-i-o">Zero-Copy I&#x2F;O</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#tooling-and-ecosystem">Tooling and Ecosystem</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#cargo-build-system-and-package-manager">Cargo: Build System and Package Manager</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#testing">Testing</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#benchmarking">Benchmarking</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#async-await-for-systems-programming">Async&#x2F;Await for Systems Programming</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#migrating-from-c-to-rust">Migrating from C to Rust</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#common-patterns-translation">Common Patterns Translation</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#best-practices">Best Practices</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#conclusion">Conclusion</a>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+  <!-- Content -->
+  <section><h2 id="introduction">Introduction</h2>
+<p>Coming from C and systems programming, Rust will feel both familiar and radically different. Rust offers the same low-level control as C but with modern safety guarantees enforced at compile time. This guide focuses on systems programming concepts in Rust, helping you leverage your C experience while mastering Rust's unique approach to memory safety, concurrency, and performance.</p>
+<h2 id="why-rust-for-systems-programming">Why Rust for Systems Programming?</h2>
+<p>Rust eliminates entire categories of bugs that plague C programs:</p>
+<ul>
+<li><strong>No null pointer dereferences</strong>: The type system prevents null without runtime overhead</li>
+<li><strong>No data races</strong>: The borrow checker ensures thread safety at compile time</li>
+<li><strong>No use-after-free</strong>: Ownership rules prevent dangling pointers</li>
+<li><strong>No buffer overflows</strong>: Bounds checking with zero-cost abstractions</li>
+</ul>
+<p>All this while maintaining C-level performance and direct hardware access.</p>
+<h2 id="ownership-and-borrowing-the-core-innovation">Ownership and Borrowing: The Core Innovation</h2>
+<p>This is Rust's most important concept. Understanding it deeply is crucial for systems programming. Ownership is Rust's solution to memory management without garbage collection.</p>
+<h3 id="ownership-rules-deep-dive">Ownership Rules: Deep Dive</h3>
+<p>The three fundamental rules:</p>
+<ol>
+<li><strong>Each value has a single owner</strong> - Only one variable owns a piece of data at any time</li>
+<li><strong>When the owner goes out of scope, the value is dropped</strong> - Automatic cleanup, like C++ RAII</li>
+<li><strong>Values can be moved or borrowed, but never copied implicitly</strong> - Explicit about expensive operations</li>
+</ol>
+<h4 id="move-semantics">Move Semantics</h4>
+<p>When you assign one variable to another, ownership moves:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s1 = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);  </span><span style="color:#65737e;">// s1 owns the string on the heap
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s2 = s1;                      </span><span style="color:#65737e;">// Ownership moved to s2
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, s1);            // ERROR: value used after move
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, s2);               </span><span style="color:#65737e;">// OK: s2 is the new owner
+</span><span>}  </span><span style="color:#65737e;">// s2 dropped here, memory freed automatically
+</span></code></pre>
+<p><strong>What happens in memory:</strong></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Before move:
+</span><span>s1 → [ptr, len, cap] → heap: &quot;hello&quot;
+</span><span>
+</span><span>After move:
+</span><span>s1 → [invalidated]
+</span><span>s2 → [ptr, len, cap] → heap: &quot;hello&quot;
+</span></code></pre>
+<p>Compare to C, where this would be unclear:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">char </span><span>*s1 = </span><span style="color:#bf616a;">strdup</span><span>(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);  </span><span style="color:#65737e;">// s1 points to heap
+</span><span style="color:#b48ead;">char </span><span>*s2 = s1;               </span><span style="color:#65737e;">// Now both point to same memory
+</span><span style="color:#bf616a;">free</span><span>(s1);                    </span><span style="color:#65737e;">// Free the memory
+</span><span style="color:#bf616a;">printf</span><span>(&quot;</span><span style="color:#d08770;">%s</span><span>&quot;, s2);            </span><span style="color:#65737e;">// Undefined behavior! Dangling pointer
+</span></code></pre>
+<h4 id="copy-vs-move">Copy vs Move</h4>
+<p>Some types implement <code>Copy</code> trait (stack-only data like integers):</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> x = </span><span style="color:#d08770;">5</span><span>;        </span><span style="color:#65737e;">// i32 is Copy
+</span><span>    </span><span style="color:#b48ead;">let</span><span> y = x;        </span><span style="color:#65737e;">// x is copied, not moved
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">x: </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, y: </span><span style="color:#d08770;">{}</span><span>&quot;, x, y);  </span><span style="color:#65737e;">// Both valid!
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// But String is NOT Copy
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s1 = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s2 = s1;      </span><span style="color:#65737e;">// s1 is moved
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, s1);  // ERROR
+</span><span>}
+</span></code></pre>
+<p><strong>Types that are Copy:</strong></p>
+<ul>
+<li>All integer types (i32, u64, etc.)</li>
+<li>Boolean (bool)</li>
+<li>Floating point (f32, f64)</li>
+<li>Character (char)</li>
+<li>Tuples of Copy types: (i32, i32)</li>
+</ul>
+<p><strong>Types that are NOT Copy (they own heap data):</strong></p>
+<ul>
+<li>String</li>
+<li>Vec<T></li>
+<li>Box<T></li>
+<li>Any type with heap allocation</li>
+</ul>
+<h4 id="clone-explicit-deep-copy">Clone: Explicit Deep Copy</h4>
+<p>When you need a deep copy, use <code>.clone()</code>:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s1 = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s2 = s1.</span><span style="color:#96b5b4;">clone</span><span>();  </span><span style="color:#65737e;">// Explicit deep copy
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">s1: </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, s2: </span><span style="color:#d08770;">{}</span><span>&quot;, s1, s2);  </span><span style="color:#65737e;">// Both valid!
+</span><span>}
+</span></code></pre>
+<p>This makes expensive operations visible in code, unlike C where <code>strcpy</code> might not be obvious.</p>
+<h4 id="ownership-in-functions">Ownership in Functions</h4>
+<p>Functions take ownership unless you pass references:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">takes_ownership</span><span>(</span><span style="color:#bf616a;">s</span><span>: String) {  </span><span style="color:#65737e;">// s comes into scope
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, s);
+</span><span>}  </span><span style="color:#65737e;">// s goes out of scope, memory freed
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">makes_copy</span><span>(</span><span style="color:#bf616a;">x</span><span>: </span><span style="color:#b48ead;">i32</span><span>) {  </span><span style="color:#65737e;">// i32 is Copy
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, x);
+</span><span>}  </span><span style="color:#65737e;">// x goes out of scope, but nothing special happens (Copy type)
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    </span><span style="color:#96b5b4;">takes_ownership</span><span>(s);  </span><span style="color:#65737e;">// s moved into function
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, s);  // ERROR: s no longer valid
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> x = </span><span style="color:#d08770;">5</span><span>;
+</span><span>    </span><span style="color:#96b5b4;">makes_copy</span><span>(x);      </span><span style="color:#65737e;">// x copied into function
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, x);  </span><span style="color:#65737e;">// OK: x still valid
+</span><span>}
+</span></code></pre>
+<h4 id="return-values-and-ownership">Return Values and Ownership</h4>
+<p>Functions can return ownership:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">gives_ownership</span><span>() -&gt; String {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    s  </span><span style="color:#65737e;">// s moved out to caller
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">takes_and_gives_back</span><span>(</span><span style="color:#bf616a;">s</span><span>: String) -&gt; String {
+</span><span>    s  </span><span style="color:#65737e;">// s moved back to caller
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s1 = </span><span style="color:#96b5b4;">gives_ownership</span><span>();        </span><span style="color:#65737e;">// s1 gets ownership
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s2 = String::from(&quot;</span><span style="color:#a3be8c;">world</span><span>&quot;);    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s3 = </span><span style="color:#96b5b4;">takes_and_gives_back</span><span>(s2); </span><span style="color:#65737e;">// s2 moved in, returned value to s3
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{} {}</span><span>&quot;, s1, s3);
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, s2);  // ERROR: s2 was moved
+</span><span>}
+</span></code></pre>
+<h3 id="borrowing-references-without-ownership-transfer">Borrowing: References Without Ownership Transfer</h3>
+<p>Borrowing solves the problem of passing data without losing ownership.</p>
+<h4 id="immutable-references">Immutable References</h4>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">calculate_length</span><span>(</span><span style="color:#bf616a;">s</span><span>: &amp;String) -&gt; </span><span style="color:#b48ead;">usize </span><span>{  </span><span style="color:#65737e;">// s is a reference
+</span><span>    s.</span><span style="color:#96b5b4;">len</span><span>()  </span><span style="color:#65737e;">// Can read through reference
+</span><span>    </span><span style="color:#65737e;">// s.push_str(&quot;!&quot;); // ERROR: can&#39;t modify through immutable reference
+</span><span>}  </span><span style="color:#65737e;">// s goes out of scope, but we don&#39;t own the String, so nothing happens
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s1 = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> len = </span><span style="color:#96b5b4;">calculate_length</span><span>(&amp;s1);  </span><span style="color:#65737e;">// Pass a reference
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Length of &#39;</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">&#39; is </span><span style="color:#d08770;">{}</span><span>&quot;, s1, len);  </span><span style="color:#65737e;">// s1 still valid!
+</span><span>}
+</span></code></pre>
+<p><strong>Memory diagram:</strong></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>Stack:
+</span><span>s1  → [ptr, len, cap] → heap: &quot;hello&quot;
+</span><span>&amp;s1 → points to s1 (just an address)
+</span></code></pre>
+<h4 id="multiple-immutable-borrows">Multiple Immutable Borrows</h4>
+<p>You can have as many immutable references as you want:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r1 = &amp;s;  </span><span style="color:#65737e;">// First immutable borrow
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r2 = &amp;s;  </span><span style="color:#65737e;">// Second immutable borrow
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r3 = &amp;s;  </span><span style="color:#65737e;">// Third immutable borrow
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">{}</span><span>&quot;, r1, r2, r3);  </span><span style="color:#65737e;">// All valid!
+</span><span>}
+</span></code></pre>
+<p>This is safe because none of them can modify the data - no race conditions possible.</p>
+<h4 id="mutable-references">Mutable References</h4>
+<p>To modify borrowed data, use mutable references:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">append_world</span><span>(</span><span style="color:#bf616a;">s</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> String) {  </span><span style="color:#65737e;">// Mutable reference
+</span><span>    s.</span><span style="color:#96b5b4;">push_str</span><span>(&quot;</span><span style="color:#a3be8c;">, world</span><span>&quot;);  </span><span style="color:#65737e;">// Can modify through mutable reference
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);  </span><span style="color:#65737e;">// Must be mutable
+</span><span>    </span><span style="color:#96b5b4;">append_world</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> s);  </span><span style="color:#65737e;">// Pass mutable reference
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, s);     </span><span style="color:#65737e;">// Prints: hello, world
+</span><span>}
+</span></code></pre>
+<h4 id="the-one-mutable-reference-rule">The One Mutable Reference Rule</h4>
+<p><strong>Critical rule:</strong> You can have either ONE mutable reference OR any number of immutable references, but not both:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r1 = &amp;s;      </span><span style="color:#65737e;">// Immutable borrow
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r2 = &amp;s;      </span><span style="color:#65737e;">// Another immutable borrow - OK
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{} {}</span><span>&quot;, r1, r2);  </span><span style="color:#65737e;">// r1 and r2 last used here
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// let r3 = &amp;mut s;  // ERROR: can&#39;t borrow as mutable while immutable borrows exist
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r3 = &amp;</span><span style="color:#b48ead;">mut</span><span> s;  </span><span style="color:#65737e;">// OK now: immutable borrows ended
+</span><span>    r3.</span><span style="color:#96b5b4;">push_str</span><span>(&quot;</span><span style="color:#a3be8c;">!</span><span>&quot;);
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, r3);
+</span><span>}
+</span></code></pre>
+<p><strong>Why this rule exists:</strong> Prevents data races at compile time:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// This would be a data race in C, but Rust prevents it
+</span><span style="color:#b48ead;">let mut</span><span> data = vec![</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>];
+</span><span style="color:#b48ead;">let</span><span> r1 = &amp;data;           </span><span style="color:#65737e;">// Reader
+</span><span style="color:#65737e;">// let r2 = &amp;mut data;    // ERROR: can&#39;t have writer while reader exists
+</span><span style="color:#65737e;">// r2.push(4);            // Would invalidate r1!
+</span><span>println!(&quot;</span><span style="color:#d08770;">{:?}</span><span>&quot;, r1);     </span><span style="color:#65737e;">// r1 guaranteed to be valid
+</span></code></pre>
+<h4 id="non-lexical-lifetimes-nll">Non-Lexical Lifetimes (NLL)</h4>
+<p>Modern Rust is smart about when borrows end:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r1 = &amp;s;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r2 = &amp;s;
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{} {}</span><span>&quot;, r1, r2);  </span><span style="color:#65737e;">// r1 and r2 last used here
+</span><span>    </span><span style="color:#65737e;">// Borrows r1 and r2 end here, even though they&#39;re still in scope
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r3 = &amp;</span><span style="color:#b48ead;">mut</span><span> s;  </span><span style="color:#65737e;">// OK: no other borrows are active
+</span><span>    r3.</span><span style="color:#96b5b4;">push_str</span><span>(&quot;</span><span style="color:#a3be8c;"> world</span><span>&quot;);
+</span><span>}
+</span></code></pre>
+<h4 id="dangling-references-are-impossible">Dangling References Are Impossible</h4>
+<p>Rust prevents dangling pointers at compile time:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">dangle</span><span>() -&gt; &amp;String {  </span><span style="color:#65737e;">// ERROR: missing lifetime specifier
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    &amp;s  </span><span style="color:#65737e;">// We&#39;re returning a reference to s
+</span><span>}  </span><span style="color:#65737e;">// s goes out of scope and is dropped
+</span><span>   </span><span style="color:#65737e;">// Reference would be dangling!
+</span><span>
+</span><span style="color:#65737e;">// Correct version: return ownership
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">no_dangle</span><span>() -&gt; String {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span>    s  </span><span style="color:#65737e;">// Move ownership out
+</span><span>}
+</span></code></pre>
+<p>Compare to C:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">char</span><span>* </span><span style="color:#8fa1b3;">dangle</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">char</span><span> s[] = &quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> s;  </span><span style="color:#65737e;">// Compiles, but s is on stack - dangling pointer!
+</span><span>}
+</span></code></pre>
+<h4 id="borrowing-in-data-structures">Borrowing in Data Structures</h4>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>User {
+</span><span>    </span><span style="color:#bf616a;">username</span><span>: String,
+</span><span>    </span><span style="color:#bf616a;">email</span><span>: String,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_username</span><span>(</span><span style="color:#bf616a;">user</span><span>: &amp;User) -&gt; &amp;</span><span style="color:#b48ead;">str </span><span>{
+</span><span>    &amp;user.username  </span><span style="color:#65737e;">// Return reference to part of User
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> user = User {
+</span><span>        username: String::from(&quot;</span><span style="color:#a3be8c;">alice</span><span>&quot;),
+</span><span>        email: String::from(&quot;</span><span style="color:#a3be8c;">alice@example.com</span><span>&quot;),
+</span><span>    };
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> name = </span><span style="color:#96b5b4;">get_username</span><span>(&amp;user);
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Username: </span><span style="color:#d08770;">{}</span><span>&quot;, name);  </span><span style="color:#65737e;">// Both user and name valid
+</span><span>}
+</span></code></pre>
+<h3 id="lifetimes-explicit-relationship-between-references">Lifetimes: Explicit Relationship Between References</h3>
+<p>Lifetimes are Rust's way of ensuring references are valid. Every reference has a lifetime.</p>
+<h4 id="implicit-lifetimes">Implicit Lifetimes</h4>
+<p>Most of the time, Rust infers lifetimes:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">first_word</span><span>(</span><span style="color:#bf616a;">s</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">str </span><span>{
+</span><span>    </span><span style="color:#65737e;">// Compiler infers: fn first_word&lt;&#39;a&gt;(s: &amp;&#39;a str) -&gt; &amp;&#39;a str
+</span><span>    s.</span><span style="color:#96b5b4;">split_whitespace</span><span>().</span><span style="color:#96b5b4;">next</span><span>().</span><span style="color:#96b5b4;">unwrap_or</span><span>(&quot;&quot;)
+</span><span>}
+</span></code></pre>
+<p>The compiler knows: "The returned reference lives as long as the input reference."</p>
+<h4 id="explicit-lifetime-annotations">Explicit Lifetime Annotations</h4>
+<p>When the compiler can't infer, you must be explicit:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">longest</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt;(</span><span style="color:#bf616a;">x</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>, </span><span style="color:#bf616a;">y</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str </span><span>{
+</span><span>    </span><span style="color:#b48ead;">if</span><span> x.</span><span style="color:#96b5b4;">len</span><span>() &gt; y.</span><span style="color:#96b5b4;">len</span><span>() { x } </span><span style="color:#b48ead;">else </span><span>{ y }
+</span><span>}
+</span></code></pre>
+<p><strong>What <code>'a</code> means:</strong> "The returned reference will be valid as long as BOTH x and y are valid."</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> string1 = String::from(&quot;</span><span style="color:#a3be8c;">long string</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result;
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> string2 = String::from(&quot;</span><span style="color:#a3be8c;">xyz</span><span>&quot;);
+</span><span>        result = </span><span style="color:#96b5b4;">longest</span><span>(string1.</span><span style="color:#96b5b4;">as_str</span><span>(), string2.</span><span style="color:#96b5b4;">as_str</span><span>());
+</span><span>        println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, result);  </span><span style="color:#65737e;">// OK: string2 still alive
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, result);  // ERROR: string2 dropped, result invalid
+</span><span>}
+</span></code></pre>
+<h4 id="multiple-lifetimes">Multiple Lifetimes</h4>
+<p>Different parameters can have different lifetimes:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">first_half</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>, </span><span style="color:#b48ead;">&#39;b</span><span>&gt;(</span><span style="color:#bf616a;">x</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>, </span><span style="color:#bf616a;">_y</span><span>: &amp;</span><span style="color:#b48ead;">&#39;b str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str </span><span>{
+</span><span>    </span><span style="color:#65737e;">// Return value only depends on x&#39;s lifetime
+</span><span>    </span><span style="color:#b48ead;">let</span><span> mid = x.</span><span style="color:#96b5b4;">len</span><span>() / </span><span style="color:#d08770;">2</span><span>;
+</span><span>    &amp;x[..mid]
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> string1 = String::from(&quot;</span><span style="color:#a3be8c;">hello world</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result;
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> string2 = String::from(&quot;</span><span style="color:#a3be8c;">xyz</span><span>&quot;);
+</span><span>        result = </span><span style="color:#96b5b4;">first_half</span><span>(string1.</span><span style="color:#96b5b4;">as_str</span><span>(), string2.</span><span style="color:#96b5b4;">as_str</span><span>());
+</span><span>    }  </span><span style="color:#65737e;">// string2 dropped
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, result);  </span><span style="color:#65737e;">// OK: result only depends on string1
+</span><span>}
+</span></code></pre>
+<h4 id="lifetime-elision-rules">Lifetime Elision Rules</h4>
+<p>Rust has rules to infer lifetimes automatically:</p>
+<ol>
+<li>Each reference parameter gets its own lifetime</li>
+<li>If there's one input lifetime, it's assigned to all output lifetimes</li>
+<li>If there are multiple input lifetimes and one is <code>&amp;self</code>, output gets <code>self</code>'s lifetime</li>
+</ol>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Written:
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">foo</span><span>(</span><span style="color:#bf616a;">s</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">str
+</span><span>
+</span><span style="color:#65737e;">// Compiler infers:
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">foo</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt;(</span><span style="color:#bf616a;">s</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str
+</span><span>
+</span><span style="color:#65737e;">// Written:
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">bar</span><span>(</span><span style="color:#bf616a;">x</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>, </span><span style="color:#bf616a;">y</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">str  </span><span style="color:#65737e;">// ERROR: can&#39;t infer which lifetime
+</span><span>
+</span><span style="color:#65737e;">// Must write:
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">bar</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt;(</span><span style="color:#bf616a;">x</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>, </span><span style="color:#bf616a;">y</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str
+</span></code></pre>
+<h4 id="lifetimes-in-structs">Lifetimes in Structs</h4>
+<p>Structs can hold references, but need lifetime annotations:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>ImportantExcerpt&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; {
+</span><span>    </span><span style="color:#bf616a;">part</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>,  </span><span style="color:#65737e;">// This reference must live at least as long as the struct
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> novel = String::from(&quot;</span><span style="color:#a3be8c;">Call me Ishmael. Some years ago...</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> first_sentence = novel.</span><span style="color:#96b5b4;">split</span><span>(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;).</span><span style="color:#96b5b4;">next</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> excerpt = ImportantExcerpt {
+</span><span>        part: first_sentence,
+</span><span>    };
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, excerpt.part);
+</span><span>}  </span><span style="color:#65737e;">// excerpt dropped, then novel - OK order
+</span></code></pre>
+<p><strong>Invalid usage:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> excerpt;
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> novel = String::from(&quot;</span><span style="color:#a3be8c;">Call me Ishmael.</span><span>&quot;);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> first = novel.</span><span style="color:#96b5b4;">split</span><span>(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;).</span><span style="color:#96b5b4;">next</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        excerpt = ImportantExcerpt { part: first };
+</span><span>    }  </span><span style="color:#65737e;">// ERROR: novel dropped, but excerpt.part still references it
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// println!(&quot;{}&quot;, excerpt.part);
+</span><span>}
+</span></code></pre>
+<h4 id="the-static-lifetime">The <code>'static</code> Lifetime</h4>
+<p><code>'static</code> means a reference lives for the entire program:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span> s: &amp;</span><span style="color:#b48ead;">&#39;static str </span><span>= &quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;;  </span><span style="color:#65737e;">// String literals have &#39;static lifetime
+</span></code></pre>
+<p>This is stored in the binary, not on the heap or stack.</p>
+<h4 id="complex-lifetime-example">Complex Lifetime Example</h4>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>Context&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; {
+</span><span>    </span><span style="color:#bf616a;">data</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a str</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; Context&lt;</span><span style="color:#b48ead;">&#39;a</span><span>&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_data</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str </span><span>{  </span><span style="color:#65737e;">// Explicit: returns with &#39;a lifetime
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.data
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">process</span><span>&lt;</span><span style="color:#b48ead;">&#39;b</span><span>&gt;(&amp;</span><span style="color:#b48ead;">&#39;a </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">input</span><span>: &amp;</span><span style="color:#b48ead;">&#39;b str</span><span>) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a str </span><span>{
+</span><span>        </span><span style="color:#65737e;">// &#39;a: lifetime of Context
+</span><span>        </span><span style="color:#65737e;">// &#39;b: lifetime of input
+</span><span>        </span><span style="color:#65737e;">// We return &#39;a because we return self.data
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Processing: </span><span style="color:#d08770;">{}</span><span>&quot;, input);
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.data
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data = String::from(&quot;</span><span style="color:#a3be8c;">context data</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> ctx = Context { data: &amp;data };
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> input = String::from(&quot;</span><span style="color:#a3be8c;">temporary</span><span>&quot;);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> result = ctx.</span><span style="color:#96b5b4;">process</span><span>(&amp;input);
+</span><span>        </span><span style="color:#65737e;">// result has lifetime &#39;a (tied to ctx), not &#39;b (tied to input)
+</span><span>    }  </span><span style="color:#65737e;">// input dropped
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result = ctx.</span><span style="color:#96b5b4;">get_data</span><span>();
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, result);  </span><span style="color:#65737e;">// Still valid: tied to ctx and data
+</span><span>}
+</span></code></pre>
+<h4 id="lifetime-bounds">Lifetime Bounds</h4>
+<p>You can specify that a lifetime must outlive another:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>Ref&lt;</span><span style="color:#b48ead;">&#39;a</span><span>, T: </span><span style="color:#b48ead;">&#39;a</span><span>&gt; {  </span><span style="color:#65737e;">// T must live at least as long as &#39;a
+</span><span>    </span><span style="color:#bf616a;">data</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a</span><span> T,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">print_ref</span><span>&lt;</span><span style="color:#b48ead;">&#39;a</span><span>, T&gt;(</span><span style="color:#bf616a;">r</span><span>: &amp;</span><span style="color:#b48ead;">&#39;a </span><span>Ref&lt;</span><span style="color:#b48ead;">&#39;a</span><span>, T&gt;)
+</span><span style="color:#b48ead;">where
+</span><span>    T: std::fmt::Display + </span><span style="color:#b48ead;">&#39;a</span><span>,
+</span><span>{
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, r.data);
+</span><span>}
+</span></code></pre>
+<h2 id="memory-management-without-garbage-collection">Memory Management Without Garbage Collection</h2>
+<h3 id="stack-vs-heap-in-rust">Stack vs Heap in Rust</h3>
+<p>Like C, Rust has explicit stack and heap allocation, but with automatic cleanup.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Stack allocation (like C&#39;s automatic variables)
+</span><span style="color:#b48ead;">let</span><span> x = </span><span style="color:#d08770;">5</span><span>;               </span><span style="color:#65737e;">// i32 on stack - Copy type
+</span><span style="color:#b48ead;">let</span><span> arr = [</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>];  </span><span style="color:#65737e;">// Fixed-size array on stack
+</span><span>
+</span><span style="color:#65737e;">// Heap allocation (like C&#39;s malloc, but automatic free)
+</span><span style="color:#b48ead;">let</span><span> v = Vec::new();      </span><span style="color:#65737e;">// Vector on heap, automatic cleanup
+</span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);  </span><span style="color:#65737e;">// String on heap
+</span><span style="color:#b48ead;">let</span><span> b = Box::new(</span><span style="color:#d08770;">5</span><span>);     </span><span style="color:#65737e;">// Box: explicit heap allocation
+</span><span>
+</span><span style="color:#65737e;">// When v, s, b go out of scope, they&#39;re automatically freed
+</span></code></pre>
+<p><strong>Memory layout comparison:</strong></p>
+<p>In C:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">int</span><span> x = </span><span style="color:#d08770;">5</span><span>;              </span><span style="color:#65737e;">// Stack
+</span><span style="color:#b48ead;">int </span><span>*ptr = </span><span style="color:#96b5b4;">malloc</span><span>(sizeof(</span><span style="color:#b48ead;">int</span><span>) * </span><span style="color:#d08770;">10</span><span>);  </span><span style="color:#65737e;">// Heap - must manually free
+</span><span style="color:#bf616a;">free</span><span>(ptr);              </span><span style="color:#65737e;">// Easy to forget or double-free
+</span></code></pre>
+<p>In Rust:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span> x = </span><span style="color:#d08770;">5</span><span>;              </span><span style="color:#65737e;">// Stack
+</span><span style="color:#b48ead;">let</span><span> v = Vec::with_capacity(</span><span style="color:#d08770;">10</span><span>);  </span><span style="color:#65737e;">// Heap - automatically freed when v dropped
+</span><span style="color:#65737e;">// No manual free needed!
+</span></code></pre>
+<h3 id="smart-pointers-safe-memory-management">Smart Pointers: Safe Memory Management</h3>
+<p>Smart pointers provide the power of C pointers with safety guarantees. They implement <code>Deref</code> and <code>Drop</code> traits to behave like references while managing memory.</p>
+<h4 id="box-owned-heap-allocation">Box<T>: Owned Heap Allocation</h4>
+<p><code>Box&lt;T&gt;</code> is the simplest smart pointer - owned heap allocation.</p>
+<p><strong>Basic usage:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> b = Box::new(</span><span style="color:#d08770;">5</span><span>);  </span><span style="color:#65737e;">// Allocate i32 on heap
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">b = </span><span style="color:#d08770;">{}</span><span>&quot;, b);
+</span><span>}  </span><span style="color:#65737e;">// Box automatically freed here
+</span></code></pre>
+<p><strong>Use cases:</strong></p>
+<ol>
+<li><strong>Large data you want to move without copying:</strong></li>
+</ol>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>LargeStruct {
+</span><span>    </span><span style="color:#bf616a;">data</span><span>: [</span><span style="color:#b48ead;">u8</span><span>; 10000],
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> large = Box::new(LargeStruct { data: [</span><span style="color:#d08770;">0</span><span>; </span><span style="color:#d08770;">10000</span><span>] });
+</span><span>    </span><span style="color:#b48ead;">let</span><span> moved = large;  </span><span style="color:#65737e;">// Only moves pointer, not 10KB of data
+</span><span>}
+</span></code></pre>
+<ol start="2">
+<li><strong>Recursive types (required for known size at compile time):</strong></li>
+</ol>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// This won&#39;t compile - infinite size!
+</span><span style="color:#65737e;">// struct Node {
+</span><span style="color:#65737e;">//     value: i32,
+</span><span style="color:#65737e;">//     next: Node,  // ERROR: recursive type has infinite size
+</span><span style="color:#65737e;">// }
+</span><span>
+</span><span style="color:#65737e;">// This works - Box has known size (just a pointer)
+</span><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    </span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>,
+</span><span>    </span><span style="color:#bf616a;">next</span><span>: Option&lt;Box&lt;Node&gt;&gt;,  </span><span style="color:#65737e;">// Box breaks the recursion
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Node {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>(</span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>) -&gt; Box&lt;</span><span style="color:#b48ead;">Self</span><span>&gt; {
+</span><span>        Box::new(Node { value, next: None })
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">append</span><span>(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">match </span><span style="color:#bf616a;">self</span><span>.next {
+</span><span>            Some(</span><span style="color:#b48ead;">ref mut</span><span> next) =&gt; next.</span><span style="color:#96b5b4;">append</span><span>(value),
+</span><span>            None =&gt; </span><span style="color:#bf616a;">self</span><span>.next = Some(Box::new(Node { value, next: None })),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> list = Node::new(</span><span style="color:#d08770;">1</span><span>);
+</span><span>    list.</span><span style="color:#96b5b4;">append</span><span>(</span><span style="color:#d08770;">2</span><span>);
+</span><span>    list.</span><span style="color:#96b5b4;">append</span><span>(</span><span style="color:#d08770;">3</span><span>);
+</span><span>    </span><span style="color:#65737e;">// Entire list freed automatically when list dropped
+</span><span>}
+</span></code></pre>
+<p>Compare to C where you'd need:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> value;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Node *next;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// Manual cleanup required
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">free_list</span><span>(</span><span style="color:#b48ead;">struct</span><span> Node *</span><span style="color:#bf616a;">node</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">while </span><span>(node) {
+</span><span>        </span><span style="color:#b48ead;">struct</span><span> Node *next = node-&gt;next;
+</span><span>        </span><span style="color:#96b5b4;">free</span><span>(node);
+</span><span>        node = next;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<ol start="3">
+<li><strong>Trait objects for dynamic dispatch:</strong></li>
+</ol>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">trait </span><span>Drawable {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Circle { </span><span style="color:#bf616a;">radius</span><span>: </span><span style="color:#b48ead;">f64 </span><span>}
+</span><span style="color:#b48ead;">struct </span><span>Square { </span><span style="color:#bf616a;">side</span><span>: </span><span style="color:#b48ead;">f64 </span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Drawable </span><span style="color:#b48ead;">for </span><span>Circle {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Drawing circle</span><span>&quot;);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Drawable </span><span style="color:#b48ead;">for </span><span>Square {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Drawing square</span><span>&quot;);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> shapes: Vec&lt;Box&lt;dyn Drawable&gt;&gt; = vec![
+</span><span>        Box::new(Circle { radius: </span><span style="color:#d08770;">5.0 </span><span>}),
+</span><span>        Box::new(Square { side: </span><span style="color:#d08770;">3.0 </span><span>}),
+</span><span>    ];
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> shape in &amp;shapes {
+</span><span>        shape.</span><span style="color:#96b5b4;">draw</span><span>();  </span><span style="color:#65737e;">// Dynamic dispatch
+</span><span>    }
+</span><span>}  </span><span style="color:#65737e;">// All shapes automatically freed
+</span></code></pre>
+<h4 id="rc-reference-counting-for-shared-ownership">Rc<T>: Reference Counting for Shared Ownership</h4>
+<p><code>Rc</code> (Reference Counted) allows multiple owners of the same data. Similar to <code>shared_ptr</code> in C++.</p>
+<p><strong>When to use:</strong> When you need multiple parts of your program to read the same data, and you can't determine at compile time which part will finish last.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::rc::Rc;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data = Rc::new(vec![</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>]);
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;data));  </span><span style="color:#65737e;">// 1
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data2 = Rc::clone(&amp;data);  </span><span style="color:#65737e;">// Increment reference count
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;data));  </span><span style="color:#65737e;">// 2
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data3 = Rc::clone(&amp;data);
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;data));  </span><span style="color:#65737e;">// 3
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> data4 = Rc::clone(&amp;data);
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;data));  </span><span style="color:#65737e;">// 4
+</span><span>    }  </span><span style="color:#65737e;">// data4 dropped, count decremented
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;data));  </span><span style="color:#65737e;">// 3
+</span><span>}  </span><span style="color:#65737e;">// All Rc instances dropped, data freed when count reaches 0
+</span></code></pre>
+<p><strong>Important:</strong> <code>Rc</code> is NOT thread-safe. Use <code>Arc</code> for multithreading.</p>
+<p><strong>Graph example - multiple parents:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::rc::Rc;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    </span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>,
+</span><span>    </span><span style="color:#bf616a;">children</span><span>: Vec&lt;Rc&lt;Node&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> leaf = Rc::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">3</span><span>,
+</span><span>        children: vec![],
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> branch1 = Rc::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">5</span><span>,
+</span><span>        children: vec![Rc::clone(&amp;leaf)],  </span><span style="color:#65737e;">// Shared ownership
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> branch2 = Rc::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">10</span><span>,
+</span><span>        children: vec![Rc::clone(&amp;leaf)],  </span><span style="color:#65737e;">// Both branches share leaf
+</span><span>    });
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Leaf ref count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;leaf));  </span><span style="color:#65737e;">// 3
+</span><span>}  </span><span style="color:#65737e;">// Everything freed in correct order automatically
+</span></code></pre>
+<p><strong>Weak references to avoid cycles:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::rc::{Rc, Weak};
+</span><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    </span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>,
+</span><span>    </span><span style="color:#bf616a;">parent</span><span>: RefCell&lt;Weak&lt;Node&gt;&gt;,  </span><span style="color:#65737e;">// Weak to avoid cycle
+</span><span>    </span><span style="color:#bf616a;">children</span><span>: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> leaf = Rc::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">3</span><span>,
+</span><span>        parent: RefCell::new(Weak::new()),
+</span><span>        children: RefCell::new(vec![]),
+</span><span>    });
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Leaf strong count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;leaf));  </span><span style="color:#65737e;">// 1
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Leaf weak count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::weak_count(&amp;leaf));      </span><span style="color:#65737e;">// 0
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> branch = Rc::new(Node {
+</span><span>            value: </span><span style="color:#d08770;">5</span><span>,
+</span><span>            parent: RefCell::new(Weak::new()),
+</span><span>            children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+</span><span>        });
+</span><span>        
+</span><span>        *leaf.parent.</span><span style="color:#96b5b4;">borrow_mut</span><span>() = Rc::downgrade(&amp;branch);
+</span><span>        
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Branch strong count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;branch));  </span><span style="color:#65737e;">// 1
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Leaf strong count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::strong_count(&amp;leaf));      </span><span style="color:#65737e;">// 2
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Leaf weak count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::weak_count(&amp;leaf));          </span><span style="color:#65737e;">// 0
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Branch weak count: </span><span style="color:#d08770;">{}</span><span>&quot;, Rc::weak_count(&amp;branch));      </span><span style="color:#65737e;">// 1
+</span><span>    }  </span><span style="color:#65737e;">// branch dropped, no memory leak!
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Leaf parent: </span><span style="color:#d08770;">{:?}</span><span>&quot;, leaf.parent.</span><span style="color:#96b5b4;">borrow</span><span>().</span><span style="color:#96b5b4;">upgrade</span><span>());  </span><span style="color:#65737e;">// None
+</span><span>}
+</span></code></pre>
+<h4 id="arc-atomic-reference-counting-thread-safe">Arc<T>: Atomic Reference Counting (Thread-Safe)</h4>
+<p><code>Arc</code> is like <code>Rc</code> but safe for concurrent access using atomic operations.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::sync::Arc;
+</span><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data = Arc::new(vec![</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>]);
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> handles = vec![];
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> i in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">3 </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> data = Arc::clone(&amp;data);  </span><span style="color:#65737e;">// Clone the Arc, not the data
+</span><span>        </span><span style="color:#b48ead;">let</span><span> handle = thread::spawn(</span><span style="color:#b48ead;">move </span><span>|| {
+</span><span>            </span><span style="color:#65737e;">// Each thread has shared read access
+</span><span>            println!(&quot;</span><span style="color:#a3be8c;">Thread </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">: sum = </span><span style="color:#d08770;">{}</span><span>&quot;, i, data.</span><span style="color:#96b5b4;">iter</span><span>().sum::&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;());
+</span><span>        });
+</span><span>        handles.</span><span style="color:#96b5b4;">push</span><span>(handle);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> handle in handles {
+</span><span>        handle.</span><span style="color:#96b5b4;">join</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    }
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Original still valid: </span><span style="color:#d08770;">{:?}</span><span>&quot;, data);
+</span><span>}  </span><span style="color:#65737e;">// Data freed when last Arc dropped
+</span></code></pre>
+<p><strong>Performance note:</strong> <code>Arc</code> uses atomic operations (more expensive than <code>Rc</code>), so use <code>Rc</code> for single-threaded code.</p>
+<p><strong>Real-world example - shared configuration:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::sync::Arc;
+</span><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Config {
+</span><span>    </span><span style="color:#bf616a;">max_connections</span><span>: </span><span style="color:#b48ead;">usize</span><span>,
+</span><span>    </span><span style="color:#bf616a;">timeout_ms</span><span>: </span><span style="color:#b48ead;">u64</span><span>,
+</span><span>    </span><span style="color:#bf616a;">server_name</span><span>: String,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">worker</span><span>(</span><span style="color:#bf616a;">id</span><span>: </span><span style="color:#b48ead;">usize</span><span>, </span><span style="color:#bf616a;">config</span><span>: Arc&lt;Config&gt;) {
+</span><span>    </span><span style="color:#65737e;">// Each worker thread reads shared config
+</span><span>    println!(
+</span><span>        &quot;</span><span style="color:#a3be8c;">Worker </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">: max_conn=</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, timeout=</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, server=</span><span style="color:#d08770;">{}</span><span>&quot;,
+</span><span>        id, config.max_connections, config.timeout_ms, config.server_name
+</span><span>    );
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> config = Arc::new(Config {
+</span><span>        max_connections: </span><span style="color:#d08770;">100</span><span>,
+</span><span>        timeout_ms: </span><span style="color:#d08770;">5000</span><span>,
+</span><span>        server_name: String::from(&quot;</span><span style="color:#a3be8c;">MyServer</span><span>&quot;),
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> handles = vec![];
+</span><span>    </span><span style="color:#b48ead;">for</span><span> i in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">5 </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> config = Arc::clone(&amp;config);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> handle = thread::spawn(</span><span style="color:#b48ead;">move </span><span>|| </span><span style="color:#96b5b4;">worker</span><span>(i, config));
+</span><span>        handles.</span><span style="color:#96b5b4;">push</span><span>(handle);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> handle in handles {
+</span><span>        handle.</span><span style="color:#96b5b4;">join</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h4 id="refcell-interior-mutability">RefCell<T>: Interior Mutability</h4>
+<p><code>RefCell</code> provides runtime borrow checking. Use when you need mutability in an immutable context.</p>
+<p><strong>The problem it solves:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// This doesn&#39;t work - can&#39;t mutate through immutable reference
+</span><span style="color:#b48ead;">struct </span><span>Counter {
+</span><span>    </span><span style="color:#bf616a;">count</span><span>: </span><span style="color:#b48ead;">i32</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Counter {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">increment</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {  </span><span style="color:#65737e;">// Takes &amp;self, not &amp;mut self
+</span><span>        </span><span style="color:#65737e;">// self.count += 1;  // ERROR: can&#39;t mutate
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p><strong>Solution with RefCell:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Counter {
+</span><span>    </span><span style="color:#bf616a;">count</span><span>: RefCell&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;,  </span><span style="color:#65737e;">// Interior mutability
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Counter {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>() -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        Counter {
+</span><span>            count: RefCell::new(</span><span style="color:#d08770;">0</span><span>),
+</span><span>        }
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">increment</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {  </span><span style="color:#65737e;">// Takes &amp;self
+</span><span>        </span><span style="color:#b48ead;">let mut</span><span> count = </span><span style="color:#bf616a;">self</span><span>.count.</span><span style="color:#96b5b4;">borrow_mut</span><span>();  </span><span style="color:#65737e;">// Runtime mutable borrow
+</span><span>        *count += </span><span style="color:#d08770;">1</span><span>;
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">i32 </span><span>{
+</span><span>        *</span><span style="color:#bf616a;">self</span><span>.count.</span><span style="color:#96b5b4;">borrow</span><span>()  </span><span style="color:#65737e;">// Runtime immutable borrow
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> counter = Counter::new();
+</span><span>    counter.</span><span style="color:#96b5b4;">increment</span><span>();
+</span><span>    counter.</span><span style="color:#96b5b4;">increment</span><span>();
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, counter.</span><span style="color:#96b5b4;">get</span><span>());  </span><span style="color:#65737e;">// 2
+</span><span>}
+</span></code></pre>
+<p><strong>Runtime borrow checking:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> data = RefCell::new(</span><span style="color:#d08770;">5</span><span>);
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> r1 = data.</span><span style="color:#96b5b4;">borrow</span><span>();  </span><span style="color:#65737e;">// OK
+</span><span>        </span><span style="color:#b48ead;">let</span><span> r2 = data.</span><span style="color:#96b5b4;">borrow</span><span>();  </span><span style="color:#65737e;">// OK - multiple immutable borrows
+</span><span>        println!(&quot;</span><span style="color:#d08770;">{} {}</span><span>&quot;, r1, r2);
+</span><span>    }  </span><span style="color:#65737e;">// Borrows end
+</span><span>    
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">let mut</span><span> m1 = data.</span><span style="color:#96b5b4;">borrow_mut</span><span>();  </span><span style="color:#65737e;">// OK - mutable borrow
+</span><span>        *m1 += </span><span style="color:#d08770;">1</span><span>;
+</span><span>        </span><span style="color:#65737e;">// let m2 = data.borrow_mut();   // PANIC at runtime: already borrowed
+</span><span>    }  </span><span style="color:#65737e;">// Mutable borrow ends
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{}</span><span>&quot;, data.</span><span style="color:#96b5b4;">borrow</span><span>());  </span><span style="color:#65737e;">// OK
+</span><span>}
+</span></code></pre>
+<p><strong>Combining Rc and RefCell for shared mutable state:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::rc::Rc;
+</span><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">derive</span><span>(Debug)]
+</span><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    </span><span style="color:#bf616a;">value</span><span>: </span><span style="color:#b48ead;">i32</span><span>,
+</span><span>    </span><span style="color:#bf616a;">children</span><span>: Vec&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> leaf = Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">3</span><span>,
+</span><span>        children: vec![],
+</span><span>    }));
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> branch = Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#d08770;">5</span><span>,
+</span><span>        children: vec![Rc::clone(&amp;leaf)],
+</span><span>    }));
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Modify leaf through shared reference
+</span><span>    leaf.</span><span style="color:#96b5b4;">borrow_mut</span><span>().value = </span><span style="color:#d08770;">10</span><span>;
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Leaf: </span><span style="color:#d08770;">{:?}</span><span>&quot;, leaf.</span><span style="color:#96b5b4;">borrow</span><span>());
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Branch: </span><span style="color:#d08770;">{:?}</span><span>&quot;, branch.</span><span style="color:#96b5b4;">borrow</span><span>());
+</span><span>}
+</span></code></pre>
+<p><strong>Mock object example:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#b48ead;">trait </span><span>Messenger {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">send</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">msg</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>MockMessenger {
+</span><span>    </span><span style="color:#bf616a;">sent_messages</span><span>: RefCell&lt;Vec&lt;String&gt;&gt;,  </span><span style="color:#65737e;">// Mutable in immutable struct
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>MockMessenger {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>() -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        MockMessenger {
+</span><span>            sent_messages: RefCell::new(vec![]),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Messenger </span><span style="color:#b48ead;">for </span><span>MockMessenger {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">send</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">msg</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>) {  </span><span style="color:#65737e;">// &amp;self, not &amp;mut self
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.sent_messages.</span><span style="color:#96b5b4;">borrow_mut</span><span>().</span><span style="color:#96b5b4;">push</span><span>(String::from(msg));
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">cfg</span><span>(test)]
+</span><span style="color:#b48ead;">mod </span><span>tests {
+</span><span>    </span><span style="color:#b48ead;">use super</span><span>::*;
+</span><span>    
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">test_messenger</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> messenger = MockMessenger::new();
+</span><span>        messenger.</span><span style="color:#96b5b4;">send</span><span>(&quot;</span><span style="color:#a3be8c;">Hello</span><span>&quot;);
+</span><span>        messenger.</span><span style="color:#96b5b4;">send</span><span>(&quot;</span><span style="color:#a3be8c;">World</span><span>&quot;);
+</span><span>        
+</span><span>        assert_eq!(messenger.sent_messages.</span><span style="color:#96b5b4;">borrow</span><span>().</span><span style="color:#96b5b4;">len</span><span>(), </span><span style="color:#d08770;">2</span><span>);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h4 id="cell-simple-interior-mutability-for-copy-types">Cell<T>: Simple Interior Mutability for Copy Types</h4>
+<p>For <code>Copy</code> types, <code>Cell</code> is simpler than <code>RefCell</code>:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::cell::Cell;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Counter {
+</span><span>    </span><span style="color:#bf616a;">count</span><span>: Cell&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Counter {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">increment</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> current = </span><span style="color:#bf616a;">self</span><span>.count.</span><span style="color:#96b5b4;">get</span><span>();
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.count.</span><span style="color:#96b5b4;">set</span><span>(current + </span><span style="color:#d08770;">1</span><span>);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">i32 </span><span>{
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.count.</span><span style="color:#96b5b4;">get</span><span>()
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> counter = Counter { count: Cell::new(</span><span style="color:#d08770;">0</span><span>) };
+</span><span>    counter.</span><span style="color:#96b5b4;">increment</span><span>();
+</span><span>    counter.</span><span style="color:#96b5b4;">increment</span><span>();
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Count: </span><span style="color:#d08770;">{}</span><span>&quot;, counter.</span><span style="color:#96b5b4;">get</span><span>());
+</span><span>}
+</span></code></pre>
+<p><strong>No runtime overhead</strong> - <code>Cell</code> just moves values in and out.</p>
+<h4 id="choosing-the-right-smart-pointer">Choosing the Right Smart Pointer</h4>
+<p>Decision tree:</p>
+<ol>
+<li><strong>Single owner, heap allocated?</strong> → <code>Box&lt;T&gt;</code></li>
+<li><strong>Multiple owners, single-threaded?</strong> → <code>Rc&lt;T&gt;</code></li>
+<li><strong>Multiple owners, multi-threaded?</strong> → <code>Arc&lt;T&gt;</code></li>
+<li><strong>Need interior mutability with runtime checks?</strong> → <code>RefCell&lt;T&gt;</code> (or <code>Mutex&lt;T&gt;</code> for threads)</li>
+<li><strong>Need interior mutability for Copy types?</strong> → <code>Cell&lt;T&gt;</code></li>
+</ol>
+<p><strong>Combinations:</strong></p>
+<ul>
+<li><code>Rc&lt;RefCell&lt;T&gt;&gt;</code> - Multiple owners, shared mutation (single-threaded)</li>
+<li><code>Arc&lt;Mutex&lt;T&gt;&gt;</code> - Multiple owners, shared mutation (multi-threaded)</li>
+<li><code>Arc&lt;RwLock&lt;T&gt;&gt;</code> - Multiple owners, many readers or one writer (multi-threaded)</li>
+</ul>
+<p><strong>Memory overhead:</strong></p>
+<ul>
+<li><code>Box&lt;T&gt;</code>: One pointer (8 bytes on 64-bit)</li>
+<li><code>Rc&lt;T&gt;</code>: Pointer + 2 counters (strong, weak) ≈ 24 bytes</li>
+<li><code>Arc&lt;T&gt;</code>: Pointer + 2 atomic counters ≈ 24 bytes</li>
+<li><code>RefCell&lt;T&gt;</code>: Value + borrow flag ≈ size of T + 8-16 bytes</li>
+</ul>
+<p><strong>Real-world combination example:</strong></p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::rc::Rc;
+</span><span style="color:#b48ead;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Database {
+</span><span>    </span><span style="color:#bf616a;">data</span><span>: RefCell&lt;Vec&lt;String&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Connection {
+</span><span>    </span><span style="color:#bf616a;">db</span><span>: Rc&lt;RefCell&lt;Database&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Connection {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">insert</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">value</span><span>: String) {
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.db.</span><span style="color:#96b5b4;">borrow_mut</span><span>().data.</span><span style="color:#96b5b4;">borrow_mut</span><span>().</span><span style="color:#96b5b4;">push</span><span>(value);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">query</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; Vec&lt;String&gt; {
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.db.</span><span style="color:#96b5b4;">borrow</span><span>().data.</span><span style="color:#96b5b4;">borrow</span><span>().</span><span style="color:#96b5b4;">clone</span><span>()
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> db = Rc::new(RefCell::new(Database {
+</span><span>        data: RefCell::new(vec![]),
+</span><span>    }));
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">let</span><span> conn1 = Connection { db: Rc::clone(&amp;db) };
+</span><span>    </span><span style="color:#b48ead;">let</span><span> conn2 = Connection { db: Rc::clone(&amp;db) };
+</span><span>    
+</span><span>    conn1.</span><span style="color:#96b5b4;">insert</span><span>(String::from(&quot;</span><span style="color:#a3be8c;">Alice</span><span>&quot;));
+</span><span>    conn2.</span><span style="color:#96b5b4;">insert</span><span>(String::from(&quot;</span><span style="color:#a3be8c;">Bob</span><span>&quot;));
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#d08770;">{:?}</span><span>&quot;, conn1.</span><span style="color:#96b5b4;">query</span><span>());  </span><span style="color:#65737e;">// [&quot;Alice&quot;, &quot;Bob&quot;]
+</span><span>}
+</span></code></pre>
+<h2 id="zero-cost-abstractions">Zero-Cost Abstractions</h2>
+<p>Rust's mantra: "What you don't use, you don't pay for. And what you do use, you couldn't hand code any better."</p>
+<h3 id="generics-compile-time-polymorphism">Generics: Compile-Time Polymorphism</h3>
+<p>Unlike C where void pointers or macros are needed, Rust has zero-cost generics:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Generic function
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">swap</span><span>&lt;T&gt;(</span><span style="color:#bf616a;">a</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> T, </span><span style="color:#bf616a;">b</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> T) {
+</span><span>    std::mem::swap(a, b);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Generic struct
+</span><span style="color:#b48ead;">struct </span><span>Point&lt;T&gt; {
+</span><span>    </span><span style="color:#bf616a;">x</span><span>: T,
+</span><span>    </span><span style="color:#bf616a;">y</span><span>: T,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl</span><span>&lt;T&gt; Point&lt;T&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>(</span><span style="color:#bf616a;">x</span><span>: T, </span><span style="color:#bf616a;">y</span><span>: T) -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        Point { x, y }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Compiler generates specialized versions at compile time
+</span><span style="color:#b48ead;">let mut</span><span> a = </span><span style="color:#d08770;">5</span><span>;
+</span><span style="color:#b48ead;">let mut</span><span> b = </span><span style="color:#d08770;">10</span><span>;
+</span><span style="color:#96b5b4;">swap</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> a, &amp;</span><span style="color:#b48ead;">mut</span><span> b);  </span><span style="color:#65737e;">// Generates swap::&lt;i32&gt;
+</span><span>
+</span><span style="color:#b48ead;">let</span><span> p1 = Point::new(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>);      </span><span style="color:#65737e;">// Point&lt;i32&gt;
+</span><span style="color:#b48ead;">let</span><span> p2 = Point::new(</span><span style="color:#d08770;">1.0</span><span>, </span><span style="color:#d08770;">2.0</span><span>);  </span><span style="color:#65737e;">// Point&lt;f64&gt;
+</span></code></pre>
+<p>No runtime cost - this is monomorphization, like C++ templates but with better error messages.</p>
+<h3 id="traits-compile-time-interfaces">Traits: Compile-Time Interfaces</h3>
+<p>Traits are like interfaces but resolved at compile time:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Define a trait
+</span><span style="color:#b48ead;">trait </span><span>Drawable {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>);
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">area</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">f64</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Circle {
+</span><span>    </span><span style="color:#bf616a;">radius</span><span>: </span><span style="color:#b48ead;">f64</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Rectangle {
+</span><span>    </span><span style="color:#bf616a;">width</span><span>: </span><span style="color:#b48ead;">f64</span><span>,
+</span><span>    </span><span style="color:#bf616a;">height</span><span>: </span><span style="color:#b48ead;">f64</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Implement trait for types
+</span><span style="color:#b48ead;">impl </span><span>Drawable </span><span style="color:#b48ead;">for </span><span>Circle {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Drawing circle with radius </span><span style="color:#d08770;">{}</span><span>&quot;, </span><span style="color:#bf616a;">self</span><span>.radius);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">area</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">f64 </span><span>{
+</span><span>        std::f64::consts::</span><span style="color:#d08770;">PI </span><span>* </span><span style="color:#bf616a;">self</span><span>.radius * </span><span style="color:#bf616a;">self</span><span>.radius
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Drawable </span><span style="color:#b48ead;">for </span><span>Rectangle {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">draw</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Drawing rectangle </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">x</span><span style="color:#d08770;">{}</span><span>&quot;, </span><span style="color:#bf616a;">self</span><span>.width, </span><span style="color:#bf616a;">self</span><span>.height);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">area</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>) -&gt; </span><span style="color:#b48ead;">f64 </span><span>{
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.width * </span><span style="color:#bf616a;">self</span><span>.height
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Generic function using trait bounds
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">print_area</span><span>&lt;T: Drawable&gt;(</span><span style="color:#bf616a;">shape</span><span>: &amp;T) {
+</span><span>    shape.</span><span style="color:#96b5b4;">draw</span><span>();
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Area: </span><span style="color:#d08770;">{}</span><span>&quot;, shape.</span><span style="color:#96b5b4;">area</span><span>());
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Or use trait objects for dynamic dispatch
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">print_area_dyn</span><span>(</span><span style="color:#bf616a;">shape</span><span>: &amp;dyn Drawable) {
+</span><span>    shape.</span><span style="color:#96b5b4;">draw</span><span>();
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Area: </span><span style="color:#d08770;">{}</span><span>&quot;, shape.</span><span style="color:#96b5b4;">area</span><span>());
+</span><span>}
+</span></code></pre>
+<p>Static dispatch (generics) has zero runtime cost. Dynamic dispatch (trait objects) has the same cost as C function pointers.</p>
+<h3 id="enums-and-pattern-matching">Enums and Pattern Matching</h3>
+<p>Rust's enums are algebraic data types, far more powerful than C enums:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span>IpAddr {
+</span><span>    </span><span style="color:#d08770;">V4</span><span>(</span><span style="color:#b48ead;">u8</span><span>, </span><span style="color:#b48ead;">u8</span><span>, </span><span style="color:#b48ead;">u8</span><span>, </span><span style="color:#b48ead;">u8</span><span>),
+</span><span>    </span><span style="color:#d08770;">V6</span><span>(String),
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">let</span><span> home = IpAddr::</span><span style="color:#d08770;">V4</span><span>(</span><span style="color:#d08770;">127</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>);
+</span><span style="color:#b48ead;">let</span><span> loopback = IpAddr::</span><span style="color:#d08770;">V6</span><span>(String::from(&quot;</span><span style="color:#a3be8c;">::1</span><span>&quot;));
+</span><span>
+</span><span style="color:#65737e;">// Pattern matching is exhaustive - compiler ensures you handle all cases
+</span><span style="color:#b48ead;">match</span><span> home {
+</span><span>    IpAddr::</span><span style="color:#d08770;">V4</span><span>(a, b, c, d) =&gt; {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">IPv4: </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">.</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">.</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">.</span><span style="color:#d08770;">{}</span><span>&quot;, a, b, c, d);
+</span><span>    }
+</span><span>    IpAddr::</span><span style="color:#d08770;">V6</span><span>(addr) =&gt; {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">IPv6: </span><span style="color:#d08770;">{}</span><span>&quot;, addr);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="option-and-result-no-null-no-exceptions">Option and Result: No Null, No Exceptions</h3>
+<p>Rust has no null pointers. Instead:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Option&lt;T&gt;: either Some(T) or None
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">find_item</span><span>(</span><span style="color:#bf616a;">items</span><span>: &amp;[</span><span style="color:#b48ead;">i32</span><span>], </span><span style="color:#bf616a;">target</span><span>: </span><span style="color:#b48ead;">i32</span><span>) -&gt; Option&lt;</span><span style="color:#b48ead;">usize</span><span>&gt; {
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(i, &amp;item) in items.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">enumerate</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">if</span><span> item == target {
+</span><span>            </span><span style="color:#b48ead;">return </span><span>Some(i);
+</span><span>        }
+</span><span>    }
+</span><span>    None
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Result&lt;T, E&gt;: either Ok(T) or Err(E)
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">divide</span><span>(</span><span style="color:#bf616a;">a</span><span>: </span><span style="color:#b48ead;">i32</span><span>, </span><span style="color:#bf616a;">b</span><span>: </span><span style="color:#b48ead;">i32</span><span>) -&gt; Result&lt;</span><span style="color:#b48ead;">i32</span><span>, String&gt; {
+</span><span>    </span><span style="color:#b48ead;">if</span><span> b == </span><span style="color:#d08770;">0 </span><span>{
+</span><span>        Err(String::from(&quot;</span><span style="color:#a3be8c;">Division by zero</span><span>&quot;))
+</span><span>    } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        Ok(a / b)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Pattern matching for error handling
+</span><span style="color:#b48ead;">match </span><span style="color:#96b5b4;">divide</span><span>(</span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">2</span><span>) {
+</span><span>    Ok(result) =&gt; println!(&quot;</span><span style="color:#a3be8c;">Result: </span><span style="color:#d08770;">{}</span><span>&quot;, result),
+</span><span>    Err(e) =&gt; println!(&quot;</span><span style="color:#a3be8c;">Error: </span><span style="color:#d08770;">{}</span><span>&quot;, e),
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Or use the ? operator for propagation
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">calculate</span><span>() -&gt; Result&lt;</span><span style="color:#b48ead;">i32</span><span>, String&gt; {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> a = </span><span style="color:#96b5b4;">divide</span><span>(</span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">2</span><span>)?;  </span><span style="color:#65737e;">// Returns early if Err
+</span><span>    </span><span style="color:#b48ead;">let</span><span> b = </span><span style="color:#96b5b4;">divide</span><span>(</span><span style="color:#d08770;">20</span><span>, </span><span style="color:#d08770;">4</span><span>)?;
+</span><span>    Ok(a + b)
+</span><span>}
+</span></code></pre>
+<p>This is checked at compile time - no forgotten error checks like in C.</p>
+<h2 id="unsafe-rust-when-you-need-low-level-control">Unsafe Rust: When You Need Low-Level Control</h2>
+<p>Rust has an escape hatch for systems programming scenarios where safety can't be proven:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>    </span><span style="color:#65737e;">// Five superpowers unlocked:
+</span><span>    </span><span style="color:#65737e;">// 1. Dereference raw pointers
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> num = </span><span style="color:#d08770;">5</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r1 = &amp;num as </span><span style="color:#b48ead;">*const i32</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r2 = &amp;</span><span style="color:#b48ead;">mut</span><span> num as </span><span style="color:#b48ead;">*mut i32</span><span>;
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">r1: </span><span style="color:#d08770;">{}</span><span>&quot;, *r1);  </span><span style="color:#65737e;">// Must be in unsafe block
+</span><span>    *r2 = </span><span style="color:#d08770;">10</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// 2. Call unsafe functions
+</span><span>    </span><span style="color:#b48ead;">unsafe fn </span><span style="color:#8fa1b3;">dangerous</span><span>() {
+</span><span>        </span><span style="color:#65737e;">// Low-level operations
+</span><span>    }
+</span><span>    </span><span style="color:#96b5b4;">dangerous</span><span>();
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// 3. Access/modify mutable static variables
+</span><span>    </span><span style="color:#b48ead;">static mut </span><span style="color:#d08770;">COUNTER</span><span>: </span><span style="color:#b48ead;">i32 </span><span>= </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#d08770;">COUNTER </span><span>+= </span><span style="color:#d08770;">1</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// 4. Implement unsafe traits
+</span><span>    </span><span style="color:#65737e;">// 5. Access fields of unions
+</span><span>}
+</span></code></pre>
+<h3 id="ffi-calling-c-from-rust">FFI: Calling C from Rust</h3>
+<p>Interoperability with C is crucial for systems programming:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Declare external C functions
+</span><span style="color:#b48ead;">extern </span><span>&quot;</span><span style="color:#a3be8c;">C</span><span>&quot; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">abs</span><span>(</span><span style="color:#bf616a;">input</span><span>: </span><span style="color:#b48ead;">i32</span><span>) -&gt; </span><span style="color:#b48ead;">i32</span><span>;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">malloc</span><span>(</span><span style="color:#bf616a;">size</span><span>: </span><span style="color:#b48ead;">usize</span><span>) -&gt; </span><span style="color:#b48ead;">*mut u8</span><span>;
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">free</span><span>(</span><span style="color:#bf616a;">ptr</span><span>: </span><span style="color:#b48ead;">*mut u8</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> x = </span><span style="color:#96b5b4;">abs</span><span>(-</span><span style="color:#d08770;">42</span><span>);
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Absolute value: </span><span style="color:#d08770;">{}</span><span>&quot;, x);
+</span><span>        
+</span><span>        </span><span style="color:#65737e;">// Manual memory management when interfacing with C
+</span><span>        </span><span style="color:#b48ead;">let</span><span> ptr = </span><span style="color:#96b5b4;">malloc</span><span>(</span><span style="color:#d08770;">100</span><span>);
+</span><span>        </span><span style="color:#b48ead;">if </span><span>!ptr.</span><span style="color:#96b5b4;">is_null</span><span>() {
+</span><span>            </span><span style="color:#65737e;">// Use the memory
+</span><span>            </span><span style="color:#96b5b4;">free</span><span>(ptr);
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Expose Rust functions to C
+</span><span>#[</span><span style="color:#bf616a;">no_mangle</span><span>]
+</span><span style="color:#b48ead;">pub extern </span><span>&quot;</span><span style="color:#a3be8c;">C</span><span>&quot; </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">rust_function</span><span>(</span><span style="color:#bf616a;">x</span><span>: </span><span style="color:#b48ead;">i32</span><span>) -&gt; </span><span style="color:#b48ead;">i32 </span><span>{
+</span><span>    x * </span><span style="color:#d08770;">2
+</span><span>}
+</span></code></pre>
+<h3 id="raw-pointers-for-low-level-operations">Raw Pointers for Low-Level Operations</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> num = </span><span style="color:#d08770;">5</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Create raw pointers (safe)
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r1 = &amp;num as </span><span style="color:#b48ead;">*const i32</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> r2 = &amp;</span><span style="color:#b48ead;">mut</span><span> num as </span><span style="color:#b48ead;">*mut i32</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        </span><span style="color:#65737e;">// Dereference raw pointers (unsafe)
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">r1: </span><span style="color:#d08770;">{}</span><span>&quot;, *r1);
+</span><span>        *r2 = </span><span style="color:#d08770;">10</span><span>;
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">num: </span><span style="color:#d08770;">{}</span><span>&quot;, num);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="implementing-low-level-data-structures">Implementing Low-Level Data Structures</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::alloc::{alloc, dealloc, Layout};
+</span><span style="color:#b48ead;">use </span><span>std::ptr;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>MyVec&lt;T&gt; {
+</span><span>    </span><span style="color:#bf616a;">ptr</span><span>: </span><span style="color:#b48ead;">*mut</span><span> T,
+</span><span>    </span><span style="color:#bf616a;">len</span><span>: </span><span style="color:#b48ead;">usize</span><span>,
+</span><span>    </span><span style="color:#bf616a;">capacity</span><span>: </span><span style="color:#b48ead;">usize</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl</span><span>&lt;T&gt; MyVec&lt;T&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>() -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        MyVec {
+</span><span>            ptr: ptr::null_mut(),
+</span><span>            len: </span><span style="color:#d08770;">0</span><span>,
+</span><span>            capacity: </span><span style="color:#d08770;">0</span><span>,
+</span><span>        }
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">push</span><span>(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">value</span><span>: T) {
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.len == </span><span style="color:#bf616a;">self</span><span>.capacity {
+</span><span>            </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#96b5b4;">grow</span><span>();
+</span><span>        }
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>            ptr::write(</span><span style="color:#bf616a;">self</span><span>.ptr.</span><span style="color:#96b5b4;">add</span><span>(</span><span style="color:#bf616a;">self</span><span>.len), value);
+</span><span>        }
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.len += </span><span style="color:#d08770;">1</span><span>;
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">grow</span><span>(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> new_capacity = </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.capacity == </span><span style="color:#d08770;">0 </span><span>{ </span><span style="color:#d08770;">1 </span><span>} </span><span style="color:#b48ead;">else </span><span>{ </span><span style="color:#bf616a;">self</span><span>.capacity * </span><span style="color:#d08770;">2 </span><span>};
+</span><span>        </span><span style="color:#b48ead;">let</span><span> new_layout = Layout::array::&lt;T&gt;(new_capacity).</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">let</span><span> new_ptr = </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.capacity == </span><span style="color:#d08770;">0 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">unsafe </span><span>{ </span><span style="color:#96b5b4;">alloc</span><span>(new_layout) as </span><span style="color:#b48ead;">*mut</span><span> T }
+</span><span>        } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            </span><span style="color:#b48ead;">let</span><span> old_layout = Layout::array::&lt;T&gt;(</span><span style="color:#bf616a;">self</span><span>.capacity).</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>            </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>                std::alloc::realloc(
+</span><span>                    </span><span style="color:#bf616a;">self</span><span>.ptr as </span><span style="color:#b48ead;">*mut u8</span><span>,
+</span><span>                    old_layout,
+</span><span>                    new_layout.</span><span style="color:#96b5b4;">size</span><span>(),
+</span><span>                ) as </span><span style="color:#b48ead;">*mut</span><span> T
+</span><span>            }
+</span><span>        };
+</span><span>        
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.ptr = new_ptr;
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.capacity = new_capacity;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl</span><span>&lt;T&gt; Drop </span><span style="color:#b48ead;">for </span><span>MyVec&lt;T&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">drop</span><span>(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.capacity != </span><span style="color:#d08770;">0 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>                </span><span style="color:#b48ead;">let</span><span> layout = Layout::array::&lt;T&gt;(</span><span style="color:#bf616a;">self</span><span>.capacity).</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>                </span><span style="color:#96b5b4;">dealloc</span><span>(</span><span style="color:#bf616a;">self</span><span>.ptr as </span><span style="color:#b48ead;">*mut u8</span><span>, layout);
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="concurrency-without-data-races">Concurrency Without Data Races</h2>
+<p>Rust's ownership system prevents data races at compile time.</p>
+<h3 id="threads">Threads</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span style="color:#b48ead;">use </span><span>std::time::Duration;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> handle = thread::spawn(|| {
+</span><span>        </span><span style="color:#b48ead;">for</span><span> i in </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">10 </span><span>{
+</span><span>            println!(&quot;</span><span style="color:#a3be8c;">Thread: </span><span style="color:#d08770;">{}</span><span>&quot;, i);
+</span><span>            thread::sleep(Duration::from_millis(</span><span style="color:#d08770;">1</span><span>));
+</span><span>        }
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> i in </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">5 </span><span>{
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Main: </span><span style="color:#d08770;">{}</span><span>&quot;, i);
+</span><span>        thread::sleep(Duration::from_millis(</span><span style="color:#d08770;">1</span><span>));
+</span><span>    }
+</span><span>    
+</span><span>    handle.</span><span style="color:#96b5b4;">join</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>}
+</span></code></pre>
+<h3 id="message-passing-with-channels">Message Passing with Channels</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::sync::mpsc;
+</span><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let </span><span>(tx, rx) = mpsc::channel();
+</span><span>    
+</span><span>    thread::spawn(</span><span style="color:#b48ead;">move </span><span>|| {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> vals = vec![
+</span><span>            String::from(&quot;</span><span style="color:#a3be8c;">hi</span><span>&quot;),
+</span><span>            String::from(&quot;</span><span style="color:#a3be8c;">from</span><span>&quot;),
+</span><span>            String::from(&quot;</span><span style="color:#a3be8c;">thread</span><span>&quot;),
+</span><span>        ];
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">for</span><span> val in vals {
+</span><span>            tx.</span><span style="color:#96b5b4;">send</span><span>(val).</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        }
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> received in rx {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Got: </span><span style="color:#d08770;">{}</span><span>&quot;, received);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="shared-state-with-mutex">Shared State with Mutex</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::sync::{Arc, Mutex};
+</span><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> counter = Arc::new(Mutex::new(</span><span style="color:#d08770;">0</span><span>));
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> handles = vec![];
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for </span><span>_ in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">10 </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> counter = Arc::clone(&amp;counter);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> handle = thread::spawn(</span><span style="color:#b48ead;">move </span><span>|| {
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> num = counter.</span><span style="color:#96b5b4;">lock</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>            *num += </span><span style="color:#d08770;">1</span><span>;
+</span><span>        });
+</span><span>        handles.</span><span style="color:#96b5b4;">push</span><span>(handle);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> handle in handles {
+</span><span>        handle.</span><span style="color:#96b5b4;">join</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    }
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Result: </span><span style="color:#d08770;">{}</span><span>&quot;, *counter.</span><span style="color:#96b5b4;">lock</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>());
+</span><span>}
+</span></code></pre>
+<p>The compiler ensures you can't have data races - if this compiles, it's thread-safe.</p>
+<h3 id="atomic-operations">Atomic Operations</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::sync::atomic::{AtomicUsize, Ordering};
+</span><span style="color:#b48ead;">use </span><span>std::sync::Arc;
+</span><span style="color:#b48ead;">use </span><span>std::thread;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> counter = Arc::new(AtomicUsize::new(</span><span style="color:#d08770;">0</span><span>));
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> handles = vec![];
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for </span><span>_ in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">10 </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> counter = Arc::clone(&amp;counter);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> handle = thread::spawn(</span><span style="color:#b48ead;">move </span><span>|| {
+</span><span>            </span><span style="color:#b48ead;">for </span><span>_ in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">1000 </span><span>{
+</span><span>                counter.</span><span style="color:#96b5b4;">fetch_add</span><span>(</span><span style="color:#d08770;">1</span><span>, Ordering::SeqCst);
+</span><span>            }
+</span><span>        });
+</span><span>        handles.</span><span style="color:#96b5b4;">push</span><span>(handle);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">for</span><span> handle in handles {
+</span><span>        handle.</span><span style="color:#96b5b4;">join</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    }
+</span><span>    
+</span><span>    println!(&quot;</span><span style="color:#a3be8c;">Result: </span><span style="color:#d08770;">{}</span><span>&quot;, counter.</span><span style="color:#96b5b4;">load</span><span>(Ordering::SeqCst));
+</span><span>}
+</span></code></pre>
+<h2 id="systems-programming-patterns">Systems Programming Patterns</h2>
+<h3 id="error-handling-in-systems-code">Error Handling in Systems Code</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::fs::File;
+</span><span style="color:#b48ead;">use </span><span>std::io::{</span><span style="color:#bf616a;">self</span><span>, Read};
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">read_config</span><span>(</span><span style="color:#bf616a;">path</span><span>: &amp;</span><span style="color:#b48ead;">str</span><span>) -&gt; Result&lt;String, io::Error&gt; {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> file = File::open(path)?;
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> contents = String::new();
+</span><span>    file.</span><span style="color:#96b5b4;">read_to_string</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> contents)?;
+</span><span>    Ok(contents)
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Custom error types
+</span><span style="color:#b48ead;">use </span><span>std::fmt;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">derive</span><span>(Debug)]
+</span><span style="color:#b48ead;">enum </span><span>ConfigError {
+</span><span>    Io(io::Error),
+</span><span>    Parse(String),
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>fmt::Display </span><span style="color:#b48ead;">for </span><span>ConfigError {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">fmt</span><span>(&amp;</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">f</span><span>: &amp;</span><span style="color:#b48ead;">mut </span><span>fmt::Formatter) -&gt; fmt::Result {
+</span><span>        </span><span style="color:#b48ead;">match </span><span style="color:#bf616a;">self </span><span>{
+</span><span>            ConfigError::Io(e) =&gt; write!(f, &quot;</span><span style="color:#a3be8c;">IO error: </span><span style="color:#d08770;">{}</span><span>&quot;, e),
+</span><span>            ConfigError::Parse(s) =&gt; write!(f, &quot;</span><span style="color:#a3be8c;">Parse error: </span><span style="color:#d08770;">{}</span><span>&quot;, s),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>From&lt;io::Error&gt; </span><span style="color:#b48ead;">for </span><span>ConfigError {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span>(</span><span style="color:#bf616a;">error</span><span>: io::Error) -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        ConfigError::Io(error)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>std::error::Error </span><span style="color:#b48ead;">for </span><span>ConfigError {}
+</span></code></pre>
+<h3 id="builder-pattern">Builder Pattern</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>Server {
+</span><span>    </span><span style="color:#bf616a;">host</span><span>: String,
+</span><span>    </span><span style="color:#bf616a;">port</span><span>: </span><span style="color:#b48ead;">u16</span><span>,
+</span><span>    </span><span style="color:#bf616a;">timeout</span><span>: </span><span style="color:#b48ead;">u64</span><span>,
+</span><span>    </span><span style="color:#bf616a;">max_connections</span><span>: </span><span style="color:#b48ead;">usize</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>ServerBuilder {
+</span><span>    </span><span style="color:#bf616a;">host</span><span>: String,
+</span><span>    </span><span style="color:#bf616a;">port</span><span>: </span><span style="color:#b48ead;">u16</span><span>,
+</span><span>    </span><span style="color:#bf616a;">timeout</span><span>: Option&lt;</span><span style="color:#b48ead;">u64</span><span>&gt;,
+</span><span>    </span><span style="color:#bf616a;">max_connections</span><span>: Option&lt;</span><span style="color:#b48ead;">usize</span><span>&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>ServerBuilder {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>(</span><span style="color:#bf616a;">host</span><span>: String, </span><span style="color:#bf616a;">port</span><span>: </span><span style="color:#b48ead;">u16</span><span>) -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        ServerBuilder {
+</span><span>            host,
+</span><span>            port,
+</span><span>            timeout: None,
+</span><span>            max_connections: None,
+</span><span>        }
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">timeout</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">timeout</span><span>: </span><span style="color:#b48ead;">u64</span><span>) -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.timeout = Some(timeout);
+</span><span>        </span><span style="color:#bf616a;">self
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">max_connections</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">max</span><span>: </span><span style="color:#b48ead;">usize</span><span>) -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.max_connections = Some(max);
+</span><span>        </span><span style="color:#bf616a;">self
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">build</span><span>(</span><span style="color:#bf616a;">self</span><span>) -&gt; Server {
+</span><span>        Server {
+</span><span>            host: </span><span style="color:#bf616a;">self</span><span>.host,
+</span><span>            port: </span><span style="color:#bf616a;">self</span><span>.port,
+</span><span>            timeout: </span><span style="color:#bf616a;">self</span><span>.timeout.</span><span style="color:#96b5b4;">unwrap_or</span><span>(</span><span style="color:#d08770;">30</span><span>),
+</span><span>            max_connections: </span><span style="color:#bf616a;">self</span><span>.max_connections.</span><span style="color:#96b5b4;">unwrap_or</span><span>(</span><span style="color:#d08770;">100</span><span>),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Usage
+</span><span style="color:#b48ead;">let</span><span> server = ServerBuilder::new(&quot;</span><span style="color:#a3be8c;">localhost</span><span>&quot;.</span><span style="color:#96b5b4;">to_string</span><span>(), </span><span style="color:#d08770;">8080</span><span>)
+</span><span>    .</span><span style="color:#96b5b4;">timeout</span><span>(</span><span style="color:#d08770;">60</span><span>)
+</span><span>    .</span><span style="color:#96b5b4;">max_connections</span><span>(</span><span style="color:#d08770;">200</span><span>)
+</span><span>    .</span><span style="color:#96b5b4;">build</span><span>();
+</span></code></pre>
+<h3 id="type-state-pattern">Type State Pattern</h3>
+<p>Encode state in the type system to prevent invalid operations:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span>Locked;
+</span><span style="color:#b48ead;">struct </span><span>Unlocked;
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Door&lt;State&gt; {
+</span><span>    </span><span style="color:#bf616a;">state</span><span>: std::marker::PhantomData&lt;State&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Door&lt;Locked&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span>() -&gt; </span><span style="color:#b48ead;">Self </span><span>{
+</span><span>        Door { state: std::marker::PhantomData }
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">unlock</span><span>(</span><span style="color:#bf616a;">self</span><span>) -&gt; Door&lt;Unlocked&gt; {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Door unlocked</span><span>&quot;);
+</span><span>        Door { state: std::marker::PhantomData }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">impl </span><span>Door&lt;Unlocked&gt; {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">open</span><span>(</span><span style="color:#bf616a;">self</span><span>) {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Door opened</span><span>&quot;);
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">lock</span><span>(</span><span style="color:#bf616a;">self</span><span>) -&gt; Door&lt;Locked&gt; {
+</span><span>        println!(&quot;</span><span style="color:#a3be8c;">Door locked</span><span>&quot;);
+</span><span>        Door { state: std::marker::PhantomData }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Usage
+</span><span style="color:#b48ead;">let</span><span> door = Door::new();        </span><span style="color:#65737e;">// Door&lt;Locked&gt;
+</span><span style="color:#65737e;">// door.open();                // Compile error!
+</span><span style="color:#b48ead;">let</span><span> door = door.</span><span style="color:#96b5b4;">unlock</span><span>();      </span><span style="color:#65737e;">// Door&lt;Unlocked&gt;
+</span><span>door.</span><span style="color:#96b5b4;">open</span><span>();                   </span><span style="color:#65737e;">// OK
+</span></code></pre>
+<h2 id="no-std-and-embedded-systems">No-Std and Embedded Systems</h2>
+<p>Rust can run without the standard library for embedded systems:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#![</span><span style="color:#bf616a;">no_std</span><span>]
+</span><span>#![</span><span style="color:#bf616a;">no_main</span><span>]
+</span><span>
+</span><span style="color:#b48ead;">use </span><span>core::panic::PanicInfo;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">panic_handler</span><span>]
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">panic</span><span>(</span><span style="color:#bf616a;">_info</span><span>: &amp;PanicInfo) -&gt; ! {
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>{}
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">no_mangle</span><span>]
+</span><span style="color:#b48ead;">pub extern </span><span>&quot;</span><span style="color:#a3be8c;">C</span><span>&quot; </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">_start</span><span>() -&gt; ! {
+</span><span>    </span><span style="color:#65737e;">// Embedded system entry point
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>{}
+</span><span>}
+</span></code></pre>
+<h3 id="direct-hardware-access">Direct Hardware Access</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Memory-mapped I/O
+</span><span style="color:#b48ead;">const </span><span style="color:#d08770;">GPIO_BASE</span><span>: </span><span style="color:#b48ead;">usize </span><span>= </span><span style="color:#d08770;">0x4002_0000</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">set_pin_high</span><span>(</span><span style="color:#bf616a;">pin</span><span>: </span><span style="color:#b48ead;">u8</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> gpio = </span><span style="color:#d08770;">GPIO_BASE </span><span>as </span><span style="color:#b48ead;">*mut u32</span><span>;
+</span><span>        </span><span style="color:#b48ead;">let</span><span> value = gpio.</span><span style="color:#96b5b4;">read_volatile</span><span>();
+</span><span>        gpio.</span><span style="color:#96b5b4;">write_volatile</span><span>(value | (</span><span style="color:#d08770;">1 </span><span>&lt;&lt; pin));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="inline-assembly">Inline Assembly</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::arch::asm;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">add_with_asm</span><span>(</span><span style="color:#bf616a;">a</span><span>: </span><span style="color:#b48ead;">u64</span><span>, </span><span style="color:#bf616a;">b</span><span>: </span><span style="color:#b48ead;">u64</span><span>) -&gt; </span><span style="color:#b48ead;">u64 </span><span>{
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result: </span><span style="color:#b48ead;">u64</span><span>;
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        asm!(
+</span><span>            &quot;</span><span style="color:#a3be8c;">add {result}, {a}, {b}</span><span>&quot;,
+</span><span>            a = in(reg) a,
+</span><span>            b = in(reg) b,
+</span><span>            result = </span><span style="color:#96b5b4;">out</span><span>(reg) result,
+</span><span>        );
+</span><span>    }
+</span><span>    result
+</span><span>}
+</span></code></pre>
+<h3 id="simd-operations">SIMD Operations</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#bf616a;">cfg</span><span>(target_arch = &quot;</span><span style="color:#a3be8c;">x86_64</span><span>&quot;)]
+</span><span style="color:#b48ead;">use </span><span>std::arch::x86_64::*;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">simd_add</span><span>(</span><span style="color:#bf616a;">a</span><span>: &amp;[</span><span style="color:#b48ead;">f32</span><span>; 4], </span><span style="color:#bf616a;">b</span><span>: &amp;[</span><span style="color:#b48ead;">f32</span><span>; 4]) -&gt; [</span><span style="color:#b48ead;">f32</span><span>; </span><span style="color:#d08770;">4</span><span>] {
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> va = </span><span style="color:#96b5b4;">_mm_loadu_ps</span><span>(a.</span><span style="color:#96b5b4;">as_ptr</span><span>());
+</span><span>        </span><span style="color:#b48ead;">let</span><span> vb = </span><span style="color:#96b5b4;">_mm_loadu_ps</span><span>(b.</span><span style="color:#96b5b4;">as_ptr</span><span>());
+</span><span>        </span><span style="color:#b48ead;">let</span><span> result = </span><span style="color:#96b5b4;">_mm_add_ps</span><span>(va, vb);
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">let mut</span><span> output = [</span><span style="color:#d08770;">0.0</span><span style="color:#b48ead;">f32</span><span>; </span><span style="color:#d08770;">4</span><span>];
+</span><span>        </span><span style="color:#96b5b4;">_mm_storeu_ps</span><span>(output.</span><span style="color:#96b5b4;">as_mut_ptr</span><span>(), result);
+</span><span>        output
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="zero-copy-i-o">Zero-Copy I/O</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>std::fs::File;
+</span><span style="color:#b48ead;">use </span><span>std::os::unix::io::AsRawFd;
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">sendfile_example</span><span>(</span><span style="color:#bf616a;">from</span><span>: &amp;File, </span><span style="color:#bf616a;">to</span><span>: &amp;File, </span><span style="color:#bf616a;">count</span><span>: </span><span style="color:#b48ead;">usize</span><span>) -&gt; std::io::Result&lt;()&gt; {
+</span><span>    </span><span style="color:#b48ead;">unsafe </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let</span><span> result = libc::sendfile(
+</span><span>            to.</span><span style="color:#96b5b4;">as_raw_fd</span><span>(),
+</span><span>            from.</span><span style="color:#96b5b4;">as_raw_fd</span><span>(),
+</span><span>            std::ptr::null_mut(),
+</span><span>            count,
+</span><span>        );
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">if</span><span> result &lt; </span><span style="color:#d08770;">0 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">return </span><span>Err(std::io::Error::last_os_error());
+</span><span>        }
+</span><span>    }
+</span><span>    Ok(())
+</span><span>}
+</span></code></pre>
+<h2 id="tooling-and-ecosystem">Tooling and Ecosystem</h2>
+<h3 id="cargo-build-system-and-package-manager">Cargo: Build System and Package Manager</h3>
+<pre data-lang="toml" style="background-color:#2b303b;color:#c0c5ce;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#65737e;"># Cargo.toml
+</span><span>[package]
+</span><span style="color:#bf616a;">name </span><span>= &quot;</span><span style="color:#a3be8c;">my_project</span><span>&quot;
+</span><span style="color:#bf616a;">version </span><span>= &quot;</span><span style="color:#a3be8c;">0.1.0</span><span>&quot;
+</span><span style="color:#bf616a;">edition </span><span>= &quot;</span><span style="color:#a3be8c;">2021</span><span>&quot;
+</span><span>
+</span><span>[dependencies]
+</span><span style="color:#bf616a;">serde </span><span>= { </span><span style="color:#bf616a;">version </span><span>= &quot;</span><span style="color:#a3be8c;">1.0</span><span>&quot;, </span><span style="color:#bf616a;">features </span><span>= [&quot;</span><span style="color:#a3be8c;">derive</span><span>&quot;] }
+</span><span style="color:#bf616a;">tokio </span><span>= { </span><span style="color:#bf616a;">version </span><span>= &quot;</span><span style="color:#a3be8c;">1.0</span><span>&quot;, </span><span style="color:#bf616a;">features </span><span>= [&quot;</span><span style="color:#a3be8c;">full</span><span>&quot;] }
+</span><span>
+</span><span>[profile.release]
+</span><span style="color:#bf616a;">opt-level </span><span>= </span><span style="color:#d08770;">3
+</span><span style="color:#bf616a;">lto </span><span>= </span><span style="color:#d08770;">true
+</span><span style="color:#bf616a;">codegen-units </span><span>= </span><span style="color:#d08770;">1
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cargo</span><span> build              </span><span style="color:#65737e;"># Build project
+</span><span style="color:#bf616a;">cargo</span><span> build</span><span style="color:#bf616a;"> --release    </span><span style="color:#65737e;"># Optimized build
+</span><span style="color:#bf616a;">cargo</span><span> test              </span><span style="color:#65737e;"># Run tests
+</span><span style="color:#bf616a;">cargo</span><span> bench             </span><span style="color:#65737e;"># Run benchmarks
+</span><span style="color:#bf616a;">cargo</span><span> doc</span><span style="color:#bf616a;"> --open        </span><span style="color:#65737e;"># Generate and open docs
+</span></code></pre>
+<h3 id="testing">Testing</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#bf616a;">cfg</span><span>(test)]
+</span><span style="color:#b48ead;">mod </span><span>tests {
+</span><span>    </span><span style="color:#b48ead;">use super</span><span>::*;
+</span><span>    
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">test_addition</span><span>() {
+</span><span>        assert_eq!(</span><span style="color:#d08770;">2 </span><span>+ </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">4</span><span>);
+</span><span>    }
+</span><span>    
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    #[</span><span style="color:#bf616a;">should_panic</span><span>(expected = &quot;</span><span style="color:#a3be8c;">divide by zero</span><span>&quot;)]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">test_panic</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">let </span><span>_ = </span><span style="color:#d08770;">1 </span><span>/ </span><span style="color:#d08770;">0</span><span>;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="benchmarking">Benchmarking</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#![</span><span style="color:#bf616a;">feature</span><span>(test)]
+</span><span style="color:#b48ead;">extern crate</span><span> test;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">bench</span><span>]
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">bench_function</span><span>(</span><span style="color:#bf616a;">b</span><span>: &amp;</span><span style="color:#b48ead;">mut </span><span>test::Bencher) {
+</span><span>    b.</span><span style="color:#96b5b4;">iter</span><span>(|| {
+</span><span>        </span><span style="color:#65737e;">// Code to benchmark
+</span><span>        (</span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">1000</span><span>).sum::&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;()
+</span><span>    });
+</span><span>}
+</span></code></pre>
+<h2 id="async-await-for-systems-programming">Async/Await for Systems Programming</h2>
+<p>Modern async I/O without callbacks:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span>tokio::io::{AsyncReadExt, AsyncWriteExt};
+</span><span style="color:#b48ead;">use </span><span>tokio::net::TcpListener;
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">tokio</span><span>::</span><span style="color:#bf616a;">main</span><span>]
+</span><span>async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span>() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> listener = TcpListener::bind(&quot;</span><span style="color:#a3be8c;">127.0.0.1:8080</span><span>&quot;).await?;
+</span><span>    
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>{
+</span><span>        </span><span style="color:#b48ead;">let </span><span>(</span><span style="color:#b48ead;">mut</span><span> socket, _) = listener.</span><span style="color:#96b5b4;">accept</span><span>().await?;
+</span><span>        
+</span><span>        tokio::spawn(async </span><span style="color:#b48ead;">move </span><span>{
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> buf = [</span><span style="color:#d08770;">0</span><span>; </span><span style="color:#d08770;">1024</span><span>];
+</span><span>            
+</span><span>            </span><span style="color:#b48ead;">loop </span><span>{
+</span><span>                </span><span style="color:#b48ead;">match</span><span> socket.</span><span style="color:#96b5b4;">read</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> buf).await {
+</span><span>                    Ok(</span><span style="color:#d08770;">0</span><span>) =&gt; </span><span style="color:#b48ead;">return</span><span>,
+</span><span>                    Ok(n) =&gt; {
+</span><span>                        </span><span style="color:#b48ead;">if</span><span> socket.</span><span style="color:#96b5b4;">write_all</span><span>(&amp;buf[</span><span style="color:#d08770;">0</span><span>..n]).await.</span><span style="color:#96b5b4;">is_err</span><span>() {
+</span><span>                            </span><span style="color:#b48ead;">return</span><span>;
+</span><span>                        }
+</span><span>                    }
+</span><span>                    Err(_) =&gt; </span><span style="color:#b48ead;">return</span><span>,
+</span><span>                }
+</span><span>            }
+</span><span>        });
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="migrating-from-c-to-rust">Migrating from C to Rust</h2>
+<h3 id="common-patterns-translation">Common Patterns Translation</h3>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// C: Manual memory management
+</span><span style="color:#65737e;">// char *s = malloc(100);
+</span><span style="color:#65737e;">// strcpy(s, &quot;hello&quot;);
+</span><span style="color:#65737e;">// free(s);
+</span><span>
+</span><span style="color:#65737e;">// Rust: Automatic memory management
+</span><span style="color:#b48ead;">let</span><span> s = String::from(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;);
+</span><span style="color:#65737e;">// Automatically freed when out of scope
+</span><span>
+</span><span style="color:#65737e;">// C: Pointer arithmetic
+</span><span style="color:#65737e;">// int arr[5] = {1,2,3,4,5};
+</span><span style="color:#65737e;">// int *p = arr;
+</span><span style="color:#65737e;">// int x = *(p + 2);
+</span><span>
+</span><span style="color:#65737e;">// Rust: Safe indexing
+</span><span style="color:#b48ead;">let</span><span> arr = [</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>];
+</span><span style="color:#b48ead;">let</span><span> x = arr[</span><span style="color:#d08770;">2</span><span>];  </span><span style="color:#65737e;">// Bounds checked
+</span><span>
+</span><span style="color:#65737e;">// C: Function pointers
+</span><span style="color:#65737e;">// int (*func_ptr)(int, int) = &amp;add;
+</span><span style="color:#65737e;">// int result = func_ptr(1, 2);
+</span><span>
+</span><span style="color:#65737e;">// Rust: Function pointers or closures
+</span><span style="color:#b48ead;">let</span><span> func_ptr: </span><span style="color:#b48ead;">fn</span><span>(</span><span style="color:#b48ead;">i32</span><span>, </span><span style="color:#b48ead;">i32</span><span>) -&gt; </span><span style="color:#b48ead;">i32 </span><span>= add;
+</span><span style="color:#b48ead;">let</span><span> result = </span><span style="color:#96b5b4;">func_ptr</span><span>(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>);
+</span><span>
+</span><span style="color:#b48ead;">let </span><span style="color:#8fa1b3;">closure </span><span>= |</span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#bf616a;">b</span><span>| a + b;
+</span><span style="color:#b48ead;">let</span><span> result = </span><span style="color:#96b5b4;">closure</span><span>(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>);
+</span></code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Let the compiler guide you</strong>: Rust's error messages are excellent</li>
+<li><strong>Fight the borrow checker initially, embrace it later</strong>: The struggle teaches you good design</li>
+<li><strong>Use <code>clippy</code> for linting</strong>: <code>cargo clippy</code> catches common mistakes</li>
+<li><strong>Use <code>rustfmt</code> for formatting</strong>: <code>cargo fmt</code> maintains consistent style</li>
+<li><strong>Write tests</strong>: Rust makes testing easy and natural</li>
+<li><strong>Read The Rust Book</strong>: It's comprehensive and well-written</li>
+<li><strong>Start with safe Rust</strong>: Only use <code>unsafe</code> when necessary</li>
+<li><strong>Leverage the type system</strong>: Encode invariants in types, not comments</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Rust brings modern safety to systems programming without sacrificing performance. The learning curve is steep initially, especially the borrow checker, but the benefits are substantial:</p>
+<ul>
+<li>Memory safety without garbage collection</li>
+<li>Thread safety without data races</li>
+<li>Zero-cost abstractions</li>
+<li>Excellent tooling and documentation</li>
+<li>Growing ecosystem</li>
+</ul>
+<p>Your C experience gives you a solid foundation. Focus on understanding ownership and borrowing deeply, and you'll find Rust enables writing safer, more maintainable systems code than ever before. The compiler is your ally - when your code compiles, you can be confident it's free from entire categories of bugs that plague C programs.</p>
+<p>Start with small projects, gradually increase complexity, and don't fight the compiler - learn from it. Welcome to safe systems programming.</p>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2025">2025</time> HajMousa | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/katex/katex.min.css?h=e189fd0238811989c364" />
+  <script defer src="https://blog.hajmousa.ir/katex/katex.min.js?h=6b909443e6c8f6e5d24c"></script>
+  <script defer src="https://blog.hajmousa.ir/katex/contrib/auto-render.min.js?h=bb53eb953394531aae36"></script>
+  <script>document.addEventListener("DOMContentLoaded", window.zolaTheme.katex.init);</script>
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

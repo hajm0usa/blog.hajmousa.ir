@@ -1,0 +1,595 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14 scheme-light dark:scheme-dark" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola v0.21.0" />
+  <title>Complete Guide to Regular Expressions for Developers | HajMousa;s DevBlog</title>
+  <meta property="og:site_name" content="HajMousa;s DevBlog" />
+  <meta property="og:title" content="Complete Guide to Regular Expressions for Developers" />
+  <meta property="og:url" content="https://blog.hajmousa.ir/regex/" />
+  <link rel="canonical" href="https://blog.hajmousa.ir/regex/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-12-18T00:00:00+00:00" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/main.min.css?h=80ece4d015818ae93fff" />
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/icons.css?h=7dd5ab449fa840fc01e2" />
+  <style>:root{--bg: #f4f4f5; --header: #e4e4e7;} :root.dark{--bg: #18181b; --header: #27272a;}</style>
+  <link rel="icon" type="image/x-icon" href="https://blog.hajmousa.ir/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="https://blog.hajmousa.ir/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="https://blog.hajmousa.ir/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="https://blog.hajmousa.ir/js/zola-theme.min.js?h=26975b146d48e6ff41af"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out dark:text-white">
+  <!-- Header -->
+<header class="blur-header fixed top-0 z-40 mx-auto min-h-13 w-full">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8 overflow-hidden">
+        <a title="Go to home page [Alt + !]" accesskey="!"
+          href="https://blog.hajmousa.ir/"
+          class="text-2xl font-semibold truncate">HajMousa;s DevBlog</a>
+        <button type="button" title="Switch color scheme [Alt + $]" accesskey="$"
+          onclick="window.zolaTheme.color.toggle();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-btn-dark,url(icons/btn-dark.svg))]
+            dark:[background-image:var(--icons-btn-light,url(icons/btn-light.svg))] dark:invert"
+        ></button>
+        <button type="button" title="Open search [Alt + /]" accesskey="/"
+          onclick="window.zolaTheme.search.toggle();"
+          class="btn-search ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0px]
+            bg-center bg-no-repeat bg-cover [background-image:var(--icons-search,url(icons/search.svg))] dark:invert"
+        ></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg
+    relative mx-auto min-h-[calc(100vh-4rem)] max-w-3xl px-4 pt-28 lg:pt-32 pb-12 wrap-break-word">
+      <!-- Search -->
+<div id="linkita-search-wrapper" class="hidden">
+  <ul id="linkita-search-results"></ul>
+</div>
+<script>window.zolaTheme.search.init({ scripts: ["https://blog.hajmousa.ir/elasticlunr.min.js", "https://blog.hajmousa.ir/search_index.en.js"], arg: { w: "#linkita-search-wrapper", r: "#linkita-search-results" } });</script>
+
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="my-0! pb-2.5">Complete Guide to Regular Expressions for Developers</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-12-18T00:00:00+00:00">2025-12-18</time><span
+        class="middot"></span><time
+    datetime="PT0H4M0S">4&nbsp;min</time><span
+      class="middot"></span>
+</div>
+
+  </header>
+  <!-- TOC -->
+<nav class="block-bg prose-a:secondary-link mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-3.5" title="[Alt + =]" accesskey="=">
+      <span class="cursor-pointer ml-0.5">Table of Contents</span>
+    </summary>
+    <ul class="ps-8">
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#what-are-regular-expressions">What Are Regular Expressions?</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#basic-syntax">Basic Syntax</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#literal-characters">Literal Characters</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#metacharacters">Metacharacters</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#character-classes">Character Classes</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#predefined-classes">Predefined Classes</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#custom-character-classes">Custom Character Classes</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#quantifiers">Quantifiers</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#greedy-vs-lazy-quantifiers">Greedy vs Lazy Quantifiers</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#groups-and-capturing">Groups and Capturing</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#capturing-groups">Capturing Groups</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#non-capturing-groups">Non-Capturing Groups</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#named-groups">Named Groups</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#anchors-and-boundaries">Anchors and Boundaries</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#lookahead-and-lookbehind">Lookahead and Lookbehind</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#lookahead">Lookahead</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#lookbehind">Lookbehind</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#common-patterns">Common Patterns</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#email-validation">Email Validation</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#url-matching">URL Matching</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#phone-number-us">Phone Number (US)</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#date-yyyy-mm-dd">Date (YYYY-MM-DD)</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#password-strength">Password Strength</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#hexadecimal-color">Hexadecimal Color</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#flags-modifiers">Flags&#x2F;Modifiers</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#practical-examples-by-language">Practical Examples by Language</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#javascript">JavaScript</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#python">Python</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#java">Java</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#performance-tips">Performance Tips</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#common-pitfalls">Common Pitfalls</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#catastrophic-backtracking">Catastrophic Backtracking</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#escaping-issues">Escaping Issues</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#forgetting-anchors">Forgetting Anchors</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#testing-and-debugging">Testing and Debugging</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#online-tools">Online Tools</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#tips-for-writing-regex">Tips for Writing Regex</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#advanced-techniques">Advanced Techniques</a>
+        <ul>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#recursive-patterns-pcre">Recursive Patterns (PCRE)</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#conditional-patterns">Conditional Patterns</a>
+          </li>
+          <li class="ps-0.5">
+            <a class="no-underline hover:underline" href="#atomic-groups">Atomic Groups</a>
+          </li>
+        </ul>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#when-not-to-use-regex">When NOT to Use Regex</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#conclusion">Conclusion</a>
+      </li>
+      <li class="ps-0.5">
+        <a class="no-underline hover:underline" href="#quick-reference-card">Quick Reference Card</a>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+  <!-- Content -->
+  <section><p>Regular expressions (regex) are powerful pattern-matching tools that every developer should master. This guide will take you from the basics to advanced concepts with practical examples.</p>
+<h2 id="what-are-regular-expressions">What Are Regular Expressions?</h2>
+<p>Regular expressions are sequences of characters that define search patterns. They're used for:</p>
+<ul>
+<li><strong>Validating input</strong> (emails, phone numbers, passwords)</li>
+<li><strong>Searching and replacing text</strong> in files or strings</li>
+<li><strong>Parsing data</strong> from logs, documents, or APIs</li>
+<li><strong>Extracting information</strong> from unstructured text</li>
+</ul>
+<h2 id="basic-syntax">Basic Syntax</h2>
+<h3 id="literal-characters">Literal Characters</h3>
+<p>The simplest regex matches literal characters exactly:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>cat
+</span></code></pre>
+<p>This matches the word "cat" in any text.</p>
+<h3 id="metacharacters">Metacharacters</h3>
+<p>Special characters with specific meanings:</p>
+<ul>
+<li><code>.</code> - Matches any single character except newline</li>
+<li><code>^</code> - Matches the start of a string</li>
+<li><code>$</code> - Matches the end of a string</li>
+<li><code>*</code> - Matches 0 or more repetitions</li>
+<li><code>+</code> - Matches 1 or more repetitions</li>
+<li><code>?</code> - Matches 0 or 1 repetition</li>
+<li><code>|</code> - OR operator</li>
+<li><code>\</code> - Escapes special characters</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>c.t     → matches &quot;cat&quot;, &quot;cot&quot;, &quot;c9t&quot;
+</span><span>^Hello  → matches &quot;Hello&quot; only at start
+</span><span>World$  → matches &quot;World&quot; only at end
+</span></code></pre>
+<h2 id="character-classes">Character Classes</h2>
+<h3 id="predefined-classes">Predefined Classes</h3>
+<ul>
+<li><code>\d</code> - Any digit (0-9)</li>
+<li><code>\D</code> - Any non-digit</li>
+<li><code>\w</code> - Any word character (a-z, A-Z, 0-9, _)</li>
+<li><code>\W</code> - Any non-word character</li>
+<li><code>\s</code> - Any whitespace (space, tab, newline)</li>
+<li><code>\S</code> - Any non-whitespace</li>
+</ul>
+<h3 id="custom-character-classes">Custom Character Classes</h3>
+<p>Use square brackets to define your own:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[aeiou]     → matches any vowel
+</span><span>[0-9]       → matches any digit
+</span><span>[a-zA-Z]    → matches any letter
+</span><span>[^0-9]      → matches anything except digits (^ inside [] means NOT)
+</span></code></pre>
+<h2 id="quantifiers">Quantifiers</h2>
+<p>Control how many times a pattern should match:</p>
+<ul>
+<li><code>{n}</code> - Exactly n times</li>
+<li><code>{n,}</code> - At least n times</li>
+<li><code>{n,m}</code> - Between n and m times</li>
+<li><code>*</code> - 0 or more (same as {0,})</li>
+<li><code>+</code> - 1 or more (same as {1,})</li>
+<li><code>?</code> - 0 or 1 (same as {0,1})</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d{3}           → matches exactly 3 digits: &quot;123&quot;
+</span><span>\d{2,4}         → matches 2-4 digits: &quot;12&quot;, &quot;123&quot;, &quot;1234&quot;
+</span><span>\w+             → matches one or more word characters
+</span><span>colou?r         → matches &quot;color&quot; or &quot;colour&quot;
+</span></code></pre>
+<h3 id="greedy-vs-lazy-quantifiers">Greedy vs Lazy Quantifiers</h3>
+<p>By default, quantifiers are greedy (match as much as possible):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;.+&gt;    → in &quot;&lt;div&gt;Hello&lt;/div&gt;&quot;, matches entire string
+</span></code></pre>
+<p>Add <code>?</code> after quantifier to make it lazy (match as little as possible):</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;.+?&gt;   → matches &quot;&lt;div&gt;&quot; and &quot;&lt;/div&gt;&quot; separately
+</span></code></pre>
+<h2 id="groups-and-capturing">Groups and Capturing</h2>
+<h3 id="capturing-groups">Capturing Groups</h3>
+<p>Parentheses create groups and capture matched text:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(\d{3})-(\d{3})-(\d{4})
+</span></code></pre>
+<p>This matches phone numbers like "123-456-7890" and captures three groups.</p>
+<h3 id="non-capturing-groups">Non-Capturing Groups</h3>
+<p>Use <code>(?:...)</code> when you need grouping but don't want to capture:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(?:Mr|Mrs|Ms)\.?\s+\w+
+</span></code></pre>
+<p>Matches titles with names but doesn't capture the title separately.</p>
+<h3 id="named-groups">Named Groups</h3>
+<p>Give groups meaningful names for easier reference:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(?&lt;year&gt;\d{4})-(?&lt;month&gt;\d{2})-(?&lt;day&gt;\d{2})
+</span></code></pre>
+<p>Matches dates like "2025-10-08" with named captures.</p>
+<h2 id="anchors-and-boundaries">Anchors and Boundaries</h2>
+<ul>
+<li><code>^</code> - Start of string/line</li>
+<li><code>$</code> - End of string/line</li>
+<li><code>\b</code> - Word boundary</li>
+<li><code>\B</code> - Not a word boundary</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^\d+$           → entire string must be digits
+</span><span>\bcat\b         → matches &quot;cat&quot; as whole word, not in &quot;catalog&quot;
+</span><span>\Bcat\B         → matches &quot;cat&quot; only inside words like &quot;scatter&quot;
+</span></code></pre>
+<h2 id="lookahead-and-lookbehind">Lookahead and Lookbehind</h2>
+<h3 id="lookahead">Lookahead</h3>
+<ul>
+<li><code>(?=...)</code> - Positive lookahead (followed by)</li>
+<li><code>(?!...)</code> - Negative lookahead (not followed by)</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d+(?=px)       → matches numbers followed by &quot;px&quot;: &quot;10px&quot; → &quot;10&quot;
+</span><span>\d+(?!px)       → matches numbers NOT followed by &quot;px&quot;
+</span></code></pre>
+<h3 id="lookbehind">Lookbehind</h3>
+<ul>
+<li><code>(?&lt;=...)</code> - Positive lookbehind (preceded by)</li>
+<li><code>(?&lt;!...)</code> - Negative lookbehind (not preceded by)</li>
+</ul>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(?&lt;=\$)\d+      → matches numbers after &quot;$&quot;: &quot;$100&quot; → &quot;100&quot;
+</span><span>(?&lt;!\$)\d+      → matches numbers NOT after &quot;$&quot;
+</span></code></pre>
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="email-validation">Email Validation</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+</span></code></pre>
+<h3 id="url-matching">URL Matching</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>https?://(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&amp;/=]*)
+</span></code></pre>
+<h3 id="phone-number-us">Phone Number (US)</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$
+</span></code></pre>
+<p>Matches: (123) 456-7890, 123-456-7890, 123.456.7890</p>
+<h3 id="date-yyyy-mm-dd">Date (YYYY-MM-DD)</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$
+</span></code></pre>
+<h3 id="password-strength">Password Strength</h3>
+<p>At least 8 characters, one uppercase, one lowercase, one digit:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$
+</span></code></pre>
+<h3 id="hexadecimal-color">Hexadecimal Color</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$
+</span></code></pre>
+<p>Matches: #FFF, #FFFFFF, FFF, FFFFFF</p>
+<h2 id="flags-modifiers">Flags/Modifiers</h2>
+<p>Most regex engines support flags that modify behavior:</p>
+<ul>
+<li><code>i</code> - Case insensitive</li>
+<li><code>g</code> - Global (find all matches, not just first)</li>
+<li><code>m</code> - Multiline (^ and $ match line starts/ends)</li>
+<li><code>s</code> - Dotall (. matches newlines too)</li>
+<li><code>u</code> - Unicode</li>
+<li><code>x</code> - Extended (allows comments and whitespace)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre data-lang="javascript" style="background-color:#2b303b;color:#c0c5ce;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>/</span><span style="color:#96b5b4;">hello</span><span>/</span><span style="color:#b48ead;">i      </span><span style="color:#65737e;">// matches &quot;Hello&quot;, &quot;HELLO&quot;, &quot;hello&quot;
+</span><span>/</span><span style="color:#d08770;">\d</span><span>+/</span><span style="color:#b48ead;">g        </span><span style="color:#65737e;">// finds all digit sequences, not just first
+</span></code></pre>
+<h2 id="practical-examples-by-language">Practical Examples by Language</h2>
+<h3 id="javascript">JavaScript</h3>
+<pre data-lang="javascript" style="background-color:#2b303b;color:#c0c5ce;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#65737e;">// Test if pattern matches
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">regex </span><span>= /</span><span style="color:#b48ead;">^</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#96b5b4;">-</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#96b5b4;">-</span><span style="color:#d08770;">\d</span><span>{4}</span><span style="color:#b48ead;">$</span><span>/;
+</span><span style="color:#ebcb8b;">console</span><span>.</span><span style="color:#96b5b4;">log</span><span>(</span><span style="color:#bf616a;">regex</span><span>.</span><span style="color:#96b5b4;">test</span><span>(&quot;</span><span style="color:#a3be8c;">123-45-6789</span><span>&quot;)); </span><span style="color:#65737e;">// true
+</span><span>
+</span><span style="color:#65737e;">// Extract matches
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">text </span><span>= &quot;</span><span style="color:#a3be8c;">Call me at 555-1234 or 555-5678</span><span>&quot;;
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">phones </span><span>= </span><span style="color:#bf616a;">text</span><span>.</span><span style="color:#96b5b4;">match</span><span>(/</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#96b5b4;">-</span><span style="color:#d08770;">\d</span><span>{4}/</span><span style="color:#b48ead;">g</span><span>);
+</span><span style="color:#ebcb8b;">console</span><span>.</span><span style="color:#96b5b4;">log</span><span>(</span><span style="color:#bf616a;">phones</span><span>); </span><span style="color:#65737e;">// [&quot;555-1234&quot;, &quot;555-5678&quot;]
+</span><span>
+</span><span style="color:#65737e;">// Replace
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">cleaned </span><span>= </span><span style="color:#bf616a;">text</span><span>.</span><span style="color:#96b5b4;">replace</span><span>(/</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#96b5b4;">-</span><span style="color:#d08770;">\d</span><span>{4}/</span><span style="color:#b48ead;">g</span><span>, &quot;</span><span style="color:#a3be8c;">[REDACTED]</span><span>&quot;);
+</span><span>
+</span><span style="color:#65737e;">// Named groups
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">dateRegex </span><span>= /</span><span style="color:#96b5b4;">(?&lt;</span><span style="color:#bf616a;">year</span><span style="color:#96b5b4;">&gt;</span><span style="color:#d08770;">\d</span><span>{4}</span><span style="color:#96b5b4;">)-(?&lt;</span><span style="color:#bf616a;">month</span><span style="color:#96b5b4;">&gt;</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#96b5b4;">)-(?&lt;</span><span style="color:#bf616a;">day</span><span style="color:#96b5b4;">&gt;</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#96b5b4;">)</span><span>/;
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">match </span><span>= &quot;</span><span style="color:#a3be8c;">2025-10-08</span><span>&quot;.</span><span style="color:#96b5b4;">match</span><span>(</span><span style="color:#bf616a;">dateRegex</span><span>);
+</span><span style="color:#ebcb8b;">console</span><span>.</span><span style="color:#96b5b4;">log</span><span>(</span><span style="color:#bf616a;">match</span><span>.</span><span style="color:#bf616a;">groups</span><span>.</span><span style="color:#bf616a;">year</span><span>); </span><span style="color:#65737e;">// &quot;2025&quot;
+</span></code></pre>
+<h3 id="python">Python</h3>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">import </span><span>re
+</span><span>
+</span><span style="color:#65737e;"># Test match
+</span><span>pattern = </span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#b48ead;">^</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">\d</span><span>{4}</span><span style="color:#b48ead;">$</span><span>&#39;
+</span><span style="color:#96b5b4;">print</span><span>(re.</span><span style="color:#bf616a;">match</span><span>(pattern, &quot;</span><span style="color:#a3be8c;">123-45-6789</span><span>&quot;))  </span><span style="color:#65737e;"># Match object or None
+</span><span>
+</span><span style="color:#65737e;"># Find all
+</span><span>text = &quot;</span><span style="color:#a3be8c;">Call me at 555-1234 or 555-5678</span><span>&quot;
+</span><span>phones = re.</span><span style="color:#bf616a;">findall</span><span>(</span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">\d</span><span>{4}&#39;, text)
+</span><span style="color:#96b5b4;">print</span><span>(phones)  </span><span style="color:#65737e;"># [&#39;555-1234&#39;, &#39;555-5678&#39;]
+</span><span>
+</span><span style="color:#65737e;"># Replace
+</span><span>cleaned = re.</span><span style="color:#bf616a;">sub</span><span>(</span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#d08770;">\d</span><span>{3}</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">\d</span><span>{4}&#39;, &#39;</span><span style="color:#a3be8c;">[REDACTED]</span><span>&#39;, text)
+</span><span>
+</span><span style="color:#65737e;"># Named groups
+</span><span>date_pattern = </span><span style="color:#b48ead;">r</span><span>&#39;</span><span style="color:#a3be8c;">(?P&lt;year&gt;</span><span style="color:#d08770;">\d</span><span>{4}</span><span style="color:#a3be8c;">)-(?P&lt;month&gt;</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#a3be8c;">)-(?P&lt;day&gt;</span><span style="color:#d08770;">\d</span><span>{2}</span><span style="color:#a3be8c;">)</span><span>&#39;
+</span><span>match = re.</span><span style="color:#bf616a;">search</span><span>(date_pattern, &quot;</span><span style="color:#a3be8c;">2025-10-08</span><span>&quot;)
+</span><span style="color:#96b5b4;">print</span><span>(match.</span><span style="color:#bf616a;">group</span><span>(&#39;</span><span style="color:#a3be8c;">year</span><span>&#39;))  </span><span style="color:#65737e;"># &quot;2025&quot;
+</span></code></pre>
+<h3 id="java">Java</h3>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">import </span><span>java.util.regex.*;
+</span><span>
+</span><span style="color:#65737e;">// Test match
+</span><span style="color:#ebcb8b;">Pattern</span><span> pattern = </span><span style="color:#ebcb8b;">Pattern</span><span>.</span><span style="color:#bf616a;">compile</span><span>(&quot;</span><span style="color:#a3be8c;">^</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{3}-</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{2}-</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{4}$</span><span>&quot;);
+</span><span style="color:#ebcb8b;">Matcher</span><span> matcher = pattern.</span><span style="color:#bf616a;">matcher</span><span>(&quot;</span><span style="color:#a3be8c;">123-45-6789</span><span>&quot;);
+</span><span style="color:#ebcb8b;">System</span><span>.out.</span><span style="color:#bf616a;">println</span><span>(matcher.</span><span style="color:#bf616a;">matches</span><span>()); </span><span style="color:#65737e;">// true
+</span><span>
+</span><span style="color:#65737e;">// Find all
+</span><span style="color:#ebcb8b;">String</span><span> text = &quot;</span><span style="color:#a3be8c;">Call me at 555-1234 or 555-5678</span><span>&quot;;
+</span><span style="color:#ebcb8b;">Pattern</span><span> phonePattern = </span><span style="color:#ebcb8b;">Pattern</span><span>.</span><span style="color:#bf616a;">compile</span><span>(&quot;</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{3}-</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{4}</span><span>&quot;);
+</span><span style="color:#ebcb8b;">Matcher</span><span> phoneMatcher = phonePattern.</span><span style="color:#bf616a;">matcher</span><span>(text);
+</span><span style="color:#b48ead;">while </span><span>(phoneMatcher.</span><span style="color:#bf616a;">find</span><span>()) {
+</span><span>    </span><span style="color:#ebcb8b;">System</span><span>.out.</span><span style="color:#bf616a;">println</span><span>(phoneMatcher.</span><span style="color:#bf616a;">group</span><span>());
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// Replace
+</span><span style="color:#ebcb8b;">String</span><span> cleaned = text.</span><span style="color:#bf616a;">replaceAll</span><span>(&quot;</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{3}-</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d{4}</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">[REDACTED]</span><span>&quot;);
+</span></code></pre>
+<h2 id="performance-tips">Performance Tips</h2>
+<ol>
+<li><strong>Be specific</strong>: <code>\d+</code> is faster than <code>.*</code> when matching numbers</li>
+<li><strong>Use anchors</strong>: <code>^\d+$</code> is faster than <code>\d+</code> when validating entire strings</li>
+<li><strong>Avoid excessive backtracking</strong>: Be careful with nested quantifiers like <code>(a+)+</code></li>
+<li><strong>Compile once</strong>: Reuse compiled regex objects instead of creating new ones</li>
+<li><strong>Use non-capturing groups</strong>: <code>(?:...)</code> is faster than <code>(...)</code>when you don't need captures</li>
+</ol>
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<h3 id="catastrophic-backtracking">Catastrophic Backtracking</h3>
+<p>This regex can cause exponential time complexity:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(a+)+b
+</span></code></pre>
+<p>When matching "aaaaaaaaac", the engine tries many combinations before failing.</p>
+<p><strong>Solution:</strong> Be more specific or use possessive quantifiers.</p>
+<h3 id="escaping-issues">Escaping Issues</h3>
+<p>Remember to escape backslashes in string literals:</p>
+<pre data-lang="javascript" style="background-color:#2b303b;color:#c0c5ce;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#65737e;">// Wrong
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">regex </span><span>= new RegExp(&quot;</span><span style="color:#96b5b4;">\d</span><span style="color:#a3be8c;">+</span><span>&quot;);
+</span><span>
+</span><span style="color:#65737e;">// Right
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">regex </span><span>= new RegExp(&quot;</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">d+</span><span>&quot;);
+</span><span>
+</span><span style="color:#65737e;">// Or use regex literal
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">regex </span><span>= /</span><span style="color:#d08770;">\d</span><span>+/;
+</span></code></pre>
+<h3 id="forgetting-anchors">Forgetting Anchors</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\d{3}     // Matches any 3 digits anywhere in string
+</span><span>^\d{3}$   // Matches ONLY strings with exactly 3 digits
+</span></code></pre>
+<h2 id="testing-and-debugging">Testing and Debugging</h2>
+<h3 id="online-tools">Online Tools</h3>
+<ul>
+<li><strong>regex101.com</strong> - Best for learning, shows explanations and matches in real-time</li>
+<li><strong>regexr.com</strong> - Visual representation of patterns</li>
+<li><strong>regexpal.com</strong> - Simple testing interface</li>
+</ul>
+<h3 id="tips-for-writing-regex">Tips for Writing Regex</h3>
+<ol>
+<li>Start simple and build incrementally</li>
+<li>Test with multiple examples including edge cases</li>
+<li>Use verbose mode (when available) to add comments</li>
+<li>Break complex patterns into smaller pieces</li>
+<li>Consider readability over cleverness</li>
+</ol>
+<h2 id="advanced-techniques">Advanced Techniques</h2>
+<h3 id="recursive-patterns-pcre">Recursive Patterns (PCRE)</h3>
+<p>Match balanced parentheses:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>\((?:[^()]|(?R))*\)
+</span></code></pre>
+<h3 id="conditional-patterns">Conditional Patterns</h3>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(?(condition)yes-pattern|no-pattern)
+</span></code></pre>
+<h3 id="atomic-groups">Atomic Groups</h3>
+<p>Prevent backtracking:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(?&gt;atomic-group)
+</span></code></pre>
+<h2 id="when-not-to-use-regex">When NOT to Use Regex</h2>
+<p>Regular expressions aren't always the answer:</p>
+<ul>
+<li><strong>Parsing HTML/XML</strong>: Use proper parsers instead</li>
+<li><strong>Complex nested structures</strong>: Consider dedicated parsing libraries</li>
+<li><strong>Simple string operations</strong>: <code>string.contains()</code> or <code>string.startsWith()</code> are clearer</li>
+<li><strong>Performance-critical code</strong>: Sometimes custom parsing is faster</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Regular expressions are incredibly powerful but can be complex. Start with simple patterns and gradually incorporate advanced features as needed. Always test thoroughly with real-world data, and remember that maintainable code is better than clever regex.</p>
+<p>Practice is key to mastering regex. Use the online tools mentioned above, experiment with different patterns, and gradually build your pattern library for common tasks.</p>
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>.       any character except newline
+</span><span>^       start of string
+</span><span>$       end of string
+</span><span>\d      digit [0-9]
+</span><span>\D      non-digit
+</span><span>\w      word character [a-zA-Z0-9_]
+</span><span>\W      non-word character
+</span><span>\s      whitespace
+</span><span>\S      non-whitespace
+</span><span>*       0 or more
+</span><span>+       1 or more
+</span><span>?       0 or 1
+</span><span>{n}     exactly n times
+</span><span>{n,}    n or more times
+</span><span>{n,m}   between n and m times
+</span><span>[abc]   any of a, b, or c
+</span><span>[^abc]  not a, b, or c
+</span><span>[a-z]   range
+</span><span>(...)   capturing group
+</span><span>(?:...) non-capturing group
+</span><span>|       OR
+</span><span>\       escape special character
+</span><span>\b      word boundary
+</span><span>(?=...) positive lookahead
+</span><span>(?!...) negative lookahead
+</span><span>(?&lt;=...)positive lookbehind
+</span><span>(?&lt;!...)negative lookbehind
+</span></code></pre>
+<p>Happy pattern matching!</p>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2025">2025</time> HajMousa | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+  <link rel="stylesheet" href="https://blog.hajmousa.ir/katex/katex.min.css?h=e189fd0238811989c364" />
+  <script defer src="https://blog.hajmousa.ir/katex/katex.min.js?h=6b909443e6c8f6e5d24c"></script>
+  <script defer src="https://blog.hajmousa.ir/katex/contrib/auto-render.min.js?h=bb53eb953394531aae36"></script>
+  <script>document.addEventListener("DOMContentLoaded", window.zolaTheme.katex.init);</script>
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>
